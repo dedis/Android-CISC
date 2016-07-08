@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Cisc</string>
+    <string name="hint_host_tf">Hostname</string>
+    <string name="hint_port_tf">Port</string>
+    <string name="request_button">Request</string>
+    <string name="empty_fields">Please fill all fields</string>
+    <string name="successful_connection">Connection established</string>
+    <string name="failed_connection">Connection not established</string>
+</resources>
