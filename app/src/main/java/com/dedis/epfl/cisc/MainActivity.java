@@ -1,5 +1,7 @@
 package com.dedis.epfl.cisc;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,11 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Scanner;
 
 import com.dedis.epfl.net.Connection;
 
@@ -33,7 +30,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView mMessageView;   /* TextView pane for reply */
 
     private Connection connection;   /* Connection facility */
-    private File history;            /* Logfile for connection history */
+
+    private SharedPreferences preferences;                  /* Key-value storage */
+    private static final String HOST_KEY = "hostname";      /* Hostname key */
+    private static final String PORT_KEY = "portnumber";    /* Portnumber key */
 
     /**
      * Check if all fields in the main activity are filled
@@ -88,45 +88,23 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Called at startup to fetch a possibly already existing
-     * history file in the application's internal storage.
-     * If said file can be successfully located and opened
-     * the first line is split and entered into the text
-     * fields.
+     * preferences in the key-value storage.
      */
     private void checkHistory() {
-        history = new File(getApplicationContext().getFilesDir(), "history.log");
-        if (history.isFile()) {
-            try {
-                FileInputStream input = new FileInputStream(history);
-                Scanner scanner = new Scanner(input);
-                String[] split = scanner.next().split(";");
-                mHostTextfield.setText(split[0]);
-                mPortTextfield.setText(split[1]);
-                input.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
+        preferences = getPreferences(Context.MODE_PRIVATE);
+        mHostTextfield.setText(preferences.getString(HOST_KEY, ""));
+        mPortTextfield.setText(preferences.getString(PORT_KEY, ""));
     }
 
     /**
-     * Whenever a connection is requested a new history logfile is
-     * created in the internal storage and the inputs in the text
-     * fields is written to the first line.
-     * <p>
-     * File format: hostname and port number are seperated by
-     * a semicolon.
+     * Whenever a connection is requested, the entered information
+     * in the fields is stored in the internal key-value storage.
      */
     private void writeHistory() {
-        try {
-            history.createNewFile();
-            FileWriter writer = new FileWriter(history);
-            writer.write(mHostTextfield.getText().toString() + ";" + mPortTextfield.getText().toString());
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(HOST_KEY, mHostTextfield.getText().toString());
+        editor.putString(PORT_KEY, mPortTextfield.getText().toString());
+        editor.commit();
     }
 
     @Override
@@ -136,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
 
         mHostTextfield = (EditText) findViewById(R.id.host_textfield);
         mPortTextfield = (EditText) findViewById(R.id.port_textfield);
-
         checkHistory();
 
         mMessageView = (TextView) findViewById(R.id.message_view);
@@ -148,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
              * The request button triggers the connection
              * establishment and the log activity.
              *
-             * @param v
+             * @param v Window view object
              */
             @Override
             public void onClick(View v) {
