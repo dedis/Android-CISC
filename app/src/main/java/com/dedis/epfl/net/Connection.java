@@ -4,7 +4,9 @@ import android.os.AsyncTask;
 import java.net.*;
 import java.io.*;
 
-//TODO unit tests
+import com.dedis.epfl.cisc.MainActivity;
+import com.dedis.epfl.cisc.R;
+
 /**
  * Opening a connection to a Cothority server
  * and parsing its reply. The class extends
@@ -15,22 +17,25 @@ import java.io.*;
  * @author Andrea Caforio
  * @since 08.07.16
  */
-public class Connection extends AsyncTask<Void, Void, Boolean> {
+public class Connection extends AsyncTask<Void, Boolean, Boolean> {
 
-    private String hostname; /* Cothority address */
-    private int port;        /* Cothority port number */
+    private String hostname;                    /* Cothority address */
+    private int port;                           /* Cothority port number */
 
-    private Socket socket;   /* Connection tunnel */
+    private Socket socket;                      /* Connection tunnel */
 
-    private byte[] reply;    /* Array to hold acknowledgement */
-    // TODO how to know message size?
-    private static final int REPLY_SIZE = 100;
+    private byte[] publicKey;                   /* Array to hold Cothority's public key */
+    private static final int KEY_SIZE = 100;    /* Presumbtive? public key size */
 
-    public Connection(String hostname, int port) {
+    private MainActivity mainActivity;          /* Reference to the main activity */
+
+    public Connection(String hostname, int port, MainActivity mainActivity) {
         this.hostname = hostname;
         this.port = port;
 
-        this.reply = new byte[REPLY_SIZE];
+        this.publicKey = new byte[KEY_SIZE];
+
+        this.mainActivity = mainActivity;
     }
 
     /**
@@ -39,10 +44,10 @@ public class Connection extends AsyncTask<Void, Void, Boolean> {
      *
      * @return server acknowledgement string
      */
-    public String getReply() {
+    private String publicKeyToString() {
         StringBuffer buffer = new StringBuffer();
-        for (byte b : reply) {
-           buffer.append(b);
+        for (byte b : publicKey) {
+            buffer.append(b);
         }
         return buffer.toString();
     }
@@ -60,21 +65,36 @@ public class Connection extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         try {
-            socket = new Socket(hostname, port);
-
-            //OutputStream outToServer = server.getOutputStream();
-            //DataOutputStream out = new DataOutputStream(outToServer);
-            InputStream inFromServer = socket.getInputStream();
-
-            DataInputStream in = new DataInputStream(inFromServer);
-            in.read(reply); //Read ack. into array
-
-            //TODO How to correctly end a connection?
-            //server.close();
-            return true;
-        } catch (IOException e) {
+            socket = new Socket();
+            socket.connect(new InetSocketAddress(hostname, port), 1000);
+            if (socket.isConnected()) {
+                InputStream inFromServer = socket.getInputStream();
+                DataInputStream in = new DataInputStream(inFromServer);
+                in.read(publicKey);
+                socket.close();
+                return true;
+            }
+        } catch(IOException e){
             e.printStackTrace();
         }
         return false;
+    }
+
+    /**
+     * Called after the asynchronous task is terminated. The argument
+     * indicates if the handshake with the Cothority server was
+     * successful and a corresponding toast is then displayed.
+     *
+     * @param result bool indicator for asynchronous thread
+     */
+    @Override
+    protected void onPostExecute(Boolean result) {
+        if (result) {
+            mainActivity.setMessage(publicKeyToString());
+            mainActivity.writeHistory();
+            mainActivity.toast(R.string.successful_connection);
+        } else {
+            mainActivity.toast(R.string.failed_connection);
+        }
     }
 }
