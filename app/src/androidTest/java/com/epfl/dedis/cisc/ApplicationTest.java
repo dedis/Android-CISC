@@ -1,4 +1,4 @@
-package com.dedis.epfl.cisc;
+package com.dedis.dedis.cisc;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -1,11 +1,11 @@
-package com.dedis.epfl.net;
+package com.epfl.dedis.net;
 
 import android.os.AsyncTask;
 import java.net.*;
 import java.io.*;
 
-import com.dedis.epfl.cisc.MainActivity;
-import com.dedis.epfl.cisc.R;
+import com.epfl.dedis.cisc.MainActivity;
+import com.epfl.dedis.cisc.R;
 
 /**
  * Opening a connection to a Cothority server

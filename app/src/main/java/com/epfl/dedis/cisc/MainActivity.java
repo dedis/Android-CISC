@@ -1,4 +1,4 @@
-package com.dedis.epfl.cisc;
+package com.epfl.dedis.cisc;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dedis.epfl.net.Connection;
+import com.epfl.dedis.net.Connection;
 
 /**
  * The MainActivity class defines the UI of the
@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     private Button mRequestButton;   /* Request connection button */
     private TextView mMessageView;   /* TextView pane for reply */
     private InputMethodManager imm;  /* IMM to handle window peripherals */
-
 
     private Connection connection;   /* Connection facility */
 

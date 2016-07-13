@@ -1,4 +1,4 @@
-package com.dedis.epfl.cisc;
+package com.dedis.dedis.cisc;
 
 import org.junit.Test;
 
