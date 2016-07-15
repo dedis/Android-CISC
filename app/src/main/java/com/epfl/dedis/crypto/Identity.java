@@ -30,16 +30,16 @@ public class Identity {
     ////////////////////////////////////////////
     // TODO actual key-storage and access
     ////////////////////////////////////////////
-    public PublicKey getPublicKey() {
-        return publicKey;
+    public byte[] getPublicKey() {
+        return publicKey.getEncoded();
     }
 
-    public PrivateKey getPrivateKey() {
-        return privateKey;
+    public byte[] getPrivateKey() {
+        return privateKey.getEncoded();
     }
 
     /**
-     * Print neatly (byte array uses for keys).
+     * Print neatly.
      *
      * @return identity string
      */
