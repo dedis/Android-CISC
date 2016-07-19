@@ -6,45 +6,135 @@
     android:focusableInTouchMode="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="#ffffff" >
 
-    <EditText
-        android:id="@+id/host_textfield"
-        android:hint="@string/hint_host_tf"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:singleLine="true"
-        android:textAlignment="center"
-        android:width="250dp"
-        android:imeOptions="actionDone" />
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/addr_block"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:padding="10dp">
 
-    <EditText
-        android:id="@+id/port_textfield"
-        android:hint="@string/hint_port_tf"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:singleLine="true"
-        android:textAlignment="center"
-        android:inputType="number"
-        android:width="100dp"
-        android:imeOptions="actionDone" />
+        <EditText
+            android:id="@+id/host_editText"
+            android:hint="@string/hint_host_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="250dp"
+            android:singleLine="true"
+            android:textAlignment="textStart"
+            android:textSize="20dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:imeOptions="actionDone"/>
 
-    <Button
-        android:id="@+id/request_button"
-        android:text="@string/request_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:width="150dp"
-        android:layout_margin="20dp" />
+        <EditText
+            android:id="@+id/port_editText"
+            android:hint="@string/hint_port_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:width="110dp"
+            android:textSize="20dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:imeOptions="actionDone"/>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/message_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:width="250dp"
-        />
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/id_block"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <EditText
+            android:id="@+id/id_editText"
+            android:hint="@string/hint_id_editText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:width="100dp"
+            android:singleLine="true"
+            android:textAlignment="textStart"
+            android:textSize="20dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:imeOptions="actionDone"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/button_block"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <Button
+            android:id="@+id/create_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/create_button"
+            android:textSize="20dp"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"/>
+
+        <Button
+            android:id="@+id/join_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/join_button"
+            android:textSize="20dp"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"/>
+
+        <Button
+            android:id="@+id/update_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/update_button"
+            android:textSize="20dp"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"/>
+
+        <Button
+            android:id="@+id/info_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/info_button"
+            android:textSize="20dp"
+            android:textAllCaps="false"
+            android:textColor="#ffffff" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/message_block"
+        android:layout_width="match_parent"
+        android:layout_height="290dp"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="@string/lorem"
+            android:textSize="20dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/textview_border"
+            android:padding="10dp"/>
+
+    </LinearLayout>
+
 </LinearLayout>

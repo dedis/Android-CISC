@@ -90,11 +90,11 @@ public class Connection extends AsyncTask<Void, Boolean, Boolean> {
     @Override
     protected void onPostExecute(Boolean result) {
         if (result) {
-            mainActivity.setMessage(publicKeyToString());
-            mainActivity.writeHistory();
-            mainActivity.toast(R.string.successful_connection);
+//            mainActivity.setMessage(publicKeyToString());
+//            mainActivity.writeHistory();
+            //mainActivity.toast(R.string.successful_connection);
         } else {
-            mainActivity.toast(R.string.failed_connection);
+            //mainActivity.toast(R.string.failed_connection);
         }
     }
 }

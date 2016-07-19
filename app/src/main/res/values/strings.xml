@@ -1,9 +1,14 @@
 <resources>
-    <string name="app_name">Cisc</string>
-    <string name="hint_host_tf">Hostname</string>
-    <string name="hint_port_tf">Port</string>
-    <string name="request_button">Request</string>
-    <string name="empty_fields">Please fill all fields</string>
-    <string name="successful_connection">Connection established</string>
-    <string name="failed_connection">Connection not established</string>
+    <string name="app_name">CISC - Cisc Identity SkipChain</string>
+
+    <string name="hint_host_editText">Hostname</string>
+    <string name="hint_port_editText">Port</string>
+    <string name="hint_id_editText">Skipchain Identity (ID)</string>
+
+    <string name="create_button">Create</string>
+    <string name="join_button">Join</string>
+    <string name="update_button">Poll</string>
+    <string name="info_button">Info</string>
+
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</string>
 </resources>
