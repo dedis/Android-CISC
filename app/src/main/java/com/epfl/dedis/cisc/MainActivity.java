@@ -2,11 +2,15 @@ package com.epfl.dedis.cisc;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText mHostEditText; /* EditText field for hostname */
     private EditText mPortEditText; /* EditText field for portname */
     private EditText mIdEditText;   /* EditText field for identity */
+
+
     private InputMethodManager imm; /* IMM to handle window peripherals */
 
     private Connection connection;   /* Connection facility */
@@ -34,29 +40,6 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences preferences;                  /* Key-value storage */
     private static final String HOST_KEY = "hostname";      /* Hostname key */
     private static final String PORT_KEY = "portnumber";    /* Portnumber key */
-    /**
-     * Fetch text from text fields and create a new connection
-     * to the Cothority server.
-     * <p>
-     * Note: Connection management runs concurrently with the
-     * main thread. By calling get on the execution the threads
-     * are joined.
-     *
-     * @return <code>true</code> if connection was established successfully
-     *         <code>false</code> otherwise
-     */
-//    private void establishConnection() {
-//        String hostField = mHostEditText.getText().toString();
-//        String portField = mPortEditText.getText().toString();
-//        if (isEmptyFields(hostField, portField)) {
-//            connection = new Connection(hostField, Integer.parseInt(portField), this);
-//            try {
-//                connection.execute();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
 
     /**
      * Display common toast marker on the screen.
@@ -67,26 +50,30 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
-//    /**
-//     * Called at startup to fetch a possibly already existing
-//     * preferences in the key-value storage.
-//     */
-//    private void checkHistory() {
-//        preferences = getPreferences(Context.MODE_PRIVATE);
-//        mHostTextfield.setText(preferences.getString(HOST_KEY, ""));
-//        mPortTextfield.setText(preferences.getString(PORT_KEY, ""));
-//    }
-//
-//    /**
-//     * Whenever a connection is requested, the entered information
-//     * in the fields is stored in the internal key-value storage.
-//     */
-//    public void writeHistory() {
-//        SharedPreferences.Editor editor = preferences.edit();
-//        editor.putString(HOST_KEY, mHostTextfield.getText().toString());
-//        editor.putString(PORT_KEY, mPortTextfield.getText().toString());
-//        editor.commit();
-//    }
+    /**
+     * Called at startup to fetch a possibly already existing
+     * preferences in the key-value storage.
+     */
+    private void checkHistory() {
+        preferences = getPreferences(Context.MODE_PRIVATE);
+        mHostEditText.setText(preferences.getString(HOST_KEY, ""));
+        mPortEditText.setText(preferences.getString(PORT_KEY, ""));
+    }
+
+    /**
+     * Whenever a connection is requested, the entered information
+     * in the fields is stored in the internal key-value storage.
+     */
+    public void writeHistory() {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(HOST_KEY, mHostEditText.getText().toString());
+        editor.putString(PORT_KEY, mPortEditText.getText().toString());
+        editor.apply();
+    }
+
+    private boolean isBlank(EditText field) {
+        return field.getText().toString().isEmpty();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,5 +151,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        checkHistory();
+
+        Button mCreateButton = (Button) findViewById(R.id.create_button);
+        mCreateButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (!isBlank(mHostEditText) && !isBlank(mPortEditText)) {
+                    String host = mHostEditText.getText().toString();
+                    int port = Integer.parseInt(mPortEditText.getText().toString());
+                    connection = new Connection(host, port, MainActivity.this);
+
+                    try {
+                        connection.execute();
+                    } catch (Exception e) {
+                        toast(R.string.err_concurrent);
+                    }
+
+                } else {
+                    toast(R.string.err_empty_fields);
+                }
+            }
+        });
     }
 }

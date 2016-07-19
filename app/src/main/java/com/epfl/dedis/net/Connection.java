@@ -3,6 +3,7 @@ package com.epfl.dedis.net;
 import android.os.AsyncTask;
 import java.net.*;
 import java.io.*;
+import java.util.Arrays;
 
 import com.epfl.dedis.cisc.MainActivity;
 import com.epfl.dedis.cisc.R;
@@ -36,6 +37,7 @@ public class Connection extends AsyncTask<Void, Boolean, Boolean> {
         this.publicKey = new byte[KEY_SIZE];
 
         this.mainActivity = mainActivity;
+
     }
 
     /**
@@ -45,7 +47,7 @@ public class Connection extends AsyncTask<Void, Boolean, Boolean> {
      * @return server acknowledgement string
      */
     private String publicKeyToString() {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         for (byte b : publicKey) {
             buffer.append(b);
         }
@@ -68,15 +70,19 @@ public class Connection extends AsyncTask<Void, Boolean, Boolean> {
             socket = new Socket();
             socket.connect(new InetSocketAddress(hostname, port), 1000);
             if (socket.isConnected()) {
+                OutputStream outFromServer = socket.getOutputStream();
+                DataOutputStream out = new DataOutputStream(outFromServer);
+
+                out.writeBytes("hello");
                 InputStream inFromServer = socket.getInputStream();
                 DataInputStream in = new DataInputStream(inFromServer);
+
                 in.read(publicKey);
+                System.out.println(Arrays.toString(publicKey));
                 socket.close();
                 return true;
             }
-        } catch(IOException e){
-            e.printStackTrace();
-        }
+        } catch(IOException e) {}
         return false;
     }
 
@@ -90,11 +96,10 @@ public class Connection extends AsyncTask<Void, Boolean, Boolean> {
     @Override
     protected void onPostExecute(Boolean result) {
         if (result) {
-//            mainActivity.setMessage(publicKeyToString());
-//            mainActivity.writeHistory();
-            //mainActivity.toast(R.string.successful_connection);
+            mainActivity.writeHistory();
+            mainActivity.toast(R.string.app_name);
         } else {
-            //mainActivity.toast(R.string.failed_connection);
+            mainActivity.toast(R.string.err_network);
         }
     }
 }
