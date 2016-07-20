@@ -17,8 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".CreateActivity"
-                  android:label="@string/create_name">
+        <activity
+            android:name=".CreateActivity"
+            android:label="@string/create_name">
+        </activity>
+        <activity
+            android:name=".ConfigActivity"
+            android:label="@string/config_name">
         </activity>
     </application>
 

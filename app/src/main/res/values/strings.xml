@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">CISC - Cisc Identity SkipChain</string>
     <string name="create_name">Create</string>
+    <string name="config_name">Configuration</string>
 
     <string name="identity_label">Identity:</string>
     <string name="status_label">Status:</string>

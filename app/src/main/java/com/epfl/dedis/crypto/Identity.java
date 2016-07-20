@@ -7,17 +7,8 @@ import java.util.Arrays;
 
 import net.i2p.crypto.eddsa.KeyPairGenerator;
 
-/**
- * The Identity class generates and contains the public and private
- * Ed25519-keys of a device. Used for Cothority authentication.
- *
- * @author Ignacio Aléman
- * @author Andrea Caforio
- * @since 14.07.2016
- */
 public class Identity {
 
-    /* Ed25519 key pair */
     private PublicKey publicKey;
     private PrivateKey privateKey;
 
@@ -38,11 +29,6 @@ public class Identity {
         return privateKey.getEncoded();
     }
 
-    /**
-     * Print neatly.
-     *
-     * @return identity string
-     */
     @Override
     public String toString() {
         return "Identity {\n" +

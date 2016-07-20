@@ -15,24 +15,16 @@ public class MainActivity extends AppCompatActivity {
     private TextView mStatusValue;
     private TextView mPollValue;
 
-    private static final String HISTORY = "HISTORY";
-    private static final String HOST_KEY = "HOST";
-    private static final String PORT_KEY = "PORT";
-    private static final String ID_KEY = "ID";
-
     private boolean checkHistory() {
-        SharedPreferences pref = getSharedPreferences(HISTORY, Context.MODE_PRIVATE);
-        String host = pref.getString(HOST_KEY, "");
-        String port = pref.getString(PORT_KEY, "");
-        String id = pref.getString(ID_KEY, "");
+        SharedPreferences pref = getSharedPreferences(Log.LOG.key(), Context.MODE_PRIVATE);
+        String host = pref.getString(Log.HOST.key(), "");
+        String port = pref.getString(Log.PORT.key(), "");
+        String id = pref.getString(Log.ID.key(), "");
 
-        if (host.isEmpty() || port.isEmpty() || id.isEmpty()) {
-            mIdentityValue.setText("n/a");
-            mStatusValue.setText("n/a");
-            mPollValue.setText("n/a");
-            return false;
-        }
-        return true;
+        mIdentityValue.setText(host);
+        mStatusValue.setText(port);
+        mPollValue.setText(id);
+        return host.isEmpty() || port.isEmpty() || id.isEmpty();
     }
 
     @Override
