@@ -18,12 +18,12 @@
         android:padding="10dp" >
 
         <Button
-            android:id="@+id/create_button"
+            android:id="@+id/new_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/create_button"
-            android:textSize="20dp"
+            android:text="@string/new_button"
+            android:textSize="20sp"
             android:textAllCaps="false"
             android:textColor="#ffffff"/>
 
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/join_button"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textAllCaps="false"
             android:textColor="#ffffff"/>
     </LinearLayout>
@@ -50,15 +50,15 @@
             android:id="@+id/id_label"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="Identity:"
-            android:textSize="20dp"/>
+            android:text="@string/identity_label"
+            android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/id_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:layout_marginLeft="30dp"/>
+            android:textSize="20sp"
+            android:layout_marginStart="30dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -73,15 +73,15 @@
             android:id="@+id/status_label"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="Status:"
-            android:textSize="20dp" />
+            android:text="@string/status_label"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/status_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:layout_marginLeft="30dp"/>
+            android:textSize="20sp"
+            android:layout_marginStart="30dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -96,14 +96,14 @@
             android:id="@+id/poll_label"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="Last Poll:"
-            android:textSize="20dp"/>
+            android:text="@string/poll_label"
+            android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/poll_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:layout_marginLeft="30dp"/>
     </LinearLayout>
 
@@ -116,11 +116,11 @@
         android:padding="10dp" >
         <Button
             android:id="@+id/configuration_button"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
             android:text="@string/config_button"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textAllCaps="false"
             android:textColor="#ffffff"/>
 
@@ -138,11 +138,12 @@
 
         <ImageView
             android:id="@+id/epfl_logo"
+            android:contentDescription="@string/epfl_logo"
             android:layout_width="153dp"
             android:layout_height="54dp"
             android:src="@mipmap/epfl_logo"
             android:layout_gravity="center"
-            android:layout_weight="0.20"/>
+            android:layout_weight="0.4"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -1,13 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.epfl.dedis.cisc.CreateActivity">
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    android:background="#ffffff" >
 
-</RelativeLayout>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/addr_block"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <EditText
+            android:id="@+id/host_editText"
+            android:hint="@string/hint_host_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="250dp"
+            android:singleLine="true"
+            android:textAlignment="textStart"
+            android:textSize="20sp"
+            android:backgroundTint="@color/colorPrimary"
+            android:imeOptions="actionDone"/>
+
+        <EditText
+            android:id="@+id/port_editText"
+            android:hint="@string/hint_port_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:width="110dp"
+            android:textSize="20sp"
+            android:backgroundTint="@color/colorPrimary"
+            android:imeOptions="actionDone"/>
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/id_block"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <EditText
+            android:id="@+id/data_editText"
+            android:hint="@string/hint_data_editText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:width="100dp"
+            android:singleLine="true"
+            android:textAlignment="textStart"
+            android:textSize="20sp"
+            android:backgroundTint="@color/colorPrimary"
+            android:imeOptions="actionDone"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/add_block"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:gravity="bottom"
+        android:padding="10dp" >
+
+        <Button
+            android:id="@+id/create_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/create_button"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20sp"
+            android:textColor="#ffffff"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/clear_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/clear_button"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20sp"
+            android:textColor="#ffffff"
+            android:textAllCaps="false"/>
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/logo_block"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="bottom"
+        android:padding="10dp"
+        android:weightSum="1">
+
+        <ImageView
+            android:id="@+id/epfl_logo"
+            android:contentDescription="@string/epfl_logo"
+            android:layout_width="153dp"
+            android:layout_height="54dp"
+            android:src="@mipmap/epfl_logo"
+            android:layout_gravity="center"
+            android:layout_weight="0.20"/>
+    </LinearLayout>
+
+</LinearLayout>
