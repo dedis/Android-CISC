@@ -96,10 +96,8 @@ public class Connection extends AsyncTask<Void, Boolean, Boolean> {
     @Override
     protected void onPostExecute(Boolean result) {
         if (result) {
-            mainActivity.writeHistory();
-            mainActivity.toast(R.string.app_name);
+
         } else {
-            mainActivity.toast(R.string.err_network);
         }
     }
 }
