@@ -6,6 +6,8 @@
     <string name="identity_label">Identity:</string>
     <string name="status_label">Status:</string>
     <string name="poll_label">Last Poll:</string>
+    <string name="status_online_value">Online</string>
+    <string name="status_offine_value">Offline</string>
 
     <string name="hint_host_editText">Hostname</string>
     <string name="hint_port_editText">Port</string>
@@ -17,8 +19,6 @@
     <string name="config_button">Configuration</string>
     <string name="create_button">Create</string>
     <string name="clear_button">Clear</string>
-
-    <string name="epfl_logo">EPFL logo</string>
 
     <string name="suc_network">Connection established</string>
 
