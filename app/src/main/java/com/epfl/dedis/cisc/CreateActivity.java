@@ -15,8 +15,7 @@ import android.widget.Toast;
 import com.epfl.dedis.crypto.Identity;
 import com.epfl.dedis.net.AddIdentity;
 import com.epfl.dedis.net.Config;
-import com.epfl.dedis.net.Message;
-import com.epfl.dedis.net.TCPSocket;
+import com.epfl.dedis.net.HTTP;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -73,18 +72,18 @@ public class CreateActivity extends AppCompatActivity implements Activity {
             initData.put(Build.DEVICE, data);
             privateKey = Arrays.toString(sec);
 
-            AddIdentity addIdentity = new AddIdentity(ADD_IDENTITY, new Config(3, initDevices, initData));
+            AddIdentity addIdentity = new AddIdentity(new Config(3, initDevices, initData));
             return new Gson().toJson(addIdentity);
-        }
-
-        public Message parseJson(String json) {
-            return null;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                String ack = TCPSocket.open(host, Integer.parseInt(port), makeJson());
+                String ack = HTTP.open(host, port, "ai", makeJson());
+                if (!ack.isEmpty()) {
+                    id = ack;
+                    return true;
+                }
             } catch(IOException e) {
                 e.printStackTrace();
             }

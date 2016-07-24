@@ -2,12 +2,11 @@ package com.epfl.dedis.net;
 
 public class ConfigUpdate extends Message {
 
-    private byte[] id;
-    private Config accountList;
+    private String ID;
+    private Config AccountList;
 
-    public ConfigUpdate(int type, byte[] id, Config accountList) {
-        super(type);
-        this.id = id;
-        this.accountList = accountList;
+    public ConfigUpdate(String ID, Config AccountList) {
+        this.ID = ID;
+        this.AccountList = AccountList;
     }
 }

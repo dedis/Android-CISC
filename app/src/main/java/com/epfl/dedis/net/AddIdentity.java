@@ -1,10 +1,9 @@
 package com.epfl.dedis.net;
 
 public class AddIdentity extends Message {
-    private Config config;
+    private Config Config;
 
-    public AddIdentity(int type, Config config) {
-        super(type);
-        this.config = config;
+    public AddIdentity(Config Config) {
+        this.Config = Config;
     }
 }

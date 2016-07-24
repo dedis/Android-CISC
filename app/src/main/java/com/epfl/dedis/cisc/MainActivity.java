@@ -13,12 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.epfl.dedis.net.ConfigUpdate;
-import com.epfl.dedis.net.Message;
-import com.epfl.dedis.net.TCPSocket;
+import com.epfl.dedis.net.HTTP;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements Activity {
 
@@ -32,37 +32,30 @@ public class MainActivity extends AppCompatActivity implements Activity {
 
     private boolean checkLog() {
         SharedPreferences pref = getSharedPreferences(LOG, Context.MODE_PRIVATE);
-        host = pref.getString(HOST, "n/a");
-        port = pref.getString(PORT, "n/a");
+        host = pref.getString(HOST, "");
+        port = pref.getString(PORT, "");
         id = pref.getString(ID, "n/a");
-
         mIdentityValue.setText(id);
-        mStatusValue.setText(port);
-        mPollValue.setText(host);
-        return host.isEmpty() || port.isEmpty() || id.isEmpty();
+        return host.isEmpty() || port.isEmpty();
     }
 
     public void toast(int text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
-    private class ConfigUpdateThread extends AsyncTask<Void, Void, Boolean> implements Thread  {
+    private class ConfigUpdateThread extends AsyncTask<Void, Void, Boolean> implements Thread {
 
         public String makeJson() {
             Gson gson = new GsonBuilder().serializeNulls().create();
-            byte[] b = gson.fromJson(id, byte[].class);
-            ConfigUpdate cu = new ConfigUpdate(CONFIG_UPDATE, b, null);
+            ConfigUpdate cu = new ConfigUpdate(id, null);
             return gson.toJson(cu);
-        }
-
-        public Message parseJson(String json) {
-            return null;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                String ack = TCPSocket.open(host, Integer.parseInt(port), makeJson());
+                HTTP.open(host, port, "cu", makeJson());
+                return true;
             } catch(IOException e) {
                 e.printStackTrace();
             }
@@ -74,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
             if (result) {
                 mStatusValue.setText(getString(R.string.status_online_value));
                 mStatusValue.setTextColor(Color.GREEN);
+                mPollValue.setText(new Date().toString());
             } else {
                 mStatusValue.setText(getString(R.string.status_offine_value));
                 mStatusValue.setTextColor(Color.RED);
@@ -96,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
         assert mPollValue != null;
 
         if (!checkLog()) {
-            //new ConfigUpdateThread().execute();
+            new ConfigUpdateThread().execute();
             System.out.println("YES");
         } else {
             System.out.println("NO");
