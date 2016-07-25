@@ -79,7 +79,7 @@ public class CreateActivity extends AppCompatActivity implements Activity {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                String ack = HTTP.open(host, port, "ai", makeJson());
+                String ack = HTTP.open(host, port, ADD_IDENTITY, makeJson());
                 if (!ack.isEmpty()) {
                     id = ack;
                     return true;

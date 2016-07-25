@@ -104,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:layout_marginLeft="30dp"/>
+            android:layout_marginStart="30dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -120,6 +120,16 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:text="@string/config_button"
+            android:textSize="20sp"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"/>
+
+        <Button
+            android:id="@+id/retry_button"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="@string/retry_button"
             android:textSize="20sp"
             android:textAllCaps="false"
             android:textColor="#ffffff"/>

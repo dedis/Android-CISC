@@ -19,6 +19,7 @@
     <string name="config_button">Configuration</string>
     <string name="create_button">Create</string>
     <string name="clear_button">Clear</string>
+    <string name="retry_button">Retry</string>
 
     <string name="suc_network">Connection established</string>
 

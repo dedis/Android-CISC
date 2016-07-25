@@ -43,6 +43,12 @@ public class MainActivity extends AppCompatActivity implements Activity {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
+    public void update() {
+        if (!checkLog()) {
+            new ConfigUpdateThread().execute();
+        }
+    }
+
     private class ConfigUpdateThread extends AsyncTask<Void, Void, Boolean> implements Thread {
 
         public String makeJson() {
@@ -54,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                HTTP.open(host, port, "cu", makeJson());
+                HTTP.open(host, port, CONFIG_UPDATE, makeJson());
                 return true;
             } catch(IOException e) {
                 e.printStackTrace();
@@ -89,12 +95,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
         mPollValue = (TextView) findViewById(R.id.poll_value);
         assert mPollValue != null;
 
-        if (!checkLog()) {
-            new ConfigUpdateThread().execute();
-            System.out.println("YES");
-        } else {
-            System.out.println("NO");
-        }
+        update();
 
         Button mCreateButton = (Button) findViewById(R.id.new_button);
         assert mCreateButton != null;
@@ -103,6 +104,15 @@ public class MainActivity extends AppCompatActivity implements Activity {
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, CreateActivity.class);
                 startActivity(i);
+            }
+        });
+
+        Button mRetryButton = (Button) findViewById(R.id.retry_button);
+        assert mRetryButton != null;
+        mRetryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                update();
             }
         });
     }
