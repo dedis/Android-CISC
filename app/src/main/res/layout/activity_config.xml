@@ -1,21 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="250dp"
-    android:orientation="horizontal"
+    android:id="@+id/config_activity"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
     android:weightSum="1"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="#ffffff">
 
-    <TextView
-        android:id="@+id/testView"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/config_info_block"
         android:layout_width="match_parent"
-        android:layout_height="118dp"
-        android:text="New Text"
-        android:layout_gravity="center"
-        android:textSize="20sp" />
+        android:layout_height="200dp"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/config_id_view"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:text="New Text"
+            android:textSize="50sp" />
+
+        <TextView
+            android:id="@+id/config_address_view"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/config_date_view"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textSize="20sp"
+            android:text="TODO; date"/>
+
+        <TextView
+            android:id="@+id/config_status_view"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textSize="20sp"
+            android:text="TODO; status"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/config_data_block"
+        android:layout_width="match_parent"
+        android:layout_height="235dp"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+
+        <TextView
+            android:id="@+id/config_data_label"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textSize="20sp"
+            android:text="@string/data_label"/>
+
+        <TextView
+            android:id="@+id/config_data_view"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/config_button_block"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <Button
+            android:id="@+id/config_devices_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/change_button"
+            android:textSize="20sp"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"/>
+
+        <Button
+            android:id="@+id/config_change_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/devices_button"
+            android:textSize="20sp"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"/>
+
+        <Button
+            android:id="@+id/config_fetch_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/fetch_button"
+            android:textSize="20sp"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"/>
+
+    </LinearLayout>
 
 </LinearLayout>
-
 
 

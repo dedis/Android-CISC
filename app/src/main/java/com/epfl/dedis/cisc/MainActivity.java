@@ -115,5 +115,15 @@ public class MainActivity extends AppCompatActivity implements Activity {
                 update();
             }
         });
+
+        Button mConfigButton = (Button) findViewById(R.id.configuration_button);
+        assert mConfigButton != null;
+        mConfigButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, ConfigActivity.class);
+                startActivity(i);
+            }
+        });
     }
 }

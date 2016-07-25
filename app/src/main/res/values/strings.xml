@@ -6,6 +6,7 @@
     <string name="identity_label">Identity:</string>
     <string name="status_label">Status:</string>
     <string name="poll_label">Last Poll:</string>
+    <string name="data_label">Data:</string>
     <string name="status_online_value">Online</string>
     <string name="status_offine_value">Offline</string>
 
@@ -20,6 +21,9 @@
     <string name="create_button">Create</string>
     <string name="clear_button">Clear</string>
     <string name="retry_button">Retry</string>
+    <string name="change_button">Change</string>
+    <string name="devices_button">Devices</string>
+    <string name="fetch_button">Fetch</string>
 
     <string name="suc_network">Connection established</string>
 
