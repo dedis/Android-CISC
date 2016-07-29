@@ -61,8 +61,8 @@ public class CreateActivity extends AppCompatActivity implements Activity {
 
         public String makeJson() {
             Identity identity = new Identity();
-            byte[] pub = identity.getPublicKey();
-            byte[] sec = identity.getPrivateKey();
+            byte[] pub = identity.getPublic();
+            byte[] sec = identity.getPrivate();
 
             Map<String, byte[]> initDevices = new HashMap<>();
             Map<String, String> initData = new HashMap<>();
