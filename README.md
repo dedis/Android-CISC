@@ -2,8 +2,8 @@
 
 ### Functionality
 
-This proof of concept establishes a connection to a local
-Cothority server and displays its acknowledgement response.
+This proof of concept should enable the user to manage SSH-keys
+via the Cothority from any Android device.
 
 ### Requirements
 * Android Studio
