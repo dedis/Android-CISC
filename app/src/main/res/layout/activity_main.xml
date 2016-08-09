@@ -86,29 +86,6 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/cothority_block"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
-        android:padding="15dp" >
-
-        <TextView
-            android:id="@+id/poll_label"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="@string/poll_label"
-            android:textSize="20sp"/>
-
-        <TextView
-            android:id="@+id/poll_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_marginStart="30dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/configuration_block"
         android:layout_width="match_parent"
         android:layout_height="90dp"

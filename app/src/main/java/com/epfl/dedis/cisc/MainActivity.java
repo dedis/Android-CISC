@@ -18,13 +18,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements Activity {
 
     private TextView mIdentityValue;
     private TextView mStatusValue;
-    private TextView mPollValue;
 
     private String host;
     private String port;
@@ -53,7 +51,8 @@ public class MainActivity extends AppCompatActivity implements Activity {
 
         public String makeJson() {
             Gson gson = new GsonBuilder().serializeNulls().create();
-            ConfigUpdate cu = new ConfigUpdate(id, null);
+            int[] idArray = gson.fromJson(id, int[].class);
+            ConfigUpdate cu = new ConfigUpdate(idArray, null);
             return gson.toJson(cu);
         }
 
@@ -73,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements Activity {
             if (result) {
                 mStatusValue.setText(getString(R.string.status_online_value));
                 mStatusValue.setTextColor(Color.GREEN);
-                mPollValue.setText(new Date().toString());
             } else {
                 mStatusValue.setText(getString(R.string.status_offine_value));
                 mStatusValue.setTextColor(Color.RED);
@@ -91,9 +89,6 @@ public class MainActivity extends AppCompatActivity implements Activity {
 
         mStatusValue = (TextView) findViewById(R.id.status_value);
         assert mStatusValue != null;
-
-        mPollValue = (TextView) findViewById(R.id.poll_value);
-        assert mPollValue != null;
 
         update();
 

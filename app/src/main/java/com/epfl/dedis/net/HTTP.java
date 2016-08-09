@@ -11,6 +11,7 @@ import java.net.URL;
 public class HTTP {
 
     private static final int TIMEOUT = 1000;
+    private static final int BUF_SIZE = 1000;
 
     public static String open(String host, String port, String type, String message) throws IOException {
         URL url = new URL("http://" + host + ":" + port + "/" + type);
@@ -27,8 +28,12 @@ public class HTTP {
 
         InputStreamReader in = new InputStreamReader(http.getInputStream());
         BufferedReader br = new BufferedReader(in);
-        String response = br.readLine();
-        br.close();
+
+        char[] chars = new char[BUF_SIZE];
+        int size = br.read(chars);
+        System.out.println(new String());
+
+        String response = new String(chars).substring(0, size);
         System.out.println(response);
         return response;
     }

@@ -5,7 +5,6 @@
 
     <string name="identity_label">Identity:</string>
     <string name="status_label">Status:</string>
-    <string name="poll_label">Last Poll:</string>
     <string name="data_label">Data:</string>
     <string name="status_online_value">Online</string>
     <string name="status_offine_value">Offline</string>
