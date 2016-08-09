@@ -8,12 +8,12 @@ import static org.junit.Assert.*;
 
 public class IdentityTest {
     @Test
-    public void addition_isCorrect() throws Exception {
+    public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
     }
 
     @Test
-    public void generation_isDifferent() throws Exception {
+    public void generation_isDifferent() {
         Identity id1 = new Identity();
         Identity id2 = new Identity();
         assertNotEquals(id1.toString(), id2.toString());
