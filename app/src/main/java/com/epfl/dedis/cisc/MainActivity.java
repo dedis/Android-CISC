@@ -32,9 +32,13 @@ public class MainActivity extends AppCompatActivity implements Activity {
         SharedPreferences pref = getSharedPreferences(LOG, Context.MODE_PRIVATE);
         host = pref.getString(HOST, "");
         port = pref.getString(PORT, "");
-        id = pref.getString(ID, "n/a");
+        id = pref.getString(ID, "");
         mIdentityValue.setText(id);
         return host.isEmpty() || port.isEmpty();
+    }
+
+    public void toast(String text) {
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
 
     public void toast(int text) {
@@ -47,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
         }
     }
 
-    private class ConfigUpdateThread extends AsyncTask<Void, Void, Boolean> implements Thread {
+    private class ConfigUpdateThread extends AsyncTask<Void, Void, String> implements Thread {
 
         public String makeJson() {
             Gson gson = new GsonBuilder().serializeNulls().create();
@@ -57,24 +61,24 @@ public class MainActivity extends AppCompatActivity implements Activity {
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
             try {
                 HTTP.open(host, port, CONFIG_UPDATE, makeJson());
-                return true;
+                return "";
             } catch(IOException e) {
-                e.printStackTrace();
+                return e.getMessage();
             }
-            return false;
         }
 
         @Override
-        protected void onPostExecute(Boolean result) {
-            if (result) {
+        protected void onPostExecute(String error) {
+            if (error.isEmpty()) {
                 mStatusValue.setText(getString(R.string.status_online_value));
                 mStatusValue.setTextColor(Color.GREEN);
             } else {
                 mStatusValue.setText(getString(R.string.status_offine_value));
                 mStatusValue.setTextColor(Color.RED);
+                toast(error);
             }
         }
     }

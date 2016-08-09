@@ -10,5 +10,6 @@ public interface Activity {
     String PUBLIC = "PUBLIC";
     String SECRET = "SECRET";
 
+    void toast(String text);
     void toast(int text);
 }

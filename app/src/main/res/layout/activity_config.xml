@@ -13,14 +13,15 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/config_info_block"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="220dp"
         android:orientation="vertical"
         android:padding="5dp">
 
         <TextView
             android:id="@+id/config_id_view"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="20dp"
             android:textSize="20sp"
             android:textStyle="bold"/>
 
@@ -37,23 +38,15 @@
             android:textSize="20sp"
             android:text="TODO; date"/>
 
-        <TextView
-            android:id="@+id/config_status_view"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:textSize="20sp"
-            android:text="TODO; status"/>
-
     </LinearLayout>
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/config_data_block"
         android:layout_width="match_parent"
-        android:layout_height="235dp"
+        android:layout_height="220dp"
         android:orientation="vertical"
         android:padding="5dp">
-
 
         <TextView
             android:id="@+id/config_data_label"

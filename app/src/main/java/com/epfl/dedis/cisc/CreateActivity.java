@@ -36,7 +36,7 @@ public class CreateActivity extends AppCompatActivity implements Activity {
     private String publicKey;
     private String privateKey;
 
-    private void clear() {
+    private void clearFields() {
         mHostEditText.setText("");
         mPortEditText.setText("");
         mDataEditText.setText("");
@@ -53,11 +53,15 @@ public class CreateActivity extends AppCompatActivity implements Activity {
         e.apply();
     }
 
+    public void toast(String text) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
+
     public void toast(int text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
-    private class AddIdentityThread extends AsyncTask<Void, Void, Boolean> implements Thread {
+    private class AddIdentityThread extends AsyncTask<Void, Void, String> implements Thread {
 
         public String makeJson() {
             Identity identity = new Identity();
@@ -77,29 +81,25 @@ public class CreateActivity extends AppCompatActivity implements Activity {
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
             try {
                 String ack = HTTP.open(host, port, ADD_IDENTITY, makeJson());
-                if (!ack.isEmpty()) {
-                    id = ack;
-                    return true;
-                }
+                id = ack;
+                return "";
             } catch(IOException e) {
-                e.printStackTrace();
+                return e.getMessage();
             }
-            return false;
         }
 
         @Override
-        protected void onPostExecute(Boolean result) {
-            if (result) {
-                toast(R.string.suc_network);
+        protected void onPostExecute(String error) {
+            if (error.isEmpty()) {
                 writeLog();
                 Intent i = new Intent(CreateActivity.this, ConfigActivity.class);
                 startActivity(i);
                 CreateActivity.this.finish();
             } else {
-                toast(R.string.err_network);
+                toast(error);
             }
         }
     }
@@ -123,7 +123,7 @@ public class CreateActivity extends AppCompatActivity implements Activity {
         mClearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               clear();
+               clearFields();
             }
         });
 
