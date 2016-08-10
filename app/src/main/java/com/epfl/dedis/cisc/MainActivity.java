@@ -102,6 +102,16 @@ public class MainActivity extends AppCompatActivity implements Activity {
             }
         });
 
+        Button mJoinButton = (Button) findViewById(R.id.join_button);
+        assert mJoinButton != null;
+        mJoinButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, JoinActivity.class);
+                startActivity(i);
+            }
+        });
+
         Button mRetryButton = (Button) findViewById(R.id.retry_button);
         assert mRetryButton != null;
         mRetryButton.setOnClickListener(new View.OnClickListener() {

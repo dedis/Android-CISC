@@ -8,4 +8,146 @@
     android:orientation="vertical"
     android:background="#ffffff">
 
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/join_id_block"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <EditText
+            android:id="@+id/id_editText"
+            android:hint="@string/hint_id_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:textAlignment="textStart"
+            android:textSize="20sp"
+            android:backgroundTint="@color/colorPrimary"
+            android:imeOptions="actionDone"/>
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/addr_block"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <EditText
+            android:id="@+id/host_editText"
+            android:hint="@string/hint_host_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="250dp"
+            android:singleLine="true"
+            android:textAlignment="textStart"
+            android:textSize="20sp"
+            android:backgroundTint="@color/colorPrimary"
+            android:imeOptions="actionDone"/>
+
+        <EditText
+            android:id="@+id/port_editText"
+            android:hint="@string/hint_port_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:width="110dp"
+            android:textSize="20sp"
+            android:backgroundTint="@color/colorPrimary"
+            android:imeOptions="actionDone"/>
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/join_data_block"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <EditText
+            android:id="@+id/data_editText"
+            android:hint="@string/hint_data_editText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:width="100dp"
+            android:singleLine="true"
+            android:textAlignment="textStart"
+            android:textSize="20sp"
+            android:backgroundTint="@color/colorPrimary"
+            android:imeOptions="actionDone"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/join_status_block"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/status_label"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/status_label"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/status_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginStart="30dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/join_button_block"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:gravity="bottom"
+        android:padding="10dp" >
+
+        <Button
+            android:id="@+id/join_join_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/join_button"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20sp"
+            android:textColor="#ffffff"
+            android:textAllCaps="false"/>
+        <Button
+            android:id="@+id/config_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/config_button"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20sp"
+            android:textColor="#ffffff"
+            android:textAllCaps="false"
+            android:enabled="false"/>
+
+        <Button
+            android:id="@+id/clear_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/clear_button"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20sp"
+            android:textColor="#ffffff"
+            android:textAllCaps="false"/>
+    </LinearLayout>
+
 </LinearLayout>

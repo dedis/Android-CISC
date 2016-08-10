@@ -36,6 +36,7 @@ public class HTTP {
         if (size > 0) {
             response = new String(chars).substring(0, size);
         }
+        System.out.println(response);
         return response;
     }
 }
