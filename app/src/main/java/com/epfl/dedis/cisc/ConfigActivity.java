@@ -11,7 +11,6 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
 
     private TextView mIdTextView;
     private TextView mAddressTextView;
-    private TextView mDateTextView;
     private TextView mDataTextView;
 
     private void populate() {
@@ -25,12 +24,8 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
         mDataTextView.setText(pref.getString(DATA, ""));
     }
 
-    public void toast(int text) {
-        Toast.makeText(this, text, Toast.LENGTH_LONG).show();
-    }
-
     public void toast(String text) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -43,9 +38,6 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
 
         mAddressTextView = (TextView) findViewById(R.id.config_address_view);
         assert mAddressTextView != null;
-
-        mDateTextView = (TextView) findViewById(R.id.config_date_view);
-        assert mDateTextView != null;
 
         mDataTextView = (TextView) findViewById(R.id.config_data_view);
         assert mDataTextView != null;

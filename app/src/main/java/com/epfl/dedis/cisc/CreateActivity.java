@@ -57,10 +57,6 @@ public class CreateActivity extends AppCompatActivity implements Activity {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
 
-    public void toast(int text) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-    }
-
     private class AddIdentityThread extends AsyncTask<Void, Void, String> implements Thread {
 
         public String makeJson() {
@@ -84,10 +80,13 @@ public class CreateActivity extends AppCompatActivity implements Activity {
         protected String doInBackground(Void... params) {
             try {
                 String ack = HTTP.open(host, port, ADD_IDENTITY, makeJson());
+                if (ack.isEmpty()) {
+                    return ERR_ADD_IDENTITY;
+                }
                 id = ack;
                 return "";
             } catch(IOException e) {
-                return e.getMessage();
+                return ERR_REFUSED;
             }
         }
 
@@ -137,7 +136,7 @@ public class CreateActivity extends AppCompatActivity implements Activity {
                 data = mDataEditText.getText().toString();
 
                 if (host.isEmpty() || port.isEmpty() || data.isEmpty()) {
-                    toast(R.string.err_empty_fields);
+                    toast(ERR_EMPTY_FIELDS);
                 } else {
                     new AddIdentityThread().execute();
                 }

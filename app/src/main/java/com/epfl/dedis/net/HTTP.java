@@ -33,8 +33,9 @@ public class HTTP {
         int size = br.read(chars);
 
         String response = "";
-        if (size > 0)
+        if (size > 0) {
             response = new String(chars).substring(0, size);
+        }
         return response;
     }
 }

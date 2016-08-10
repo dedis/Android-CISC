@@ -41,10 +41,6 @@ public class MainActivity extends AppCompatActivity implements Activity {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
 
-    public void toast(int text) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-    }
-
     public void update() {
         if (!checkLog()) {
             new ConfigUpdateThread().execute();
@@ -64,9 +60,9 @@ public class MainActivity extends AppCompatActivity implements Activity {
         protected String doInBackground(Void... params) {
             try {
                 String ack = HTTP.open(host, port, CONFIG_UPDATE, makeJson());
-                return ack.isEmpty() ? "Identity not found" : "";
+                return ack.isEmpty() ? ERR_NOT_FOUND : "";
             } catch(IOException e) {
-                return e.getMessage();
+                return ERR_REFUSED;
             }
         }
 

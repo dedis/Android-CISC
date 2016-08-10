@@ -6,6 +6,7 @@
     <string name="identity_label">Identity:</string>
     <string name="status_label">Status:</string>
     <string name="data_label">Data:</string>
+    <string name="address_label">Address:</string>
     <string name="status_online_value">Online</string>
     <string name="status_offine_value">Offline</string>
 
@@ -23,10 +24,4 @@
     <string name="change_button">Change</string>
     <string name="devices_button">Devices</string>
     <string name="fetch_button">Fetch</string>
-
-    <string name="suc_network">Connection established</string>
-
-    <string name="err_empty_fields">Please, fill required fields</string>
-    <string name="err_concurrent">Concurrency error</string>
-    <string name="err_network">Connection failed</string>
 </resources>
