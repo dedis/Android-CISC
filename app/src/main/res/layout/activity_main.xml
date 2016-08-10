@@ -11,39 +11,10 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/button_block"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:orientation="horizontal"
-        android:padding="10dp" >
-
-        <Button
-            android:id="@+id/new_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/new_button"
-            android:textSize="20sp"
-            android:textAllCaps="false"
-            android:textColor="#ffffff"/>
-
-        <Button
-            android:id="@+id/join_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/join_button"
-            android:textSize="20sp"
-            android:textAllCaps="false"
-            android:textColor="#ffffff"/>
-    </LinearLayout>
-
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/identity_block"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
+        android:layout_height="90dp"
+        android:orientation="vertical"
         android:padding="15dp" >
 
         <TextView
@@ -51,14 +22,15 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="@string/identity_label"
-            android:textSize="20sp"/>
+            android:textSize="15sp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/colorPrimary"/>
 
         <TextView
             android:id="@+id/id_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:textSize="20sp"
-            android:layout_marginStart="30dp"
             android:ellipsize="end"/>
     </LinearLayout>
 
@@ -66,8 +38,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/status_block"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
+        android:layout_height="90dp"
+        android:orientation="vertical"
         android:padding="15dp" >
 
         <TextView
@@ -75,42 +47,66 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="@string/status_label"
-            android:textSize="20sp" />
+            android:textSize="15sp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/colorPrimary"/>
 
         <TextView
             android:id="@+id/status_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_marginStart="30dp"/>
+            android:textSize="20sp"  />
     </LinearLayout>
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/configuration_block"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:padding="10dp" >
-        <Button
-            android:id="@+id/configuration_button"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:text="@string/config_button"
-            android:textSize="20sp"
-            android:textAllCaps="false"
-            android:textColor="#ffffff"/>
+        android:gravity="center"
+        android:padding="10dp"
+        android:weightSum="1">
 
-        <Button
-            android:id="@+id/retry_button"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/new_button"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_gravity="bottom"
+            android:src="@drawable/ic_add_white"
+            android:layout_margin="10dp"
+            android:layout_weight="0.3"
+            android:scaleType="center"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/join_button"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_gravity="bottom"
+            android:src="@drawable/ic_link_white"
+            android:layout_margin="10dp"
+            android:layout_weight="0.3"
+            android:scaleType="center"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/configuration_button"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_gravity="bottom"
+            android:src="@drawable/ic_storage_white"
+            android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="@string/retry_button"
-            android:textSize="20sp"
-            android:textAllCaps="false"
-            android:textColor="#ffffff"/>
+            android:scaleType="center"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/refresh_button"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_gravity="bottom"
+            android:src="@drawable/ic_refresh_white"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:scaleType="center"/>
 
     </LinearLayout>
 

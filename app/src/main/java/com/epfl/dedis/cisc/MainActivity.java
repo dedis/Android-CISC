@@ -3,12 +3,11 @@ package com.epfl.dedis.cisc;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,10 +69,8 @@ public class MainActivity extends AppCompatActivity implements Activity {
         protected void onPostExecute(String error) {
             if (error.isEmpty()) {
                 mStatusValue.setText(getString(R.string.status_online_value));
-                mStatusValue.setTextColor(Color.GREEN);
             } else {
                 mStatusValue.setText(getString(R.string.status_offine_value));
-                mStatusValue.setTextColor(Color.RED);
                 toast(error);
             }
         }
@@ -92,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
 
         update();
 
-        Button mCreateButton = (Button) findViewById(R.id.new_button);
+        FloatingActionButton mCreateButton = (FloatingActionButton) findViewById(R.id.new_button);
         assert mCreateButton != null;
         mCreateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
             }
         });
 
-        Button mJoinButton = (Button) findViewById(R.id.join_button);
+        FloatingActionButton mJoinButton = (FloatingActionButton) findViewById(R.id.join_button);
         assert mJoinButton != null;
         mJoinButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,16 +109,16 @@ public class MainActivity extends AppCompatActivity implements Activity {
             }
         });
 
-        Button mRetryButton = (Button) findViewById(R.id.retry_button);
-        assert mRetryButton != null;
-        mRetryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
+        FloatingActionButton mRefreshButton = (FloatingActionButton) findViewById(R.id.refresh_button);
+        assert mRefreshButton != null;
+        mRefreshButton.setOnClickListener(new View.OnClickListener() {
+           @Override
             public void onClick(View v) {
                 update();
             }
         });
 
-        Button mConfigButton = (Button) findViewById(R.id.configuration_button);
+        FloatingActionButton mConfigButton = (FloatingActionButton) findViewById(R.id.configuration_button);
         assert mConfigButton != null;
         mConfigButton.setOnClickListener(new View.OnClickListener() {
             @Override
