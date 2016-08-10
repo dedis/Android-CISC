@@ -32,8 +32,9 @@ public class HTTP {
         char[] chars = new char[BUF_SIZE];
         int size = br.read(chars);
 
-        String response = new String(chars).substring(0, size);
-        System.out.println(response);
+        String response = "";
+        if (size > 0)
+            response = new String(chars).substring(0, size);
         return response;
     }
 }

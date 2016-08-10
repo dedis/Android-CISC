@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity implements Activity {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                HTTP.open(host, port, CONFIG_UPDATE, makeJson());
-                return "";
+                String ack = HTTP.open(host, port, CONFIG_UPDATE, makeJson());
+                return ack.isEmpty() ? "Identity not found" : "";
             } catch(IOException e) {
                 return e.getMessage();
             }

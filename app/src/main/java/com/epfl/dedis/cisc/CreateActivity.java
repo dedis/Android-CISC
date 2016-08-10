@@ -54,7 +54,7 @@ public class CreateActivity extends AppCompatActivity implements Activity {
     }
 
     public void toast(String text) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
 
     public void toast(int text) {
