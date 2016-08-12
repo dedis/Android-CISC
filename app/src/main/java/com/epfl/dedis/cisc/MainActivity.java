@@ -46,6 +46,13 @@ public class MainActivity extends AppCompatActivity implements Activity {
         }
     }
 
+    public String makeJson() {
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        int[] idArray = gson.fromJson(id, int[].class);
+        ConfigUpdate cu = new ConfigUpdate(idArray, null);
+        return gson.toJson(cu);
+    }
+
     private class ConfigUpdateThread extends AsyncTask<Void, Void, String> implements Thread {
 
         public String makeJson() {

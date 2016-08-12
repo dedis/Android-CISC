@@ -42,7 +42,7 @@ public class CreateActivity extends AppCompatActivity implements Activity {
         mDataEditText.setText("");
     }
 
-    private void writeLog() {
+    public void writeLog() {
         SharedPreferences.Editor e = getSharedPreferences(LOG, Context.MODE_PRIVATE).edit();
         e.putString(HOST, host);
         e.putString(PORT, port);
@@ -55,6 +55,23 @@ public class CreateActivity extends AppCompatActivity implements Activity {
 
     public void toast(String text) {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+    }
+
+    public String makeJson() {
+        Identity identity = new Identity();
+        byte[] pub = identity.getPublic();
+        byte[] sec = identity.getPrivate();
+
+        Map<String, byte[]> initDevices = new HashMap<>();
+        Map<String, String> initData = new HashMap<>();
+
+        initDevices.put(DEVICE, pub);
+        publicKey = Arrays.toString(pub);
+        initData.put(DEVICE, data);
+        privateKey = Arrays.toString(sec);
+
+        AddIdentity addIdentity = new AddIdentity(new Config(3, initDevices, initData));
+        return new Gson().toJson(addIdentity);
     }
 
     private class AddIdentityThread extends AsyncTask<Void, Void, String> implements Thread {

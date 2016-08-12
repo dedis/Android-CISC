@@ -18,6 +18,7 @@ public class HTTP {
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
         http.setConnectTimeout(TIMEOUT);
         http.setRequestMethod("POST");
+        http.setDoOutput(true);
         http.connect();
         
         OutputStream out = http.getOutputStream();

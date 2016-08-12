@@ -2,6 +2,8 @@ package com.epfl.dedis.cisc;
 
 public interface Activity {
 
+    String DEVICE = "MOTOROLA";
+
     /* Log keys for SharedPreferences */
     String LOG = "LOG";
     String HOST = "HOST";
