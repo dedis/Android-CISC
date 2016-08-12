@@ -3,7 +3,6 @@ package com.epfl.dedis.cisc;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,8 +15,6 @@ import com.epfl.dedis.net.HTTP;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.IOException;
-
 public class MainActivity extends AppCompatActivity implements Activity {
 
     private TextView mIdentityValue;
@@ -26,6 +23,21 @@ public class MainActivity extends AppCompatActivity implements Activity {
     private String host;
     private String port;
     private String id;
+
+    public void callback(String result) {
+        switch (result) {
+            case "1":
+                toast(ERR_NOT_FOUND);
+                mStatusValue.setText("Identity not found");
+                break;
+            case "2":
+                toast(ERR_REFUSED);
+                mStatusValue.setText("Offline");
+                break;
+            default:
+                mStatusValue.setText("Connected");
+        }
+    }
 
     private boolean checkLog() {
         SharedPreferences pref = getSharedPreferences(LOG, Context.MODE_PRIVATE);
@@ -42,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
 
     public void update() {
         if (!checkLog()) {
-            new ConfigUpdateThread().execute();
+            new HTTP(this).execute(host, port, "cu", makeJson());
         }
     }
 
@@ -51,36 +63,6 @@ public class MainActivity extends AppCompatActivity implements Activity {
         int[] idArray = gson.fromJson(id, int[].class);
         ConfigUpdate cu = new ConfigUpdate(idArray, null);
         return gson.toJson(cu);
-    }
-
-    private class ConfigUpdateThread extends AsyncTask<Void, Void, String> implements Thread {
-
-        public String makeJson() {
-            Gson gson = new GsonBuilder().serializeNulls().create();
-            int[] idArray = gson.fromJson(id, int[].class);
-            ConfigUpdate cu = new ConfigUpdate(idArray, null);
-            return gson.toJson(cu);
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            try {
-                String ack = HTTP.open(host, port, CONFIG_UPDATE, makeJson());
-                return ack.isEmpty() ? ERR_NOT_FOUND : "";
-            } catch(IOException e) {
-                return ERR_REFUSED;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String error) {
-            if (error.isEmpty()) {
-                mStatusValue.setText(getString(R.string.status_online_value));
-            } else {
-                mStatusValue.setText(getString(R.string.status_offine_value));
-                toast(error);
-            }
-        }
     }
 
     @Override
@@ -116,15 +98,6 @@ public class MainActivity extends AppCompatActivity implements Activity {
             }
         });
 
-        FloatingActionButton mRefreshButton = (FloatingActionButton) findViewById(R.id.refresh_button);
-        assert mRefreshButton != null;
-        mRefreshButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-            public void onClick(View v) {
-                update();
-            }
-        });
-
         FloatingActionButton mConfigButton = (FloatingActionButton) findViewById(R.id.configuration_button);
         assert mConfigButton != null;
         mConfigButton.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +105,15 @@ public class MainActivity extends AppCompatActivity implements Activity {
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, ConfigActivity.class);
                 startActivity(i);
+            }
+        });
+
+        FloatingActionButton mRefreshButton = (FloatingActionButton) findViewById(R.id.refresh_button);
+        assert mRefreshButton != null;
+        mRefreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                update();
             }
         });
     }

@@ -3,8 +3,6 @@ package com.epfl.dedis.cisc;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,13 +10,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.epfl.dedis.crypto.Identity;
+import com.epfl.dedis.crypto.Ed25519;
 import com.epfl.dedis.net.AddIdentity;
 import com.epfl.dedis.net.Config;
 import com.epfl.dedis.net.HTTP;
 import com.google.gson.Gson;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +32,27 @@ public class CreateActivity extends AppCompatActivity implements Activity {
     private String id;
     private String publicKey;
     private String privateKey;
+
+    private Ed25519 curve;
+
+    public void callback(String result) {
+        System.out.println("---> " + result);
+        switch (result) {
+            case "1":
+                toast(ERR_NOT_FOUND);
+                break;
+            case "2":
+                toast(ERR_REFUSED);
+                break;
+            default: {
+                id = result;
+                writeLog();
+                Intent i = new Intent(this, ConfigActivity.class);
+                startActivity(i);
+                this.finish();
+            }
+        }
+    }
 
     private void clearFields() {
         mHostEditText.setText("");
@@ -58,9 +76,8 @@ public class CreateActivity extends AppCompatActivity implements Activity {
     }
 
     public String makeJson() {
-        Identity identity = new Identity();
-        byte[] pub = identity.getPublic();
-        byte[] sec = identity.getPrivate();
+        byte[] pub = curve.getPublic();
+        byte[] sec = curve.getPrivate();
 
         Map<String, byte[]> initDevices = new HashMap<>();
         Map<String, String> initData = new HashMap<>();
@@ -72,52 +89,6 @@ public class CreateActivity extends AppCompatActivity implements Activity {
 
         AddIdentity addIdentity = new AddIdentity(new Config(3, initDevices, initData));
         return new Gson().toJson(addIdentity);
-    }
-
-    private class AddIdentityThread extends AsyncTask<Void, Void, String> implements Thread {
-
-        public String makeJson() {
-            Identity identity = new Identity();
-            byte[] pub = identity.getPublic();
-            byte[] sec = identity.getPrivate();
-
-            Map<String, byte[]> initDevices = new HashMap<>();
-            Map<String, String> initData = new HashMap<>();
-
-            initDevices.put(Build.DEVICE, pub);
-            publicKey = Arrays.toString(pub);
-            initData.put(Build.DEVICE, data);
-            privateKey = Arrays.toString(sec);
-
-            AddIdentity addIdentity = new AddIdentity(new Config(3, initDevices, initData));
-            return new Gson().toJson(addIdentity);
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            try {
-                String ack = HTTP.open(host, port, ADD_IDENTITY, makeJson());
-                if (ack.isEmpty()) {
-                    return ERR_ADD_IDENTITY;
-                }
-                id = ack;
-                return "";
-            } catch(IOException e) {
-                return ERR_REFUSED;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String error) {
-            if (error.isEmpty()) {
-                writeLog();
-                Intent i = new Intent(CreateActivity.this, ConfigActivity.class);
-                startActivity(i);
-                CreateActivity.this.finish();
-            } else {
-                toast(error);
-            }
-        }
     }
 
     @Override
@@ -155,7 +126,8 @@ public class CreateActivity extends AppCompatActivity implements Activity {
                 if (host.isEmpty() || port.isEmpty() || data.isEmpty()) {
                     toast(ERR_EMPTY_FIELDS);
                 } else {
-                    new AddIdentityThread().execute();
+                    curve = new Ed25519();
+                    new HTTP(CreateActivity.this).execute(host, port, "ai", makeJson());
                 }
             }
         });

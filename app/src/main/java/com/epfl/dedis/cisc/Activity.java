@@ -15,9 +15,9 @@ public interface Activity {
 
     /* Error Toasts */
     String ERR_REFUSED = "Connection refused";
-    String ERR_NOT_FOUND = "Identity not found";
+    String ERR_NOT_FOUND = "Ed25519 not found";
     String ERR_EMPTY_FIELDS = "All fields must be filled";
-    String ERR_ADD_IDENTITY = "Skipchain creation unsuccessful";
 
     void toast(String text);
+    void callback(String result);
 }

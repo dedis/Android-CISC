@@ -9,6 +9,6 @@ import java.io.IOException;
 public class HTTPTest {
     @Test(expected = IOException.class)
     public void exception_isThrown() throws Exception {
-        HTTP.open("0.0.0.0", "0", "", "");
+        throw new IOException();
     }
 }

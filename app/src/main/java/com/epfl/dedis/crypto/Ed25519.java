@@ -7,12 +7,12 @@ import java.util.Arrays;
 
 import net.i2p.crypto.eddsa.KeyPairGenerator;
 
-public class Identity {
+public class Ed25519 {
 
     private PublicKey pub;
     private PrivateKey secret;
 
-    public Identity() {
+    public Ed25519() {
         KeyPair keyPair = new KeyPairGenerator().generateKeyPair();
         this.pub = keyPair.getPublic();
         this.secret = keyPair.getPrivate();
@@ -28,7 +28,7 @@ public class Identity {
 
     @Override
     public String toString() {
-        return "Identity {\n" +
+        return "Ed25519 {\n" +
                 "\tpublicKey=" + Arrays.toString(pub.getEncoded()) + ",\n" +
                 "\tprivateKey=" + Arrays.toString(secret.getEncoded()) + "\n" +
                 '}';

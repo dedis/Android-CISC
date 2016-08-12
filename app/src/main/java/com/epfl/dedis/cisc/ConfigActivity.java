@@ -9,6 +9,10 @@ import android.widget.Toast;
 
 public class ConfigActivity extends AppCompatActivity implements Activity {
 
+    public void callback(String result) {
+
+    }
+
     private TextView mIdTextView;
     private TextView mAddressTextView;
     private TextView mDataTextView;
