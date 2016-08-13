@@ -25,46 +25,9 @@ public class JoinActivity extends AppCompatActivity implements Activity {
 
     }
 
-    public void toast(String text) {
+    public void toast(int text) {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
-
-//    private class ConfigUpdateThread extends AsyncTask<Void, Void, String> implements Thread {
-//
-//        Gson gson = new GsonBuilder().serializeNulls().create();
-//
-//        public String makeJson() {
-//            int[] idArray = gson.fromJson("[" + id + "]", int[].class);
-//            ConfigUpdate cu = new ConfigUpdate(idArray, null);
-//            return gson.toJson(cu);
-//        }
-//
-//        public void parseJson(String json) {
-//            ConfigUpdate cu = gson.fromJson(json, ConfigUpdate.class);
-//            System.out.println(cu.getID());
-//        }
-//
-//        @Override
-//        protected String doInBackground(Void... params) {
-////            try {
-////                String ack = HTTP.open(host, port, CONFIG_UPDATE, makeJson());
-////                parseJson(ack);
-////                return ack.isEmpty() ? ERR_NOT_FOUND : "";
-////            } catch(IOException e) {
-////                return ERR_REFUSED;
-////            }
-//            return "";
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String error) {
-//            if (error.isEmpty()) {
-//                System.out.println("...");
-//            } else {
-//                toast(error);
-//            }
-//        }
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +57,9 @@ public class JoinActivity extends AppCompatActivity implements Activity {
                 id = mIdentityEditText.getText().toString();
 
                 if (host.isEmpty() || port.isEmpty() || data.isEmpty() || id.isEmpty()) {
-                    toast(ERR_EMPTY_FIELDS);
+                    toast(R.string.err_empty_fields);
                 } else {
-                    new HTTP(JoinActivity.this).execute(host, port, "cu", "");
+                    new HTTP(JoinActivity.this).execute(host, port, CONFIG_UPDATE, "");
                 }
             }
         });

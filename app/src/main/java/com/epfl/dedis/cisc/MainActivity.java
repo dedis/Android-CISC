@@ -26,16 +26,9 @@ public class MainActivity extends AppCompatActivity implements Activity {
 
     public void callback(String result) {
         switch (result) {
-            case "1":
-                toast(ERR_NOT_FOUND);
-                mStatusValue.setText("Identity not found");
-                break;
-            case "2":
-                toast(ERR_REFUSED);
-                mStatusValue.setText("Offline");
-                break;
-            default:
-                mStatusValue.setText("Connected");
+            case "1": mStatusValue.setText(R.string.err_not_found); break;
+            case "2": mStatusValue.setText(R.string.err_refused); break;
+            default:  mStatusValue.setText(R.string.suc_connection);
         }
     }
 
@@ -48,13 +41,13 @@ public class MainActivity extends AppCompatActivity implements Activity {
         return host.isEmpty() || port.isEmpty();
     }
 
-    public void toast(String text) {
+    public void toast(int text) {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
 
     public void update() {
         if (!checkLog()) {
-            new HTTP(this).execute(host, port, "cu", makeJson());
+            new HTTP(this).execute(host, port, CONFIG_UPDATE, makeJson());
         }
     }
 

@@ -51,7 +51,7 @@ public class HTTP extends AsyncTask<String, Void, String> {
             }
 
             String response = new String(chars).substring(0, size);
-            Log.i("INFO", response);
+            Log.i(getClass().getName(), response);
             return response;
         } catch (IOException e) {
             return "2";

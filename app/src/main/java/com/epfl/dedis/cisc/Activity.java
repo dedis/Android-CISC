@@ -13,11 +13,10 @@ public interface Activity {
     String PUBLIC = "PUBLIC";
     String SECRET = "SECRET";
 
-    /* Error Toasts */
-    String ERR_REFUSED = "Connection refused";
-    String ERR_NOT_FOUND = "Ed25519 not found";
-    String ERR_EMPTY_FIELDS = "All fields must be filled";
+    /* Cothority API paths */
+    String ADD_IDENTITY = "ai";
+    String CONFIG_UPDATE = "cu";
 
-    void toast(String text);
+    void toast(int text);
     void callback(String result);
 }

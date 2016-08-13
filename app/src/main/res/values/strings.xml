@@ -8,8 +8,6 @@
     <string name="status_label">Status</string>
     <string name="data_label">Data:</string>
     <string name="address_label">Address:</string>
-    <string name="status_online_value">Online</string>
-    <string name="status_offine_value">Offline</string>
 
     <string name="hint_host_editText">Hostname</string>
     <string name="hint_port_editText">Port</string>
@@ -25,4 +23,11 @@
     <string name="change_button">Change</string>
     <string name="devices_button">Devices</string>
     <string name="fetch_button">Fetch</string>
+
+    <string name="suc_connection">Connected</string>
+
+    <string name="err_refused">Connection refused</string>
+    <string name="err_add_identity">Identity creation failed</string>
+    <string name="err_not_found">Identity not found</string>
+    <string name="err_empty_fields">Empty fields</string>
 </resources>

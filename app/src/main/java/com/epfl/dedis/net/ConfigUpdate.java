@@ -2,7 +2,7 @@ package com.epfl.dedis.net;
 
 import java.util.Arrays;
 
-public class ConfigUpdate extends Message {
+public class ConfigUpdate implements Message {
 
     private int[] ID;
     private Config AccountList;

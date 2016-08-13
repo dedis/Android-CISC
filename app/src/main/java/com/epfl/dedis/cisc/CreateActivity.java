@@ -38,12 +38,8 @@ public class CreateActivity extends AppCompatActivity implements Activity {
 
     public void callback(String result) {
         switch (result) {
-            case "1":
-                toast(ERR_NOT_FOUND);
-                break;
-            case "2":
-                toast(ERR_REFUSED);
-                break;
+            case "1": toast(R.string.err_add_identity); break;
+            case "2": toast(R.string.err_refused); break;
             default: {
                 id = result;
                 writeLog();
@@ -71,7 +67,7 @@ public class CreateActivity extends AppCompatActivity implements Activity {
         e.apply();
     }
 
-    public void toast(String text) {
+    public void toast(int text) {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
 
@@ -125,10 +121,10 @@ public class CreateActivity extends AppCompatActivity implements Activity {
                 data = mDataEditText.getText().toString();
 
                 if (host.isEmpty() || port.isEmpty() || data.isEmpty()) {
-                    toast(ERR_EMPTY_FIELDS);
+                    toast(R.string.err_empty_fields);
                 } else {
                     curve = new Ed25519();
-                    new HTTP(CreateActivity.this).execute(host, port, "ai", makeJson());
+                    new HTTP(CreateActivity.this).execute(host, port, ADD_IDENTITY, makeJson());
                 }
             }
         });
