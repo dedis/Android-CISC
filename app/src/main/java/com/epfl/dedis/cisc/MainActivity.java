@@ -20,9 +20,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
 
     private TextView mIdentityValue;
     private TextView mStatusValue;
-
-    private String host;
-    private String port;
+    
     private String id;
 
     public void callback(String result) {
@@ -33,23 +31,14 @@ public class MainActivity extends AppCompatActivity implements Activity {
         }
     }
 
-//    private boolean checkLog() {
-//        SharedPreferences pref = getSharedPreferences(LOG, Context.MODE_PRIVATE);
-//        host = pref.getString(HOST, "");
-//        port = pref.getString(PORT, "");
-//        id = pref.getString(ID, "");
-//        mIdentityValue.setText(id);
-//        return host.isEmpty() || port.isEmpty();
-//    }
-
     public void toast(int text) {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
 
     public void update() {
         SharedPreferences pref = getSharedPreferences(LOG, Context.MODE_PRIVATE);
-        host = pref.getString(HOST, "");
-        port = pref.getString(PORT, "");
+        String host = pref.getString(HOST, "");
+        String port = pref.getString(PORT, "");
         id = pref.getString(ID, "");
         mIdentityValue.setText(id);
         if (!host.isEmpty() && !port.isEmpty()) {
