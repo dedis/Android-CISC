@@ -1,6 +1,7 @@
 package com.epfl.dedis.net;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.epfl.dedis.cisc.Activity;
 
@@ -50,7 +51,7 @@ public class HTTP extends AsyncTask<String, Void, String> {
             }
 
             String response = new String(chars).substring(0, size);
-            System.out.println("ACK: " + response);
+            Log.i("INFO", response);
             return response;
         } catch (IOException e) {
             return "2";

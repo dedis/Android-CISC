@@ -15,6 +15,7 @@ import com.epfl.dedis.net.AddIdentity;
 import com.epfl.dedis.net.Config;
 import com.epfl.dedis.net.HTTP;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -36,7 +37,6 @@ public class CreateActivity extends AppCompatActivity implements Activity {
     private Ed25519 curve;
 
     public void callback(String result) {
-        System.out.println("---> " + result);
         switch (result) {
             case "1":
                 toast(ERR_NOT_FOUND);
@@ -88,7 +88,8 @@ public class CreateActivity extends AppCompatActivity implements Activity {
         privateKey = Arrays.toString(sec);
 
         AddIdentity addIdentity = new AddIdentity(new Config(3, initDevices, initData));
-        return new Gson().toJson(addIdentity);
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        return gson.toJson(addIdentity);
     }
 
     @Override
