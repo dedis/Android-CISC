@@ -92,6 +92,7 @@ public class CreateActivity extends AppCompatActivity implements Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
+        curve = new Ed25519();
 
         mHostEditText = (EditText) findViewById(R.id.host_editText);
         assert mHostEditText != null;
@@ -123,7 +124,6 @@ public class CreateActivity extends AppCompatActivity implements Activity {
                 if (host.isEmpty() || port.isEmpty() || data.isEmpty()) {
                     toast(R.string.err_empty_fields);
                 } else {
-                    curve = new Ed25519();
                     new HTTP(CreateActivity.this).execute(host, port, ADD_IDENTITY, makeJson());
                 }
             }

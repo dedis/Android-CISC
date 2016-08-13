@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,23 +33,34 @@ public class MainActivity extends AppCompatActivity implements Activity {
         }
     }
 
-    private boolean checkLog() {
-        SharedPreferences pref = getSharedPreferences(LOG, Context.MODE_PRIVATE);
-        host = pref.getString(HOST, "");
-        port = pref.getString(PORT, "");
-        id = pref.getString(ID, "");
-        mIdentityValue.setText(id);
-        return host.isEmpty() || port.isEmpty();
-    }
+//    private boolean checkLog() {
+//        SharedPreferences pref = getSharedPreferences(LOG, Context.MODE_PRIVATE);
+//        host = pref.getString(HOST, "");
+//        port = pref.getString(PORT, "");
+//        id = pref.getString(ID, "");
+//        mIdentityValue.setText(id);
+//        return host.isEmpty() || port.isEmpty();
+//    }
 
     public void toast(int text) {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
 
     public void update() {
-        if (!checkLog()) {
+        SharedPreferences pref = getSharedPreferences(LOG, Context.MODE_PRIVATE);
+        host = pref.getString(HOST, "");
+        port = pref.getString(PORT, "");
+        id = pref.getString(ID, "");
+        mIdentityValue.setText(id);
+        if (!host.isEmpty() && !port.isEmpty()) {
+            Log.i(getClass().getName(), makeJson());
             new HTTP(this).execute(host, port, CONFIG_UPDATE, makeJson());
         }
+    }
+
+    // For debugging purposes
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String makeJson() {
