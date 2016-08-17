@@ -122,8 +122,10 @@ public class CreateActivity extends AppCompatActivity implements Activity {
                 data = mDataEditText.getText().toString();
 
                 if (host.isEmpty() || port.isEmpty() || data.isEmpty()) {
+                    System.out.println("-------> " + data);
                     toast(R.string.err_empty_fields);
                 } else {
+
                     new HTTP(CreateActivity.this).execute(host, port, ADD_IDENTITY, makeJson());
                 }
             }

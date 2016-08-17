@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
 
     private TextView mIdentityValue;
     private TextView mStatusValue;
-    
+
     private String id;
 
     public void callback(String result) {
@@ -45,11 +45,6 @@ public class MainActivity extends AppCompatActivity implements Activity {
             Log.i(getClass().getName(), makeJson());
             new HTTP(this).execute(host, port, CONFIG_UPDATE, makeJson());
         }
-    }
-
-    // For debugging purposes
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String makeJson() {
