@@ -3,13 +3,11 @@ package com.epfl.dedis.cisc;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.epfl.dedis.net.ConfigUpdate;
 import com.epfl.dedis.net.HTTP;
@@ -21,9 +19,8 @@ public class MainActivity extends AppCompatActivity implements Activity {
     private TextView mIdentityValue;
     private TextView mStatusValue;
 
-    private String id;
-
     public void callback(String result) {
+        //TODO find proper network error handling
         switch (result) {
             case "1": mStatusValue.setText(R.string.err_not_found); break;
             case "2": mStatusValue.setText(R.string.err_refused); break;
@@ -31,27 +28,21 @@ public class MainActivity extends AppCompatActivity implements Activity {
         }
     }
 
-    public void toast(int text) {
-        Toast.makeText(this, text, Toast.LENGTH_LONG).show();
-    }
-
-    public void update() {
+    private void update() {
         SharedPreferences pref = getSharedPreferences(LOG, Context.MODE_PRIVATE);
         String host = pref.getString(HOST, "");
         String port = pref.getString(PORT, "");
-        id = pref.getString(ID, "");
-        mIdentityValue.setText(id);
-        if (!host.isEmpty() && !port.isEmpty()) {
-            Log.i(getClass().getName(), makeJson());
-            new HTTP(this).execute(host, port, CONFIG_UPDATE, makeJson());
+        String id = pref.getString(ID, "");
+        mIdentityValue.setText(id); // TODO Replace TextView with QR-Code
+        if (!host.isEmpty() && !port.isEmpty() && !id.isEmpty()) {
+            new HTTP(this).execute(host, port, CONFIG_UPDATE, configUpdateJSON(id));
         }
     }
 
-    public String makeJson() {
+    private String configUpdateJSON(String id) {
         Gson gson = new GsonBuilder().serializeNulls().create();
         int[] idArray = gson.fromJson(id, int[].class);
-        ConfigUpdate cu = new ConfigUpdate(idArray, null);
-        return gson.toJson(cu);
+        return gson.toJson(new ConfigUpdate(idArray, null));
     }
 
     @Override

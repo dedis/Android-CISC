@@ -5,31 +5,24 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ConfigActivity extends AppCompatActivity implements Activity {
-
-    public void callback(String result) {
-        // TODO
-    }
 
     private TextView mIdTextView;
     private TextView mAddressTextView;
     private TextView mDataTextView;
 
+    // TODO for later when voting is being implemented
+    public void callback(String result) {}
+
     private void populate() {
         SharedPreferences pref = getSharedPreferences(LOG, Context.MODE_PRIVATE);
-
         mIdTextView.setText(pref.getString(ID, ""));
 
         String address = pref.getString(HOST, "") + ":" + pref.getString(PORT, "");
         mAddressTextView.setText(address);
 
         mDataTextView.setText(pref.getString(DATA, ""));
-    }
-
-    public void toast(int text) {
-        Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
 
     @Override

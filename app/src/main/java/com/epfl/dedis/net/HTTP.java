@@ -18,6 +18,9 @@ public class HTTP extends AsyncTask<String, Void, String> {
     private static final int TIMEOUT = 1000;
     private static final int BUF_SIZE = 1000;
 
+    private static final String ERR_COTHORITY = "1";
+    private static final String ERR_NETWORK = "2";
+
     private Activity activity;
 
     public HTTP(Activity activity) {
@@ -47,14 +50,14 @@ public class HTTP extends AsyncTask<String, Void, String> {
             int size = br.read(chars);
 
             if (chars[0] == '0') {
-                return "1";
+                return ERR_COTHORITY;
             }
 
             String response = new String(chars).substring(0, size);
-            Log.i(getClass().getName(), response);
+            Log.i(getClass().getName(), response); // TODO integrate proper logging
             return response;
         } catch (IOException e) {
-            return "2";
+            return ERR_NETWORK;
         }
     }
 

@@ -2,9 +2,10 @@ package com.epfl.dedis.cisc;
 
 public interface Activity {
 
+    // Device name
     String DEVICE = "MOTOROLA";
 
-    /* Log keys for SharedPreferences */
+    // Log keys for SharedPreferences
     String LOG = "LOG";
     String HOST = "HOST";
     String PORT = "PORT";
@@ -13,10 +14,9 @@ public interface Activity {
     String PUBLIC = "PUBLIC";
     String SECRET = "SECRET";
 
-    /* Cothority API paths */
+    // Cothority API paths
     String ADD_IDENTITY = "ai";
     String CONFIG_UPDATE = "cu";
 
-    void toast(int text);
     void callback(String result);
 }

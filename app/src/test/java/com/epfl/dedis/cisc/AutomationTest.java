@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.support.design.widget.FloatingActionButton;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,8 +30,7 @@ public class AutomationTest {
 
     private static final String HOST = "localhost";
     private static final String PORT = "2000";
-    private static final String ID = "[87,166,33,239,179,177,174,7,13,89,52,146,240,201,26,173,87,76,4,214,237,237,86,173,142,159,212,167,62,217,77,219]";
-
+    private static final String ID = "[34,94,216,126,2,57,11,179,238,53,227,38,154,237,184,156,147,238,96,135,87,166,60,237,242,17,128,239,252,48,207,247]";
     private static final String FOO = "[1, 2, 3]";
 
     private static String sucConnection;
@@ -48,25 +48,27 @@ public class AutomationTest {
 
     @Test
     public void addIdentityToCothority() throws Exception {
-        CreateActivity ca = Robolectric.setupActivity(CreateActivity.class);
-        SharedPreferences pref = RuntimeEnvironment.application.getSharedPreferences("LOG", Context.MODE_PRIVATE);
+        CreateActivity createActivity = Robolectric.setupActivity(CreateActivity.class);
+        SharedPreferences preferences = RuntimeEnvironment.application.getSharedPreferences("LOG", Context.MODE_PRIVATE);
+        assertNotNull(preferences);
 
-        assertNotNull(pref);
-
-        EditText hostEditText = (EditText) ca.findViewById(R.id.host_editText);
+        EditText hostEditText = (EditText) createActivity.findViewById(R.id.host_editText);
+        assertNotNull(hostEditText);
         hostEditText.setText(HOST);
 
-        EditText portEditText = (EditText) ca.findViewById(R.id.port_editText);
+        EditText portEditText = (EditText) createActivity.findViewById(R.id.port_editText);
+        assertNotNull(portEditText);
         portEditText.setText(PORT);
 
-        EditText dataEditText = (EditText) ca.findViewById(R.id.data_editText);
+        EditText dataEditText = (EditText) createActivity.findViewById(R.id.data_editText);
+        assertNotNull(dataEditText);
         dataEditText.setText(FOO);
 
-        Button button = (Button) ca.findViewById(R.id.create_button);
+        Button button = (Button) createActivity.findViewById(R.id.create_button);
         assertNotNull(button);
         button.performClick();
 
-        String id = pref.getString("ID", "");
+        String id = preferences.getString("ID", "");
         assertNotEquals("", id);
 
         int[] idArray = gson.fromJson(id, int[].class);
@@ -75,7 +77,7 @@ public class AutomationTest {
 
     @Test
     public void configUpdateOnInexistentIdentity() throws Exception {
-        MainActivity ma = Robolectric.setupActivity(MainActivity.class);
+        MainActivity mainActivity = Robolectric.setupActivity(MainActivity.class);
         SharedPreferences pref = RuntimeEnvironment.application.getSharedPreferences("LOG", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
 
@@ -87,16 +89,18 @@ public class AutomationTest {
         editor.putString("ID", FOO);
         editor.apply();
 
-        ma.update();
+        FloatingActionButton refreshButton = (FloatingActionButton) mainActivity.findViewById(R.id.refresh_button);
+        assertNotNull(refreshButton);
+        refreshButton.performClick();
 
-        TextView textView = (TextView) ma.findViewById(R.id.status_value);
+        TextView textView = (TextView) mainActivity.findViewById(R.id.status_value);
         assertNotNull(textView);
         assertEquals(errNotFound, textView.getText().toString());
     }
 
     @Test
     public void configUpdateOnExistentIdentity() throws Exception {
-        MainActivity ma = Robolectric.setupActivity(MainActivity.class);
+        MainActivity mainActivity = Robolectric.setupActivity(MainActivity.class);
         SharedPreferences pref = RuntimeEnvironment.application.getSharedPreferences("LOG", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
 
@@ -108,9 +112,11 @@ public class AutomationTest {
         editor.putString("ID", ID);
         editor.apply();
 
-        ma.update();
+        FloatingActionButton refreshButton = (FloatingActionButton) mainActivity.findViewById(R.id.refresh_button);
+        assertNotNull(refreshButton);
+        refreshButton.performClick();
 
-        TextView textView = (TextView) ma.findViewById(R.id.status_value);
+        TextView textView = (TextView) mainActivity.findViewById(R.id.status_value);
         assertEquals(sucConnection, textView.getText().toString());
     }
 
@@ -118,18 +124,24 @@ public class AutomationTest {
     public void joinConfigUpdate() throws Exception {
         JoinActivity ja = Robolectric.setupActivity(JoinActivity.class);
 
-        EditText host = (EditText) ja.findViewById(R.id.host_editText);
-        host.setText(HOST);
+        EditText hostEditText = (EditText) ja.findViewById(R.id.host_editText);
+        assertNotNull(hostEditText);
+        hostEditText.setText(HOST);
 
-        EditText port = (EditText) ja.findViewById(R.id.port_editText);
-        port.setText(PORT);
+        EditText portEditText = (EditText) ja.findViewById(R.id.port_editText);
+        assertNotNull(portEditText);
+        portEditText.setText(PORT);
 
-        EditText data = (EditText) ja.findViewById(R.id.data_editText);
-        data.setText(FOO);
+        EditText dataEditText = (EditText) ja.findViewById(R.id.data_editText);
+        assertNotNull(dataEditText);
+        dataEditText.setText(FOO);
 
-        EditText id = (EditText) ja.findViewById(R.id.id_editText);
-        id.setText(ID);
-        Button button = (Button) ja.findViewById(R.id.join_join_button);
-        button.performClick();
+        EditText idEditText = (EditText) ja.findViewById(R.id.id_editText);
+        assertNotNull(idEditText);
+        idEditText.setText(ID);
+        
+        Button joinButton = (Button) ja.findViewById(R.id.join_join_button);
+        assertNotNull(joinButton);
+        joinButton.performClick();
     }
 }

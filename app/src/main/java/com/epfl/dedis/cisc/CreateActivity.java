@@ -30,22 +30,18 @@ public class CreateActivity extends AppCompatActivity implements Activity {
     private String host;
     private String port;
     private String data;
-    private String id;
     private String publicKey;
     private String privateKey;
-
-    private Ed25519 curve;
 
     public void callback(String result) {
         switch (result) {
             case "1": toast(R.string.err_add_identity); break;
             case "2": toast(R.string.err_refused); break;
             default: {
-                id = result;
-                writeLog();
+                writeLog(result);
                 Intent i = new Intent(this, ConfigActivity.class);
                 startActivity(i);
-                this.finish();
+                this.finish(); //TODO choose correct Activity termination
             }
         }
     }
@@ -56,7 +52,7 @@ public class CreateActivity extends AppCompatActivity implements Activity {
         mDataEditText.setText("");
     }
 
-    public void writeLog() {
+    private void writeLog(String id) {
         SharedPreferences.Editor e = getSharedPreferences(LOG, Context.MODE_PRIVATE).edit();
         e.putString(HOST, host);
         e.putString(PORT, port);
@@ -67,11 +63,12 @@ public class CreateActivity extends AppCompatActivity implements Activity {
         e.apply();
     }
 
-    public void toast(int text) {
+    private void toast(int text) {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
 
     public String makeJson() {
+        Ed25519 curve = new Ed25519();
         byte[] pub = curve.getPublic();
         byte[] sec = curve.getPrivate();
 
@@ -92,7 +89,6 @@ public class CreateActivity extends AppCompatActivity implements Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
-        curve = new Ed25519();
 
         mHostEditText = (EditText) findViewById(R.id.host_editText);
         assert mHostEditText != null;
@@ -122,10 +118,8 @@ public class CreateActivity extends AppCompatActivity implements Activity {
                 data = mDataEditText.getText().toString();
 
                 if (host.isEmpty() || port.isEmpty() || data.isEmpty()) {
-                    System.out.println("-------> " + data);
                     toast(R.string.err_empty_fields);
                 } else {
-
                     new HTTP(CreateActivity.this).execute(host, port, ADD_IDENTITY, makeJson());
                 }
             }

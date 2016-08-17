@@ -19,6 +19,7 @@ public class JoinActivity extends AppCompatActivity implements Activity {
     private EditText mPortEditText;
     private EditText mDataEditText;
 
+    //TODO are those class fields necessary? (See MainActivity for alternative)
     private String host;
     private String port;
     private String data;
@@ -26,16 +27,13 @@ public class JoinActivity extends AppCompatActivity implements Activity {
 
     public void callback(String result) {
         System.out.println(result);
-        Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
-        ConfigUpdate cu = gson.fromJson(result, ConfigUpdate.class);
-        System.out.println(cu.getID());
     }
 
-    public void toast(int text) {
+    private void toast(int text) {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
 
-    public String makeCu() {
+    private String configUpdateJSON() {
         Gson gson = new GsonBuilder().serializeNulls().create();
         int[] idArray = gson.fromJson(id, int[].class);
         ConfigUpdate cu = new ConfigUpdate(idArray, null);
@@ -72,7 +70,7 @@ public class JoinActivity extends AppCompatActivity implements Activity {
                 if (host.isEmpty() || port.isEmpty() || data.isEmpty() || id.isEmpty()) {
                     toast(R.string.err_empty_fields);
                 } else {
-                    new HTTP(JoinActivity.this).execute(host, port, CONFIG_UPDATE, makeCu());
+                    new HTTP(JoinActivity.this).execute(host, port, CONFIG_UPDATE, configUpdateJSON());
                 }
             }
         });
