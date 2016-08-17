@@ -12,7 +12,11 @@ public class ConfigUpdate implements Message {
         this.AccountList = AccountList;
     }
 
-    public String getID() {
-        return Arrays.toString(ID);
+    public int[] getID() {
+        return ID;
+    }
+
+    public Config getAccountList() {
+        return AccountList;
     }
 }

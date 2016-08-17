@@ -29,7 +29,7 @@ public class AutomationTest {
 
     private static final String HOST = "localhost";
     private static final String PORT = "2000";
-    private static final String ID = "[129,89,159,161,232,219,88,154,98,161,29,73,211,47,193,115,52,72,192,131,88,29,35,37,106,172,49,19,189,145,31,143]";
+    private static final String ID = "[51,144,72,6,8,100,176,200,189,75,94,89,203,52,221,70,72,255,188,89,167,178,14,22,39,126,54,69,146,230,40,33]";
     private static final String FOO = "[1, 2, 3]";
 
     private static String sucConnection;
@@ -46,7 +46,7 @@ public class AutomationTest {
     }
 
     @Test
-    public void addIdentityToCothority() throws Exception {
+    public void addIdentityToCothority() {
         CreateActivity createActivity = Robolectric.setupActivity(CreateActivity.class);
         SharedPreferences preferences = RuntimeEnvironment.application.getSharedPreferences("LOG", Context.MODE_PRIVATE);
         assertNotNull(preferences);
@@ -75,7 +75,7 @@ public class AutomationTest {
     }
 
     @Test
-    public void configUpdateOnInexistentIdentity() throws Exception {
+    public void configUpdateOnInexistentIdentity() {
         MainActivity mainActivity = Robolectric.setupActivity(MainActivity.class);
         SharedPreferences pref = RuntimeEnvironment.application.getSharedPreferences("LOG", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
@@ -98,7 +98,7 @@ public class AutomationTest {
     }
 
     @Test
-    public void configUpdateOnExistentIdentity() throws Exception {
+    public void configUpdateOnExistentIdentity() {
         MainActivity mainActivity = Robolectric.setupActivity(MainActivity.class);
         SharedPreferences pref = RuntimeEnvironment.application.getSharedPreferences("LOG", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
@@ -120,7 +120,7 @@ public class AutomationTest {
     }
 
     @Test
-    public void joinConfigUpdate() throws Exception {
+    public void joinConfigUpdateProposeSend() {
         JoinActivity ja = Robolectric.setupActivity(JoinActivity.class);
 
         EditText hostEditText = (EditText) ja.findViewById(R.id.join_host_edit);

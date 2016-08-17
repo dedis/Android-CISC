@@ -70,10 +70,10 @@ public class CreateActivity extends AppCompatActivity implements Activity {
 
     public String makeJson() {
         Ed25519 curve = new Ed25519();
-        byte[] pub = curve.getPublic();
+        int[] pub = curve.getPublic();
         byte[] sec = curve.getPrivate();
 
-        Map<String, byte[]> initDevices = new HashMap<>();
+        Map<String, int[]> initDevices = new HashMap<>();
         Map<String, String> initData = new HashMap<>();
 
         initDevices.put(DEVICE, pub);

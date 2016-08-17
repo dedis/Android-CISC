@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.epfl.dedis.crypto.Ed25519;
 import com.epfl.dedis.net.ConfigUpdate;
 import com.epfl.dedis.net.HTTP;
 import com.google.gson.Gson;
@@ -25,8 +26,22 @@ public class JoinActivity extends AppCompatActivity implements Activity {
     private String data;
     private String id;
 
+    private Gson gson;
+    private int stage;
+
+    protected String debug;
+
+    // TODO Proper state machine for joining process
     public void callback(String result) {
-        System.out.println(result);
+        if (stage == 0) {
+            debug = result;
+            new HTTP(this).execute(host, port, PROPOSE_SEND, proposeSendJSON(result));
+        } else if (stage == 1){
+            debug = result;
+        } else {
+
+        }
+        stage++;
     }
 
     private void toast(int text) {
@@ -34,10 +49,19 @@ public class JoinActivity extends AppCompatActivity implements Activity {
     }
 
     private String configUpdateJSON() {
-        Gson gson = new GsonBuilder().serializeNulls().create();
         int[] idArray = gson.fromJson(id, int[].class);
         ConfigUpdate cu = new ConfigUpdate(idArray, null);
         return gson.toJson(cu);
+    }
+
+    private String proposeSendJSON(String json) {
+        ConfigUpdate configUpdate = gson.fromJson(json, ConfigUpdate.class);
+        Ed25519 curve = new Ed25519();
+        int[] pub = curve.getPublic();
+
+        configUpdate.getAccountList().getDevice().put(DEVICE, pub);
+        configUpdate.getAccountList().getData().put(DEVICE, DEVICE);
+        return gson.toJson(configUpdate);
     }
 
     @Override
@@ -56,6 +80,9 @@ public class JoinActivity extends AppCompatActivity implements Activity {
 
         mDataEditText = (EditText) findViewById(R.id.join_data_edit);
         assert mDataEditText != null;
+
+        gson = new GsonBuilder().serializeNulls().create();
+        stage = 0;
 
         FloatingActionButton mJoinButton = (FloatingActionButton) findViewById(R.id.join_join_button);
         assert mJoinButton != null;

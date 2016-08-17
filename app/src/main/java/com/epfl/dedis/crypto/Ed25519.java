@@ -18,8 +18,17 @@ public class Ed25519 {
         this.secret = keyPair.getPrivate();
     }
 
-    public byte[] getPublic() {
-        return pub.getEncoded();
+    public int[] getPublic() {
+        byte[] encoded = pub.getEncoded();
+        int[] conv = new int[encoded.length];
+        for (int i = 0; i < conv.length; i++) {
+            if (encoded[i] < 0) {
+                conv[i] = encoded[i] + 256;
+            } else {
+                conv[i] = encoded[i];
+            }
+        }
+        return conv;
     }
 
     public byte[] getPrivate() {

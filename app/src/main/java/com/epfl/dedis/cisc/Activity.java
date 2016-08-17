@@ -17,6 +17,7 @@ public interface Activity {
     // Cothority API paths
     String ADD_IDENTITY = "ai";
     String CONFIG_UPDATE = "cu";
+    String PROPOSE_SEND = "ps";
 
     void callback(String result);
 }
