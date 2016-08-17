@@ -3,6 +3,7 @@ package com.epfl.dedis.cisc;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -90,16 +91,16 @@ public class CreateActivity extends AppCompatActivity implements Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
 
-        mHostEditText = (EditText) findViewById(R.id.host_editText);
+        mHostEditText = (EditText) findViewById(R.id.create_host_edit);
         assert mHostEditText != null;
 
-        mPortEditText = (EditText) findViewById(R.id.port_editText);
+        mPortEditText = (EditText) findViewById(R.id.create_port_edit);
         assert mPortEditText != null;
 
-        mDataEditText = (EditText) findViewById(R.id.data_editText);
+        mDataEditText = (EditText) findViewById(R.id.create_data_edit);
         assert mPortEditText != null;
 
-        Button mClearButton = (Button) findViewById(R.id.clear_button);
+        FloatingActionButton mClearButton = (FloatingActionButton) findViewById(R.id.create_clear_button);
         assert mClearButton != null;
         mClearButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +109,7 @@ public class CreateActivity extends AppCompatActivity implements Activity {
             }
         });
 
-        Button mCreateButton = (Button) findViewById(R.id.create_button);
+        FloatingActionButton mCreateButton = (FloatingActionButton) findViewById(R.id.create_create_button);
         assert mCreateButton != null;
         mCreateButton.setOnClickListener(new View.OnClickListener() {
             @Override

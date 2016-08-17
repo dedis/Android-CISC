@@ -4,22 +4,27 @@
     <string name="config_name">Configuration</string>
     <string name="join_name">Join</string>
 
-    <string name="identity_label">Identity</string>
-    <string name="status_label">Status</string>
-    <string name="data_label">Data:</string>
-    <string name="address_label">Address:</string>
+    <string name="main_identity_label">Identity</string>
+    <string name="main_status_label">Status</string>
+
+    <string name="create_host_hint">Hostname</string>
+    <string name="create_port_hint">Port</string>
+    <string name="create_data_hint">Data (SSH-Key etc.)</string>
+
+    <string name="join_identity_hint">Skipchain Identity (ID)</string>
+    <string name="join_host_hint">Hostname</string>
+    <string name="join_port_hint">Port</string>
+    <string name="join_data_hint">Data (SSH-Key etc.)</string>
+
+    <string name="config_identity_label">Identity</string>
+    <string name="config_address_label">Address</string>
+    <string name="config_data_label">Data</string>
 
     <string name="hint_host_editText">Hostname</string>
     <string name="hint_port_editText">Port</string>
     <string name="hint_data_editText">Data (SSH-key etc.)</string>
     <string name="hint_id_editText">Skipchain Identity (ID)</string>
 
-    <string name="new_button">New</string>
-    <string name="join_button">Join</string>
-    <string name="config_button">Configuration</string>
-    <string name="create_button">Create</string>
-    <string name="clear_button">Clear</string>
-    <string name="retry_button">Retry</string>
     <string name="change_button">Change</string>
     <string name="devices_button">Devices</string>
     <string name="fetch_button">Fetch</string>

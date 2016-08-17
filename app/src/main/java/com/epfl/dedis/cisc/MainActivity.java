@@ -50,15 +50,15 @@ public class MainActivity extends AppCompatActivity implements Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mIdentityValue = (TextView) findViewById(R.id.id_value);
+        mIdentityValue = (TextView) findViewById(R.id.main_identity_value);
         assert mIdentityValue != null;
 
-        mStatusValue = (TextView) findViewById(R.id.status_value);
+        mStatusValue = (TextView) findViewById(R.id.main_status_value);
         assert mStatusValue != null;
 
         update();
 
-        FloatingActionButton mCreateButton = (FloatingActionButton) findViewById(R.id.new_button);
+        FloatingActionButton mCreateButton = (FloatingActionButton) findViewById(R.id.main_create_button);
         assert mCreateButton != null;
         mCreateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
             }
         });
 
-        FloatingActionButton mJoinButton = (FloatingActionButton) findViewById(R.id.join_button);
+        FloatingActionButton mJoinButton = (FloatingActionButton) findViewById(R.id.main_join_button);
         assert mJoinButton != null;
         mJoinButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
             }
         });
 
-        FloatingActionButton mConfigButton = (FloatingActionButton) findViewById(R.id.configuration_button);
+        FloatingActionButton mConfigButton = (FloatingActionButton) findViewById(R.id.main_config_button);
         assert mConfigButton != null;
         mConfigButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
             }
         });
 
-        FloatingActionButton mRefreshButton = (FloatingActionButton) findViewById(R.id.refresh_button);
+        FloatingActionButton mRefreshButton = (FloatingActionButton) findViewById(R.id.main_refresh_button);
         assert mRefreshButton != null;
         mRefreshButton.setOnClickListener(new View.OnClickListener() {
             @Override

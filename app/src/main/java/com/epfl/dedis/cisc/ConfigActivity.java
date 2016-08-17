@@ -30,13 +30,13 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
 
-        mIdTextView = (TextView) findViewById(R.id.config_id_view);
+        mIdTextView = (TextView) findViewById(R.id.config_identity_value);
         assert mIdTextView != null;
 
-        mAddressTextView = (TextView) findViewById(R.id.config_address_view);
+        mAddressTextView = (TextView) findViewById(R.id.config_address_value);
         assert mAddressTextView != null;
 
-        mDataTextView = (TextView) findViewById(R.id.config_data_view);
+        mDataTextView = (TextView) findViewById(R.id.config_data_value);
         assert mDataTextView != null;
 
         populate();

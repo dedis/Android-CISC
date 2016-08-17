@@ -1,9 +1,9 @@
 package com.epfl.dedis.cisc;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -45,19 +45,19 @@ public class JoinActivity extends AppCompatActivity implements Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
 
-        mIdentityEditText = (EditText) findViewById(R.id.id_editText);
+        mIdentityEditText = (EditText) findViewById(R.id.join_identity_edit);
         assert mIdentityEditText != null;
 
-        mHostEditText = (EditText) findViewById(R.id.host_editText);
+        mHostEditText = (EditText) findViewById(R.id.join_host_edit);
         assert mHostEditText != null;
 
-        mPortEditText = (EditText) findViewById(R.id.port_editText);
+        mPortEditText = (EditText) findViewById(R.id.join_port_edit);
         assert mPortEditText != null;
 
-        mDataEditText = (EditText) findViewById(R.id.data_editText);
+        mDataEditText = (EditText) findViewById(R.id.join_data_edit);
         assert mDataEditText != null;
 
-        Button mJoinButton = (Button) findViewById(R.id.join_join_button);
+        FloatingActionButton mJoinButton = (FloatingActionButton) findViewById(R.id.join_join_button);
         assert mJoinButton != null;
         mJoinButton.setOnClickListener(new View.OnClickListener() {
             @Override

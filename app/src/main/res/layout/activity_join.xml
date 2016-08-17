@@ -10,15 +10,15 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/join_id_block"
+        android:id="@+id/join_identity_block"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:orientation="horizontal"
         android:padding="10dp">
 
         <EditText
-            android:id="@+id/id_editText"
-            android:hint="@string/hint_id_editText"
+            android:id="@+id/join_identity_edit"
+            android:hint="@string/join_identity_hint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
@@ -30,15 +30,15 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/addr_block"
+        android:id="@+id/join_address_block"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:orientation="horizontal"
         android:padding="10dp">
 
         <EditText
-            android:id="@+id/host_editText"
-            android:hint="@string/hint_host_editText"
+            android:id="@+id/join_host_edit"
+            android:hint="@string/join_host_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:width="250dp"
@@ -49,8 +49,8 @@
             android:imeOptions="actionDone"/>
 
         <EditText
-            android:id="@+id/port_editText"
-            android:hint="@string/hint_port_editText"
+            android:id="@+id/join_port_edit"
+            android:hint="@string/join_port_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
@@ -70,8 +70,8 @@
         android:paddingRight="10dp">
 
         <EditText
-            android:id="@+id/data_editText"
-            android:hint="@string/hint_data_editText"
+            android:id="@+id/join_data_edit"
+            android:hint="@string/join_data_hint"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:width="100dp"
@@ -85,69 +85,33 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/join_status_block"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:paddingLeft="15dp"
-        android:paddingRight="10dp">
-
-        <TextView
-            android:id="@+id/status_label"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="@string/status_label"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/status_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_marginStart="30dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/join_button_block"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:gravity="bottom"
-        android:padding="10dp" >
+        android:gravity="center"
+        android:padding="10dp"
+        android:weightSum="1">
 
-        <Button
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/join_join_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/join_button"
-            android:layout_gravity="center_horizontal"
-            android:textSize="20sp"
-            android:textColor="#ffffff"
-            android:textAllCaps="false"/>
-        <Button
-            android:id="@+id/config_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/config_button"
-            android:layout_gravity="center_horizontal"
-            android:textSize="20sp"
-            android:textColor="#ffffff"
-            android:textAllCaps="false"
-            android:enabled="false"/>
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_gravity="bottom"
+            android:src="@drawable/ic_link_white"
+            android:layout_margin="10dp"
+            android:layout_weight="0.3"
+            android:scaleType="center"/>
 
-        <Button
-            android:id="@+id/clear_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/clear_button"
-            android:layout_gravity="center_horizontal"
-            android:textSize="20sp"
-            android:textColor="#ffffff"
-            android:textAllCaps="false"/>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/join_clear_button"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_gravity="bottom"
+            android:src="@drawable/ic_clear_white"
+            android:layout_margin="10dp"
+            android:layout_weight="0.3"
+            android:scaleType="center"/>
     </LinearLayout>
 
 </LinearLayout>

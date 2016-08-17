@@ -13,7 +13,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/config_info_block"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="160dp"
         android:orientation="vertical"
         android:padding="5dp">
 
@@ -21,27 +21,35 @@
             android:id="@+id/config_identity_label"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:textSize="20sp"
-            android:text="@string/identity_label"
-            android:textStyle="bold"/>
+            android:textSize="15sp"
+            android:text="@string/config_identity_label"
+            android:textColor="@color/colorPrimary"/>
 
         <TextView
-            android:id="@+id/config_id_view"
+            android:id="@+id/config_identity_value"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:textSize="20sp"
-            />
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/config_address_block"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="vertical"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/config_address_label"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:textSize="20sp"
-            android:text="@string/address_label"
-            android:textStyle="bold"/>
+            android:textSize="15sp"
+            android:text="@string/config_address_label"
+            android:textColor="@color/colorPrimary"/>
 
         <TextView
-            android:id="@+id/config_address_view"
+            android:id="@+id/config_address_value"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:textSize="20sp" />
@@ -60,17 +68,18 @@
             android:id="@+id/config_data_label"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:textSize="20sp"
-            android:text="@string/data_label"
-            android:textStyle="bold"/>
+            android:textSize="15sp"
+            android:text="@string/config_data_label"
+            android:textColor="@color/colorPrimary"/>
 
         <TextView
-            android:id="@+id/config_data_view"
+            android:id="@+id/config_data_value"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="150dp"
             android:textSize="20sp" />
     </LinearLayout>
 
+    <!-- TODO Config Activity Buttons -->
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/config_button_block"

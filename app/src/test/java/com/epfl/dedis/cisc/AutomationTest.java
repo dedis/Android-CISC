@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -30,7 +29,7 @@ public class AutomationTest {
 
     private static final String HOST = "localhost";
     private static final String PORT = "2000";
-    private static final String ID = "[34,94,216,126,2,57,11,179,238,53,227,38,154,237,184,156,147,238,96,135,87,166,60,237,242,17,128,239,252,48,207,247]";
+    private static final String ID = "[129,89,159,161,232,219,88,154,98,161,29,73,211,47,193,115,52,72,192,131,88,29,35,37,106,172,49,19,189,145,31,143]";
     private static final String FOO = "[1, 2, 3]";
 
     private static String sucConnection;
@@ -52,19 +51,19 @@ public class AutomationTest {
         SharedPreferences preferences = RuntimeEnvironment.application.getSharedPreferences("LOG", Context.MODE_PRIVATE);
         assertNotNull(preferences);
 
-        EditText hostEditText = (EditText) createActivity.findViewById(R.id.host_editText);
+        EditText hostEditText = (EditText) createActivity.findViewById(R.id.create_host_edit);
         assertNotNull(hostEditText);
         hostEditText.setText(HOST);
 
-        EditText portEditText = (EditText) createActivity.findViewById(R.id.port_editText);
+        EditText portEditText = (EditText) createActivity.findViewById(R.id.create_port_edit);
         assertNotNull(portEditText);
         portEditText.setText(PORT);
 
-        EditText dataEditText = (EditText) createActivity.findViewById(R.id.data_editText);
+        EditText dataEditText = (EditText) createActivity.findViewById(R.id.create_data_edit);
         assertNotNull(dataEditText);
         dataEditText.setText(FOO);
 
-        Button button = (Button) createActivity.findViewById(R.id.create_button);
+        FloatingActionButton button = (FloatingActionButton) createActivity.findViewById(R.id.create_create_button);
         assertNotNull(button);
         button.performClick();
 
@@ -89,11 +88,11 @@ public class AutomationTest {
         editor.putString("ID", FOO);
         editor.apply();
 
-        FloatingActionButton refreshButton = (FloatingActionButton) mainActivity.findViewById(R.id.refresh_button);
+        FloatingActionButton refreshButton = (FloatingActionButton) mainActivity.findViewById(R.id.main_refresh_button);
         assertNotNull(refreshButton);
         refreshButton.performClick();
 
-        TextView textView = (TextView) mainActivity.findViewById(R.id.status_value);
+        TextView textView = (TextView) mainActivity.findViewById(R.id.main_status_value);
         assertNotNull(textView);
         assertEquals(errNotFound, textView.getText().toString());
     }
@@ -112,11 +111,11 @@ public class AutomationTest {
         editor.putString("ID", ID);
         editor.apply();
 
-        FloatingActionButton refreshButton = (FloatingActionButton) mainActivity.findViewById(R.id.refresh_button);
+        FloatingActionButton refreshButton = (FloatingActionButton) mainActivity.findViewById(R.id.main_refresh_button);
         assertNotNull(refreshButton);
         refreshButton.performClick();
 
-        TextView textView = (TextView) mainActivity.findViewById(R.id.status_value);
+        TextView textView = (TextView) mainActivity.findViewById(R.id.main_status_value);
         assertEquals(sucConnection, textView.getText().toString());
     }
 
@@ -124,23 +123,23 @@ public class AutomationTest {
     public void joinConfigUpdate() throws Exception {
         JoinActivity ja = Robolectric.setupActivity(JoinActivity.class);
 
-        EditText hostEditText = (EditText) ja.findViewById(R.id.host_editText);
+        EditText hostEditText = (EditText) ja.findViewById(R.id.join_host_edit);
         assertNotNull(hostEditText);
         hostEditText.setText(HOST);
 
-        EditText portEditText = (EditText) ja.findViewById(R.id.port_editText);
+        EditText portEditText = (EditText) ja.findViewById(R.id.join_port_edit);
         assertNotNull(portEditText);
         portEditText.setText(PORT);
 
-        EditText dataEditText = (EditText) ja.findViewById(R.id.data_editText);
+        EditText dataEditText = (EditText) ja.findViewById(R.id.join_data_edit);
         assertNotNull(dataEditText);
         dataEditText.setText(FOO);
 
-        EditText idEditText = (EditText) ja.findViewById(R.id.id_editText);
+        EditText idEditText = (EditText) ja.findViewById(R.id.join_identity_edit);
         assertNotNull(idEditText);
         idEditText.setText(ID);
         
-        Button joinButton = (Button) ja.findViewById(R.id.join_join_button);
+        FloatingActionButton joinButton = (FloatingActionButton) ja.findViewById(R.id.join_join_button);
         assertNotNull(joinButton);
         joinButton.performClick();
     }
