@@ -26,13 +26,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
+// TODO MORE AUTOMATION!
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
-public class AutomationTest {
+public class Automation {
 
     private static final String HOST = "localhost";
     private static final String PORT = "2000";
-    private static final String ID = "[211,163,176,57,201,54,94,86,42,160,133,147,73,246,182,12,52,245,63,59,66,72,245,192,65,224,227,214,49,175,108,193]";
+    private static final String ID = "[93,43,247,157,208,67,177,245,85,103,109,163,223,34,254,68,197,111,195,123,223,191,145,244,238,192,32,236,130,72,103,56]";
     private static final String FOO = "[1, 2, 3]";
 
     private static String sucConnection;
@@ -49,7 +50,7 @@ public class AutomationTest {
     }
 
     @Test
-    public void addIdentityToCothority() {
+    public void createActivityAddIdentity() {
         CreateActivity createActivity = Robolectric.setupActivity(CreateActivity.class);
         SharedPreferences preferences = RuntimeEnvironment.application.getSharedPreferences("LOG", Context.MODE_PRIVATE);
         assertNotNull(preferences);
@@ -68,7 +69,7 @@ public class AutomationTest {
     }
 
     @Test
-    public void configUpdateOnInexistentIdentity() {
+    public void mainActivityConfigUpdateInexistentIdentity() {
         MainActivity mainActivity = Robolectric.setupActivity(MainActivity.class);
         SharedPreferences pref = RuntimeEnvironment.application.getSharedPreferences("LOG", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
@@ -91,7 +92,7 @@ public class AutomationTest {
     }
 
     @Test
-    public void configUpdateOnExistentIdentity() {
+    public void mainActivityConfigUpdateExistentIdentity() {
         MainActivity mainActivity = Robolectric.setupActivity(MainActivity.class);
         SharedPreferences pref = RuntimeEnvironment.application.getSharedPreferences("LOG", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
@@ -111,7 +112,22 @@ public class AutomationTest {
     }
 
     @Test
-    public void joinConfigUpdate() throws Exception {
+    public void joinActivityConfigUpdateOnInexistentIdentity() throws Exception {
+        JoinActivity ja = Robolectric.setupActivity(JoinActivity.class);
+        SharedPreferences pref = RuntimeEnvironment.application.getSharedPreferences("LOG", Context.MODE_PRIVATE);
+
+        ja.setHost(HOST);
+        ja.setPort(PORT);
+        ja.setData(FOO);
+        ja.setId(FOO);
+
+        ja.sendConfigUpdate();
+        String cuJSON = pref.getString("LATEST", "");
+        assertEquals("", cuJSON);
+    }
+
+    @Test
+    public void joinActivityConfigUpdateOnExistentIdentity() throws Exception {
         JoinActivity ja = Robolectric.setupActivity(JoinActivity.class);
         SharedPreferences pref = RuntimeEnvironment.application.getSharedPreferences("LOG", Context.MODE_PRIVATE);
 
@@ -128,7 +144,7 @@ public class AutomationTest {
     }
 
     @Test
-    public void joinProposeSend() {
+    public void joinActivityProposeSend() throws Exception{
         JoinActivity ja = Robolectric.setupActivity(JoinActivity.class);
         SharedPreferences pref = RuntimeEnvironment.application.getSharedPreferences("LOG", Context.MODE_PRIVATE);
 
