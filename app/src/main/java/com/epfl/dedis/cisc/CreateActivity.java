@@ -3,11 +3,10 @@ package com.epfl.dedis.cisc;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -31,6 +30,19 @@ public class CreateActivity extends AppCompatActivity implements Activity {
     private String host;
     private String port;
     private String data;
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
     private String publicKey;
     private String privateKey;
 
@@ -68,7 +80,7 @@ public class CreateActivity extends AppCompatActivity implements Activity {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
 
-    public String makeJson() {
+    public String addIdentityJSON() {
         Ed25519 curve = new Ed25519();
         int[] pub = curve.getPublic();
         byte[] sec = curve.getPrivate();
@@ -84,6 +96,14 @@ public class CreateActivity extends AppCompatActivity implements Activity {
         AddIdentity addIdentity = new AddIdentity(new Config(3, initDevices, initData));
         Gson gson = new GsonBuilder().serializeNulls().create();
         return gson.toJson(addIdentity);
+    }
+
+    public void sendAddIdentity() {
+        if (host.isEmpty() || port.isEmpty() || data.isEmpty()) {
+            toast(R.string.err_empty_fields);
+        } else {
+            new HTTP(CreateActivity.this).execute(host, port, ADD_IDENTITY, addIdentityJSON());
+        }
     }
 
     @Override
@@ -117,12 +137,7 @@ public class CreateActivity extends AppCompatActivity implements Activity {
                 host = mHostEditText.getText().toString();
                 port = mPortEditText.getText().toString();
                 data = mDataEditText.getText().toString();
-
-                if (host.isEmpty() || port.isEmpty() || data.isEmpty()) {
-                    toast(R.string.err_empty_fields);
-                } else {
-                    new HTTP(CreateActivity.this).execute(host, port, ADD_IDENTITY, makeJson());
-                }
+                sendAddIdentity();
             }
         });
     }

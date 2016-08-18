@@ -1,5 +1,7 @@
 package com.epfl.dedis.cisc;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -26,22 +28,45 @@ public class JoinActivity extends AppCompatActivity implements Activity {
     private String data;
     private String id;
 
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setStage(int stage) {
+        this.stage = stage;
+    }
+
     private Gson gson;
     private int stage;
 
-    protected String debug;
-
     // TODO Proper state machine for joining process
+    // TODO Find nice error messages
     public void callback(String result) {
-        if (stage == 0) {
-            debug = result;
-            new HTTP(this).execute(host, port, PROPOSE_SEND, proposeSendJSON(result));
-        } else if (stage == 1){
-            debug = result;
-        } else {
+        switch (result) {
+            case "1": toast(R.string.err_refused); break;
+            case "2": toast(R.string.err_add_identity); break;
+            default: {
+                if (stage == 0) {
+                    sendProposeSend(result);
+                } else if (stage == 1) {
+                    sendProposeVote(result);
+                } else {
 
+                }
+            }
         }
-        stage++;
     }
 
     private void toast(int text) {
@@ -64,6 +89,30 @@ public class JoinActivity extends AppCompatActivity implements Activity {
         return gson.toJson(configUpdate);
     }
 
+    public void sendConfigUpdate() {
+        if (host.isEmpty() || port.isEmpty() || data.isEmpty() || id.isEmpty()) {
+            toast(R.string.err_empty_fields);
+        } else {
+            stage++;
+            new HTTP(JoinActivity.this).execute(host, port, CONFIG_UPDATE, configUpdateJSON());
+        }
+    }
+
+    public void sendProposeSend(String result) {
+        SharedPreferences.Editor editor = getSharedPreferences(LOG, Context.MODE_PRIVATE).edit();
+        editor.putString("LATEST", result);
+        editor.apply();
+        stage++;
+        new HTTP(this).execute(host, port, PROPOSE_SEND, proposeSendJSON(result));
+    }
+
+    public void sendProposeVote(String result) {
+        SharedPreferences.Editor editor = getSharedPreferences(LOG, Context.MODE_PRIVATE).edit();
+        editor.putString("PROPOSED", result);
+        editor.apply();
+        stage++;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +131,7 @@ public class JoinActivity extends AppCompatActivity implements Activity {
         assert mDataEditText != null;
 
         gson = new GsonBuilder().serializeNulls().create();
-        stage = 0;
+        stage = -1;
 
         FloatingActionButton mJoinButton = (FloatingActionButton) findViewById(R.id.join_join_button);
         assert mJoinButton != null;
@@ -93,12 +142,7 @@ public class JoinActivity extends AppCompatActivity implements Activity {
                 port = mPortEditText.getText().toString();
                 data = mDataEditText.getText().toString();
                 id = mIdentityEditText.getText().toString();
-
-                if (host.isEmpty() || port.isEmpty() || data.isEmpty() || id.isEmpty()) {
-                    toast(R.string.err_empty_fields);
-                } else {
-                    new HTTP(JoinActivity.this).execute(host, port, CONFIG_UPDATE, configUpdateJSON());
-                }
+                sendConfigUpdate();
             }
         });
     }

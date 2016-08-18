@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
         }
     }
 
-    private void update() {
+    public void sendConfigUpdate() {
         SharedPreferences pref = getSharedPreferences(LOG, Context.MODE_PRIVATE);
         String host = pref.getString(HOST, "");
         String port = pref.getString(PORT, "");
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
         mStatusValue = (TextView) findViewById(R.id.main_status_value);
         assert mStatusValue != null;
 
-        update();
+        sendConfigUpdate();
 
         FloatingActionButton mCreateButton = (FloatingActionButton) findViewById(R.id.main_create_button);
         assert mCreateButton != null;
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
         mRefreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                update();
+                sendConfigUpdate();
             }
         });
     }
