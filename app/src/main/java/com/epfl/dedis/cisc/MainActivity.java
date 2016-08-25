@@ -9,12 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.epfl.dedis.net.ConfigUpdate;
-import com.epfl.dedis.net.HTTP;
+import com.epfl.dedis.net.Message;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class MainActivity extends AppCompatActivity implements Activity {
+public class MainActivity extends AppCompatActivity implements Message {
 
     private TextView mIdentityValue;
     private TextView mStatusValue;
@@ -30,19 +29,20 @@ public class MainActivity extends AppCompatActivity implements Activity {
 
     public void sendConfigUpdate() {
         SharedPreferences pref = getSharedPreferences(LOG, Context.MODE_PRIVATE);
-        String host = pref.getString(HOST, "");
-        String port = pref.getString(PORT, "");
-        String id = pref.getString(ID, "");
-        mIdentityValue.setText(id); // TODO Replace TextView with QR-Code
-        if (!host.isEmpty() && !port.isEmpty() && !id.isEmpty()) {
-            new HTTP(this).execute(host, port, CONFIG_UPDATE, configUpdateJSON(id));
-        }
+//        String host = pref.getString(HOST, "");
+//        String port = pref.getString(PORT, "");
+//        String id = pref.getString(ID, "");
+//        mIdentityValue.setText(id); // TODO Replace TextView with QR-Code
+//        if (!host.isEmpty() && !port.isEmpty() && !id.isEmpty()) {
+//            new HTTP(this).execute(host, port, CONFIG_UPDATE, configUpdateJSON(id));
+//        }
     }
 
     private String configUpdateJSON(String id) {
         Gson gson = new GsonBuilder().serializeNulls().create();
         int[] idArray = gson.fromJson(id, int[].class);
-        return gson.toJson(new ConfigUpdate(idArray, null));
+//        return gson.toJson(new ConfigUpdate(idArray, null));
+        return null;
     }
 
     @Override

@@ -12,10 +12,11 @@ import android.widget.Toast;
 import com.epfl.dedis.crypto.Ed25519;
 import com.epfl.dedis.net.ConfigUpdate;
 import com.epfl.dedis.net.HTTP;
+import com.epfl.dedis.net.Message;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class JoinActivity extends AppCompatActivity implements Activity {
+public class JoinActivity extends AppCompatActivity implements Message {
 
     private EditText mIdentityEditText;
     private EditText mHostEditText;
@@ -75,17 +76,18 @@ public class JoinActivity extends AppCompatActivity implements Activity {
 
     private String configUpdateJSON() {
         int[] idArray = gson.fromJson(id, int[].class);
-        ConfigUpdate cu = new ConfigUpdate(idArray, null);
-        return gson.toJson(cu);
+//        ConfigUpdate cu = new ConfigUpdate(idArray, null);
+//        return gson.toJson(cu);
+        return null;
     }
 
     private String proposeSendJSON(String json) {
         ConfigUpdate configUpdate = gson.fromJson(json, ConfigUpdate.class);
         Ed25519 curve = new Ed25519();
-        int[] pub = curve.getPublic();
-
-        configUpdate.getAccountList().getDevice().put(DEVICE, pub);
-        configUpdate.getAccountList().getData().put(DEVICE, DEVICE);
+//        int[] pub = curve.getPublic();
+//
+//        configUpdate.getAccountList().getDevices().put(DEVICE, pub);
+//        configUpdate.getAccountList().getData().put(DEVICE, DEVICE);
         return gson.toJson(configUpdate);
     }
 
@@ -94,7 +96,7 @@ public class JoinActivity extends AppCompatActivity implements Activity {
             toast(R.string.err_empty_fields);
         } else {
             stage++;
-            new HTTP(JoinActivity.this).execute(host, port, CONFIG_UPDATE, configUpdateJSON());
+//            new HTTP(JoinActivity.this).execute(host, port, CONFIG_UPDATE, configUpdateJSON());
         }
     }
 
@@ -103,7 +105,7 @@ public class JoinActivity extends AppCompatActivity implements Activity {
         editor.putString("LATEST", result);
         editor.apply();
         stage++;
-        new HTTP(this).execute(host, port, PROPOSE_SEND, proposeSendJSON(result));
+//        new HTTP(this).execute(host, port, PROPOSE_SEND, proposeSendJSON(result));
     }
 
     public void sendProposeVote(String result) {

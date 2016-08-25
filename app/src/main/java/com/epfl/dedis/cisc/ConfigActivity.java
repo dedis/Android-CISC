@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class ConfigActivity extends AppCompatActivity implements Activity {
+import com.epfl.dedis.net.Message;
+
+public class ConfigActivity extends AppCompatActivity implements Message {
 
     private TextView mIdTextView;
     private TextView mAddressTextView;
@@ -16,13 +18,13 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
     public void callback(String result) {}
 
     private void populate() {
-        SharedPreferences pref = getSharedPreferences(LOG, Context.MODE_PRIVATE);
-        mIdTextView.setText(pref.getString(ID, ""));
-
-        String address = pref.getString(HOST, "") + ":" + pref.getString(PORT, "");
-        mAddressTextView.setText(address);
-
-        mDataTextView.setText(pref.getString(DATA, ""));
+//        SharedPreferences pref = getSharedPreferences(LOG, Context.MODE_PRIVATE);
+//        mIdTextView.setText(pref.getString(ID, ""));
+//
+//        String address = pref.getString(HOST, "") + ":" + pref.getString(PORT, "");
+//        mAddressTextView.setText(address);
+//
+//        mDataTextView.setText(pref.getString(DATA, ""));
     }
 
     @Override

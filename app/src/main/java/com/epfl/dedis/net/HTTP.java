@@ -1,9 +1,6 @@
 package com.epfl.dedis.net;
 
 import android.os.AsyncTask;
-import android.util.Log;
-
-import com.epfl.dedis.cisc.Activity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,16 +18,22 @@ public class HTTP extends AsyncTask<String, Void, String> {
     private static final String ERR_COTHORITY = "1";
     private static final String ERR_NETWORK = "2";
 
-    private Activity activity;
+    private Message message;
+    private Cothority cothority;
+    private String path;
+    private String json;
 
-    public HTTP(Activity activity) {
-        this.activity = activity;
+    public HTTP(Message message, Cothority cothority, String path, String json) {
+        this.message = message;
+        this.cothority = cothority;
+        this.path = path;
+        this.json = json;
     }
 
     @Override
     protected String doInBackground(String... params) {
         try {
-            URL url = new URL("http://" + params[0] + ":" + params[1] + "/" + params[2]);
+            URL url = new URL("http://" + cothority.host + ":" + cothority.port + "/" + path);
             HttpURLConnection http = (HttpURLConnection) url.openConnection();
             http.setConnectTimeout(TIMEOUT);
             http.setRequestMethod("POST");
@@ -39,7 +42,7 @@ public class HTTP extends AsyncTask<String, Void, String> {
 
             OutputStream out = http.getOutputStream();
             OutputStreamWriter writer = new OutputStreamWriter(out);
-            writer.write(params[3]);
+            writer.write(json);
             writer.flush();
             writer.close();
 
@@ -50,11 +53,13 @@ public class HTTP extends AsyncTask<String, Void, String> {
             int size = br.read(chars);
 
             if (chars[0] == '0') {
+                http.disconnect();
                 return ERR_COTHORITY;
             }
 
             String response = new String(chars).substring(0, size);
-            System.out.println(params[2] + "--> " + response); // TODO Proper logging
+            System.out.println(path + "--> " + response); // TODO Proper logging
+            http.disconnect();
             return response;
         } catch (IOException e) {
             return ERR_NETWORK;
@@ -63,6 +68,6 @@ public class HTTP extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        activity.callback(result);
+        message.callback(result);
     }
 }
