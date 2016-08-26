@@ -23,7 +23,7 @@ public class CreateIdentity implements Message {
 
     public CreateIdentity(Replies app, Cothority cot, boolean wait) {
         this.app = app;
-        this.identity = new Identity("test", cot);
+        this.identity = new Identity(DEVICE, cot);
 
         HTTP http = new HTTP(this, identity.getCothority(), ADD_IDENTITY, toJSON());
         if (wait) {

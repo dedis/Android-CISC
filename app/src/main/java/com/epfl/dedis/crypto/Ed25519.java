@@ -39,11 +39,11 @@ public class Ed25519 {
     }
 
     public static String PubString(PublicKey pub){
-        return Base64.encodeBase64String(Ed25519.PubBytes(pub));
+        return new String(Base64.encodeBase64(Ed25519.PubBytes(pub)));
     }
 
     public static String PrivateString(PrivateKey priv){
-        return Base64.encodeBase64String(Ed25519.PrivateBytes(priv));
+        return new String(Base64.encodeBase64(Ed25519.PrivateBytes(priv)));
     }
 
     public static PublicKey StringToPub(String pub){
@@ -52,7 +52,6 @@ public class Ed25519 {
 
     public static PrivateKey StringToPrivate(String priv){
         return Ed25519.BytesToPrivate(Base64.decodeBase64(priv));
-
     }
 
     public static byte[] PubBytes(PublicKey pub){
