@@ -1,12 +1,17 @@
-package com.epfl.dedis.net;
+package com.epfl.dedis.api;
 
 import com.epfl.dedis.cisc.R;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.epfl.dedis.crypto.Utils;
+import com.epfl.dedis.net.Config;
+import com.epfl.dedis.net.Cothority;
+import com.epfl.dedis.net.HTTP;
+import com.epfl.dedis.net.Identity;
+import com.epfl.dedis.net.Replies;
 
 public class CreateIdentity implements Message {
+
     private class CreateIdentityMessage {
-        private Config Config;
+        private Config config;
     }
 
     private Replies app;
@@ -19,11 +24,11 @@ public class CreateIdentity implements Message {
     public CreateIdentity(Replies app, Cothority cot, boolean wait) {
         this.app = app;
         this.identity = new Identity("test", cot);
+
         HTTP http = new HTTP(this, identity.getCothority(), ADD_IDENTITY, toJSON());
-        if (wait){
+        if (wait) {
             String result = http.doInBackground();
             http.onPostExecute(result);
-
         } else {
             http.execute();
         }
@@ -34,7 +39,7 @@ public class CreateIdentity implements Message {
             case "1": app.callbackError(R.string.err_add_identity); break;
             case "2": app.callbackError(R.string.err_refused); break;
             default: {
-                identity.setSkipchainId(new Gson().fromJson(result, byte[].class));
+                identity.setSkipchainId(Utils.GSON.fromJson(result, byte[].class));
                 app.callbackSuccess(result);
             }
         }
@@ -42,9 +47,8 @@ public class CreateIdentity implements Message {
 
     public String toJSON() {
         CreateIdentityMessage cim = new CreateIdentityMessage();
-        cim.Config = identity.getConfig();
-        Gson gson = new GsonBuilder().serializeNulls().create();
-        return gson.toJson(cim);
+        cim.config = identity.getConfig();
+        return Utils.GSON.toJson(cim);
     }
 
     public Identity getIdentity() {

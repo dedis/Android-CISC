@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.epfl.dedis.net.Message;
+import com.epfl.dedis.api.Message;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

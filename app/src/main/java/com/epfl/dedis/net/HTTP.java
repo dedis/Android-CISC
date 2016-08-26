@@ -2,6 +2,8 @@ package com.epfl.dedis.net;
 
 import android.os.AsyncTask;
 
+import com.epfl.dedis.api.Message;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,9 +33,9 @@ public class HTTP extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected String doInBackground(String... params) {
+    public String doInBackground(String... params) {
         try {
-            URL url = new URL("http://" + cothority.host + ":" + cothority.port + "/" + path);
+            URL url = new URL("http://" + cothority.getHost() + ":" + cothority.getPort() + "/" + path);
             HttpURLConnection http = (HttpURLConnection) url.openConnection();
             http.setConnectTimeout(TIMEOUT);
             http.setRequestMethod("POST");
@@ -58,7 +60,6 @@ public class HTTP extends AsyncTask<String, Void, String> {
             }
 
             String response = new String(chars).substring(0, size);
-            System.out.println(path + "--> " + response); // TODO Proper logging
             http.disconnect();
             return response;
         } catch (IOException e) {
@@ -67,7 +68,7 @@ public class HTTP extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected void onPostExecute(String result) {
+    public void onPostExecute(String result) {
         message.callback(result);
     }
 }

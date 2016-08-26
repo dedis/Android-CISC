@@ -1,4 +1,4 @@
-package com.epfl.dedis.net;
+package com.epfl.dedis.api;
 
 public interface Message {
     // Device name

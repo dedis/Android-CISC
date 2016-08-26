@@ -26,19 +26,6 @@ public class Ed25519 {
         this.priv = keyPair.getPrivate();
     }
 
-//    public int[] getPublic() {
-//        byte[] encoded = pub.getEncoded();
-//        int[] conv = new int[encoded.length];
-//        for (int i = 0; i < conv.length; i++) {
-//            if (encoded[i] < 0) {
-//                conv[i] = encoded[i] + 256;
-//            } else {
-//                conv[i] = encoded[i];
-//            }
-//        }
-//        return conv;
-//    }
-
     public PrivateKey getPrivate() {
         return priv;
     }

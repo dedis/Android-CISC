@@ -1,14 +1,11 @@
 package com.epfl.dedis.net;
 
 import com.epfl.dedis.crypto.Ed25519;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.epfl.dedis.crypto.Utils;
 
 import net.i2p.crypto.eddsa.EdDSAPrivateKey;
 import net.i2p.crypto.eddsa.EdDSAPublicKey;
 import net.i2p.crypto.eddsa.KeyPairGenerator;
-import net.i2p.crypto.eddsa.spec.EdDSANamedCurveSpec;
-import net.i2p.crypto.eddsa.spec.EdDSANamedCurveTable;
 import net.i2p.crypto.eddsa.spec.EdDSAPrivateKeySpec;
 import net.i2p.crypto.eddsa.spec.EdDSAPublicKeySpec;
 
@@ -25,13 +22,11 @@ public class Identity {
     private Config config;
     private Config proposed;
 
-    private Gson gson;
-
     public Identity(String name){
         KeyPair keyPair = new KeyPairGenerator().generateKeyPair();
-        seed = ((EdDSAPrivateKey)keyPair.getPrivate()).getSeed();
-        deviceName = name;
-        config = new Config(3, name, keyPair.getPublic());
+        this.seed = ((EdDSAPrivateKey)keyPair.getPrivate()).getSeed();
+        this.deviceName = name;
+        this.config = new Config(3, name, keyPair.getPublic());
     }
 
     public Identity(String name, Cothority cot){
@@ -40,26 +35,11 @@ public class Identity {
     }
 
     public static Identity load(String str){
-        Gson gson = new GsonBuilder().serializeNulls().create();
-        return gson.fromJson(str, Identity.class);
+        return Utils.GSON.fromJson(str, Identity.class);
     }
 
     public String save(){
-        Gson gson = new GsonBuilder().serializeNulls().create();
-        return gson.toJson(this);
-    }
-
-
-    private int[] byteToIntArray(byte[] array) {
-        int[] conv = new int[array.length];
-        for (int i = 0; i < conv.length; i++) {
-            if (array[i] < 0) {
-                conv[i] = array[i] + 256;
-            } else {
-                conv[i] = array[i];
-            }
-        }
-        return conv;
+        return Utils.GSON.toJson(this);
     }
 
     public PublicKey getPub() {
@@ -73,11 +53,11 @@ public class Identity {
 
     public int[] getPubEncoded() {
         EdDSAPublicKeySpec pubKey = new EdDSAPublicKeySpec(getEdDSAPrivate().getA(), Ed25519.getCurveSpec());
-        return byteToIntArray(new EdDSAPublicKey(pubKey).getEncoded());
+        return Utils.byteArrayToIntArray(new EdDSAPublicKey(pubKey).getEncoded());
     }
 
     public int[] getPrivateEncoded() {
-        return byteToIntArray(getEdDSAPrivate().getEncoded());
+        return Utils.byteArrayToIntArray(getEdDSAPrivate().getEncoded());
     }
 
     public EdDSAPrivateKey getEdDSAPrivate() {

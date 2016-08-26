@@ -32,7 +32,6 @@ public class CreateActivity extends AppCompatActivity implements Replies {
         mDataEditText.setText("");
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -10,9 +10,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.epfl.dedis.crypto.Ed25519;
-import com.epfl.dedis.net.ConfigUpdate;
-import com.epfl.dedis.net.HTTP;
-import com.epfl.dedis.net.Message;
+import com.epfl.dedis.api.ConfigUpdate;
+import com.epfl.dedis.api.Message;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -86,7 +85,7 @@ public class JoinActivity extends AppCompatActivity implements Message {
         Ed25519 curve = new Ed25519();
 //        int[] pub = curve.getPublic();
 //
-//        configUpdate.getAccountList().getDevices().put(DEVICE, pub);
+//        configUpdate.getAccountList().getDevice().put(DEVICE, pub);
 //        configUpdate.getAccountList().getData().put(DEVICE, DEVICE);
         return gson.toJson(configUpdate);
     }
