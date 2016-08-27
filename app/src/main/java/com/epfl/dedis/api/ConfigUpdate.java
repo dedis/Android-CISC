@@ -14,20 +14,20 @@ public class ConfigUpdate implements Message {
         Config accountList;
     }
 
-    private Identity identity;
     private Activity activity;
+    private Identity identity;
+    private Config config;
 
     public ConfigUpdate(Activity activity, Identity identity) {
         this(activity, identity, false);
     }
 
     public ConfigUpdate(Activity activity, Identity identity, boolean wait) {
-        this.identity = identity;
         this.activity = activity;
+        this.identity = identity;
 
         ConfigUpdateMessage configUpdateMessage = new ConfigUpdateMessage();
-        byte[] id = identity.getSkipchainId();
-        configUpdateMessage.id = Utils.byteArrayToIntArray(id);
+        configUpdateMessage.id = Utils.byteArrayToIntArray(identity.getSkipchainId());
         configUpdateMessage.accountList = null;
 
         HTTP http = new HTTP(this, identity.getCothority(), CONFIG_UPDATE, Utils.GSON.toJson(configUpdateMessage));
@@ -41,16 +41,19 @@ public class ConfigUpdate implements Message {
 
     public void callback(String result) {
         switch (result) {
-            case "1": activity.callbackError(R.string.err_config_update); break;
-            case "2": activity.callbackError(R.string.err_refused); break;
+            case "1": activity.callbackError(R.string.err_config_update);
+                break;
+            case "2": activity.callbackError(R.string.err_refused);
+                break;
             default: {
-                identity.setConfig(Utils.GSON.fromJson(result, Config.class));
+                config = Utils.GSON.fromJson(result, Config.class);
+                identity.setConfig(config);
                 activity.callbackSuccess();
             }
         }
     }
 
-    public Identity getIdentity() {
-        return identity;
+    public Config getConfig() {
+        return config;
     }
 }

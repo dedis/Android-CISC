@@ -4,10 +4,6 @@ public interface Message {
     // Device name
     String DEVICE = "MOTOROLA";
 
-    // Log keys for SharedPreferences
-    String LOG = "LOG";
-    String IDENTITY = "IDENTITY";
-
     // Cothority API paths
     String ADD_IDENTITY = "ai";
     String CONFIG_UPDATE = "cu";

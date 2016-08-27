@@ -2,6 +2,8 @@ package com.epfl.dedis.cisc;
 
 import com.epfl.dedis.api.ConfigUpdate;
 import com.epfl.dedis.api.CreateIdentity;
+import com.epfl.dedis.api.ProposeSend;
+import com.epfl.dedis.net.Config;
 import com.epfl.dedis.net.Cothority;
 import com.epfl.dedis.net.Identity;
 
@@ -11,7 +13,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 
 @RunWith(JUnit4.class)
 public class Automation {
@@ -19,6 +21,7 @@ public class Automation {
     private static final String HOST = "localhost";
     private static final String PORT = "2000";
     private static final String DEVICE = "MOTOROLA";
+    private static final byte[] FOO = new byte[]{1, 2, 3};
 
     private static Identity identity;
     private static Activity activity;
@@ -30,30 +33,44 @@ public class Automation {
             public void callbackError(int error) {}
         };
 
-        Cothority cot = new Cothority(HOST, PORT);
-        CreateIdentity id = new CreateIdentity(activity, cot, true);
-        identity = id.getIdentity();
+        Cothority cothority = new Cothority(HOST, PORT);
+        CreateIdentity ci = new CreateIdentity(activity, cothority, true);
+        identity = ci.getIdentity();
     }
 
     @Test
-    public void addIdentity() {
+    public void addIdentityEmptySkipchain() {
         assertEquals(DEVICE, identity.getDeviceName());
         assertEquals(identity.getPub(), identity.getConfig().getDevice().get(DEVICE));
     }
 
     @Test
     public void configUpdateExistingIdentity() {
+        int priorThreshold = identity.getConfig().getThreshold();
+        String priorPublicKey = identity.getConfig().getDeviceB64().get(DEVICE);
+
         ConfigUpdate cu = new ConfigUpdate(activity, identity, true);
-        Identity id2 = cu.getIdentity();
-        assertEquals(identity.getPub(), id2.getPub());
-        assertEquals(identity.getSkipchainId(), id2.getSkipchainId());
+        Config config = cu.getConfig();
+
+        assertEquals(priorThreshold, config.getThreshold());
+        assertEquals(priorPublicKey, config.getDeviceB64().get(DEVICE));
     }
 
     @Test
-    public void mconfigUpdateInexistentIdentity() {
-        Identity mock = new Identity(DEVICE, identity.getCothority());
-        mock.setSkipchainId(new byte[]{1, 2, 3});
-        ConfigUpdate cu = new ConfigUpdate(activity, mock, true);
-        assertNotEquals(identity, cu.getIdentity());
+    public void configUpdateInexistentIdentity() {
+        Identity mockIdentity = new Identity(DEVICE, identity.getCothority(), FOO);
+        ConfigUpdate cu = new ConfigUpdate(activity, mockIdentity, true);
+        assertNull(cu.getConfig());
+    }
+
+    @Test
+    public void proposeSendExistingIdentity() {
+        identity.newDevice();
+        String priorPublicKey = identity.getProposed().getDeviceB64().get(DEVICE);
+
+        ProposeSend proposeSend = new ProposeSend(activity, identity, true);
+        Config proposed = proposeSend.getProposed();
+
+        assertEquals(priorPublicKey, proposed.getDeviceB64().get(DEVICE));
     }
 }

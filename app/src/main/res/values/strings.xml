@@ -34,6 +34,7 @@
     <string name="err_refused">Connection refused</string>
     <string name="err_add_identity">Identity creation failed</string>
     <string name="err_config_update">Configuration update failed</string>
+    <string name="err_propose_send">Propose Send failed</string>
     <string name="err_not_found">Identity not found</string>
     <string name="err_empty_fields">Empty fields</string>
 </resources>

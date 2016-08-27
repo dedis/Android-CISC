@@ -1,12 +1,5 @@
 package com.epfl.dedis.crypto;
 
-import org.apache.commons.codec.binary.Base64;
-
-import java.security.KeyPair;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.util.Arrays;
-
 import net.i2p.crypto.eddsa.EdDSAPrivateKey;
 import net.i2p.crypto.eddsa.EdDSAPublicKey;
 import net.i2p.crypto.eddsa.KeyPairGenerator;
@@ -14,6 +7,12 @@ import net.i2p.crypto.eddsa.spec.EdDSANamedCurveSpec;
 import net.i2p.crypto.eddsa.spec.EdDSANamedCurveTable;
 import net.i2p.crypto.eddsa.spec.EdDSAPrivateKeySpec;
 import net.i2p.crypto.eddsa.spec.EdDSAPublicKeySpec;
+
+import org.apache.commons.codec.binary.Base64;
+
+import java.security.KeyPair;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 
 public class Ed25519 {
 
@@ -70,13 +69,5 @@ public class Ed25519 {
     public static PrivateKey BytesToPrivate(byte[] seed){
         EdDSAPrivateKeySpec privSpec = new EdDSAPrivateKeySpec(seed, Ed25519.getCurveSpec());
         return new EdDSAPrivateKey(privSpec);
-    }
-
-    @Override
-    public String toString() {
-        return "Ed25519 {\n" +
-                "\tpublicKey=" + Arrays.toString(pub.getEncoded()) + ",\n" +
-                "\tprivateKey=" + Arrays.toString(priv.getEncoded()) + "\n" +
-                '}';
     }
 }

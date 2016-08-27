@@ -22,16 +22,31 @@ public class Identity {
     private Config config;
     private Config proposed;
 
-    public Identity(String name){
+    //private transient KeyPair keyPair;
+
+    public Identity(String name) {
         KeyPair keyPair = new KeyPairGenerator().generateKeyPair();
         this.seed = ((EdDSAPrivateKey)keyPair.getPrivate()).getSeed();
         this.deviceName = name;
         this.config = new Config(3, name, keyPair.getPublic());
     }
 
-    public Identity(String name, Cothority cot){
+    public Identity(String name, Cothority cothority) {
         this(name);
-        cothority = cot;
+        this.cothority = cothority;
+    }
+
+    public Identity(String name, Cothority cothority, byte[] skipchainId) {
+        this.deviceName = name;
+        this.cothority = cothority;
+        this.skipchainId = skipchainId;
+    }
+
+    public void newDevice() {
+        KeyPair keyPair = new KeyPairGenerator().generateKeyPair();
+        seed = ((EdDSAPrivateKey)keyPair.getPrivate()).getSeed();
+        proposed = new Config(config);
+        proposed.getDeviceB64().put(deviceName + "1", Ed25519.PubString(keyPair.getPublic()));
     }
 
     public static Identity load(String str){

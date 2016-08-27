@@ -21,9 +21,9 @@ public class CreateIdentity implements Message {
         this(activity, cothority, false);
     }
 
-    public CreateIdentity(Activity activity, Cothority cot, boolean wait) {
+    public CreateIdentity(Activity activity, Cothority cothority, boolean wait) {
         this.activity = activity;
-        this.identity = new Identity(DEVICE, cot);
+        this.identity = new Identity(DEVICE, cothority);
 
         HTTP http = new HTTP(this, identity.getCothority(), ADD_IDENTITY, toJson());
         if (wait) {
@@ -36,8 +36,10 @@ public class CreateIdentity implements Message {
 
     public void callback(String result) {
         switch (result) {
-            case "1": activity.callbackError(R.string.err_add_identity); break;
-            case "2": activity.callbackError(R.string.err_refused); break;
+            case "1": activity.callbackError(R.string.err_add_identity);
+                break;
+            case "2": activity.callbackError(R.string.err_refused);
+                break;
             default: {
                 identity.setSkipchainId(Utils.GSON.fromJson(result, byte[].class));
                 activity.callbackSuccess();

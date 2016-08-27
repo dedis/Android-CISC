@@ -20,10 +20,9 @@ public class MainActivity extends AppCompatActivity implements Activity {
     private TextView mIdentityValue;
     private TextView mStatusValue;
 
-    private ConfigUpdate configUpdate;
+    private Identity identity;
 
     public void callbackSuccess() {
-        Identity identity = configUpdate.getIdentity();
         mIdentityValue.setText(Arrays.toString(identity.getSkipchainId()));
         mStatusValue.setText(R.string.suc_connection);
     }
@@ -37,8 +36,8 @@ public class MainActivity extends AppCompatActivity implements Activity {
         SharedPreferences pref = getSharedPreferences(PREF, Context.MODE_PRIVATE);
         String json = pref.getString(IDENTITY, "");
         if (!json.isEmpty()) {
-            Identity identity = Identity.load(json);
-            configUpdate = new ConfigUpdate(this, identity);
+            identity = Identity.load(json);
+            new ConfigUpdate(this, identity);
         }
     }
 
