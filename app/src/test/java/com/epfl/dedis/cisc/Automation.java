@@ -25,7 +25,7 @@ public class Automation {
 
     @BeforeClass
     public static void setUpBeforeClass() {
-        activity = new Activity(){
+        activity = new Activity() {
             public void callbackSuccess() {}
             public void callbackError(int error) {}
         };
@@ -36,13 +36,13 @@ public class Automation {
     }
 
     @Test
-    public void createActivityAddIdentity(){
+    public void addIdentity() {
         assertEquals(DEVICE, identity.getDeviceName());
         assertEquals(identity.getPub(), identity.getConfig().getDevice().get(DEVICE));
     }
 
     @Test
-    public void mainActivityConfigUpdateExistingIdentity() {
+    public void configUpdateExistingIdentity() {
         ConfigUpdate cu = new ConfigUpdate(activity, identity, true);
         Identity id2 = cu.getIdentity();
         assertEquals(identity.getPub(), id2.getPub());
@@ -50,7 +50,7 @@ public class Automation {
     }
 
     @Test
-    public void mainActivityConfigUpdateInexistentIdentity() {
+    public void mconfigUpdateInexistentIdentity() {
         Identity mock = new Identity(DEVICE, identity.getCothority());
         mock.setSkipchainId(new byte[]{1, 2, 3});
         ConfigUpdate cu = new ConfigUpdate(activity, mock, true);
