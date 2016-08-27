@@ -79,7 +79,6 @@
             android:textSize="20sp" />
     </LinearLayout>
 
-    <!-- TODO Config Replies Buttons -->
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/config_button_block"

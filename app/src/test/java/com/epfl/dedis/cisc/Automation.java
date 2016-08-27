@@ -1,59 +1,59 @@
 package com.epfl.dedis.cisc;
 
 import com.epfl.dedis.api.ConfigUpdate;
-import com.epfl.dedis.net.Cothority;
 import com.epfl.dedis.api.CreateIdentity;
+import com.epfl.dedis.net.Cothority;
 import com.epfl.dedis.net.Identity;
-import com.epfl.dedis.net.Replies;
-
-import junit.framework.Assert;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import java.util.Arrays;
-
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(JUnit4.class)
 public class Automation {
 
     private static final String HOST = "localhost";
     private static final String PORT = "2000";
+    private static final String DEVICE = "MOTOROLA";
 
     private static Identity identity;
-    private static Replies replies;
+    private static Activity activity;
 
     @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        replies = new Replies(){
-            public void callbackSuccess(String result){
-                System.out.println(result);
-            }
-            public void callbackError(int error){
-                Assert.fail("Error while contacting cothority");
-            }
+    public static void setUpBeforeClass() {
+        activity = new Activity(){
+            public void callbackSuccess() {}
+            public void callbackError(int error) {}
         };
 
         Cothority cot = new Cothority(HOST, PORT);
-        CreateIdentity id = new CreateIdentity(replies, cot, true);
+        CreateIdentity id = new CreateIdentity(activity, cot, true);
         identity = id.getIdentity();
     }
 
     @Test
     public void createActivityAddIdentity(){
-        assertEquals("test", identity.getDeviceName());
-        assertEquals(identity.getPub(), identity.getConfig().getDevice().get("test"));
+        assertEquals(DEVICE, identity.getDeviceName());
+        assertEquals(identity.getPub(), identity.getConfig().getDevice().get(DEVICE));
     }
 
     @Test
     public void mainActivityConfigUpdateExistingIdentity() {
-        System.out.println(Arrays.toString(identity.getSkipchainId()));
-        ConfigUpdate cu = new ConfigUpdate(replies, identity, true);
+        ConfigUpdate cu = new ConfigUpdate(activity, identity, true);
         Identity id2 = cu.getIdentity();
         assertEquals(identity.getPub(), id2.getPub());
         assertEquals(identity.getSkipchainId(), id2.getSkipchainId());
+    }
+
+    @Test
+    public void mainActivityConfigUpdateInexistentIdentity() {
+        Identity mock = new Identity(DEVICE, identity.getCothority());
+        mock.setSkipchainId(new byte[]{1, 2, 3});
+        ConfigUpdate cu = new ConfigUpdate(activity, mock, true);
+        assertNotEquals(identity, cu.getIdentity());
     }
 }

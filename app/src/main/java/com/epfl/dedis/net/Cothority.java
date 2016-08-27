@@ -16,5 +16,4 @@ public class Cothority {
     public String getPort() {
         return port;
     }
-
 }

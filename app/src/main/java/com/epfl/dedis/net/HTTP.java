@@ -60,6 +60,7 @@ public class HTTP extends AsyncTask<String, Void, String> {
             }
 
             String response = new String(chars).substring(0, size);
+            System.out.println(path + " " + response + "\n");
             http.disconnect();
             return response;
         } catch (IOException e) {

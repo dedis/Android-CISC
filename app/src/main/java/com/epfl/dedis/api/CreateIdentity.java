@@ -1,31 +1,31 @@
 package com.epfl.dedis.api;
 
+import com.epfl.dedis.cisc.Activity;
 import com.epfl.dedis.cisc.R;
 import com.epfl.dedis.crypto.Utils;
 import com.epfl.dedis.net.Config;
 import com.epfl.dedis.net.Cothority;
 import com.epfl.dedis.net.HTTP;
 import com.epfl.dedis.net.Identity;
-import com.epfl.dedis.net.Replies;
 
 public class CreateIdentity implements Message {
 
     private class CreateIdentityMessage {
-        private Config config;
+        Config config;
     }
 
-    private Replies app;
+    private Activity activity;
     private Identity identity;
 
-    public CreateIdentity(Replies app, Cothority cot){
-        this(app, cot, false);
+    public CreateIdentity(Activity activity, Cothority cothority){
+        this(activity, cothority, false);
     }
 
-    public CreateIdentity(Replies app, Cothority cot, boolean wait) {
-        this.app = app;
+    public CreateIdentity(Activity activity, Cothority cot, boolean wait) {
+        this.activity = activity;
         this.identity = new Identity(DEVICE, cot);
 
-        HTTP http = new HTTP(this, identity.getCothority(), ADD_IDENTITY, toJSON());
+        HTTP http = new HTTP(this, identity.getCothority(), ADD_IDENTITY, toJson());
         if (wait) {
             String result = http.doInBackground();
             http.onPostExecute(result);
@@ -36,19 +36,19 @@ public class CreateIdentity implements Message {
 
     public void callback(String result) {
         switch (result) {
-            case "1": app.callbackError(R.string.err_add_identity); break;
-            case "2": app.callbackError(R.string.err_refused); break;
+            case "1": activity.callbackError(R.string.err_add_identity); break;
+            case "2": activity.callbackError(R.string.err_refused); break;
             default: {
                 identity.setSkipchainId(Utils.GSON.fromJson(result, byte[].class));
-                app.callbackSuccess(result);
+                activity.callbackSuccess();
             }
         }
     }
 
-    public String toJSON() {
-        CreateIdentityMessage cim = new CreateIdentityMessage();
-        cim.config = identity.getConfig();
-        return Utils.GSON.toJson(cim);
+    public String toJson() {
+        CreateIdentityMessage createIdentityMessage = new CreateIdentityMessage();
+        createIdentityMessage.config = identity.getConfig();
+        return Utils.GSON.toJson(createIdentityMessage);
     }
 
     public Identity getIdentity() {

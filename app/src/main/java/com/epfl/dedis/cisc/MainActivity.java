@@ -8,41 +8,38 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.epfl.dedis.api.Message;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.epfl.dedis.api.ConfigUpdate;
+import com.epfl.dedis.net.Identity;
 
-public class MainActivity extends AppCompatActivity implements Message {
+import java.util.Arrays;
+
+public class MainActivity extends AppCompatActivity implements Activity {
 
     private TextView mIdentityValue;
     private TextView mStatusValue;
 
-    public void callback(String result) {
-        //TODO find proper network error handling
-        switch (result) {
-            case "1": mStatusValue.setText(R.string.err_not_found); break;
-            case "2": mStatusValue.setText(R.string.err_refused); break;
-            default:  mStatusValue.setText(R.string.suc_connection);
-        }
+    private ConfigUpdate configUpdate;
+
+    public void callbackSuccess() {
+        Identity identity = configUpdate.getIdentity();
+        mIdentityValue.setText(Arrays.toString(identity.getSkipchainId()));
+        mStatusValue.setText(R.string.suc_connection);
+    }
+
+    public void callbackError(int error) {
+        Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+        mStatusValue.setText(error);
     }
 
     public void sendConfigUpdate() {
-        SharedPreferences pref = getSharedPreferences(LOG, Context.MODE_PRIVATE);
-//        String host = pref.getString(HOST, "");
-//        String port = pref.getString(PORT, "");
-//        String id = pref.getString(ID, "");
-//        mIdentityValue.setText(id); // TODO Replace TextView with QR-Code
-//        if (!host.isEmpty() && !port.isEmpty() && !id.isEmpty()) {
-//            new HTTP(this).execute(host, port, CONFIG_UPDATE, configUpdateJSON(id));
-//        }
-    }
-
-    private String configUpdateJSON(String id) {
-        Gson gson = new GsonBuilder().serializeNulls().create();
-        int[] idArray = gson.fromJson(id, int[].class);
-//        return gson.toJson(new ConfigUpdate(idArray, null));
-        return null;
+        SharedPreferences pref = getSharedPreferences(PREF, Context.MODE_PRIVATE);
+        String json = pref.getString(IDENTITY, "");
+        if (!json.isEmpty()) {
+            Identity identity = Identity.load(json);
+            configUpdate = new ConfigUpdate(this, identity);
+        }
     }
 
     @Override

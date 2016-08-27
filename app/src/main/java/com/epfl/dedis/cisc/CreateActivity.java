@@ -12,24 +12,22 @@ import android.widget.Toast;
 
 import com.epfl.dedis.api.CreateIdentity;
 import com.epfl.dedis.net.Cothority;
-import com.epfl.dedis.net.Replies;
 
-public class CreateActivity extends AppCompatActivity implements Replies {
+public class CreateActivity extends AppCompatActivity implements Activity {
 
     private EditText mHostEditText;
     private EditText mPortEditText;
 
-    private void writePreference(String key, String value) {
-        SharedPreferences.Editor editor = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).edit();
-        editor.putString(key, value);
-        editor.apply();
-    }
+    private CreateIdentity createIdentity;
 
-    public void callbackSuccess(String result) {
-        writePreference(ID, result);
+    public void callbackSuccess() {
+        SharedPreferences.Editor editor = getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
+        editor.putString(IDENTITY, createIdentity.getIdentity().save());
+        editor.apply();
+
         Intent i = new Intent(this, ConfigActivity.class);
         startActivity(i);
-        this.finish(); //TODO choose correct Replies termination
+        this.finish();
     }
 
     public void callbackError(int error){
@@ -72,9 +70,7 @@ public class CreateActivity extends AppCompatActivity implements Replies {
                 if (host.isEmpty() || port.isEmpty()) {
                     callbackError(R.string.err_empty_fields);
                 } else {
-                    writePreference(HOST, host);
-                    writePreference(PORT, port);
-                    new CreateIdentity(CreateActivity.this, new Cothority(host, port));
+                    createIdentity = new CreateIdentity(CreateActivity.this, new Cothority(host, port));
                 }
             }
         });

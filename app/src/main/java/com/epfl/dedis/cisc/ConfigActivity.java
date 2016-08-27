@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import com.epfl.dedis.net.Replies;
-
-public class ConfigActivity extends AppCompatActivity implements Replies {
+public class ConfigActivity extends AppCompatActivity implements Activity {
 
     private TextView mIdTextView;
     private TextView mAddressTextView;
@@ -16,13 +14,12 @@ public class ConfigActivity extends AppCompatActivity implements Replies {
 
     private SharedPreferences sharedPreferences;
 
-    public void callbackSuccess(String result) {}
+    public void callbackSuccess() {}
     public void callbackError(int error) {}
 
     private void populate() {
         mIdTextView.setText(sharedPreferences.getString(ID, ""));
-        String address = sharedPreferences.getString(HOST, "") + ":" +
-                         sharedPreferences.getString(PORT, "");
+        String address = sharedPreferences.getString(HOST, "") + ":" + sharedPreferences.getString(PORT, "");
         mAddressTextView.setText(address);
     }
 
@@ -31,7 +28,7 @@ public class ConfigActivity extends AppCompatActivity implements Replies {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
 
-        sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(PREF, Context.MODE_PRIVATE);
 
         mIdTextView = (TextView) findViewById(R.id.config_identity_value);
         assert mIdTextView != null;
