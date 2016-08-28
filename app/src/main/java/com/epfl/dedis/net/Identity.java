@@ -44,7 +44,7 @@ public class Identity {
         KeyPair keyPair = new KeyPairGenerator().generateKeyPair();
         seed = ((EdDSAPrivateKey)keyPair.getPrivate()).getSeed();
         proposed = new Config(config);
-        proposed.getDeviceB64().put(name, Ed25519.PubString(keyPair.getPublic()));
+        proposed.getDevice().put(name, Ed25519.PubString(keyPair.getPublic()));
     }
 
     public void updateData(String data) {

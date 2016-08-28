@@ -19,11 +19,11 @@ public class ProposeSendTest extends APITest {
         Identity identity = new CreateIdentity(activity, NAME1, cothority(HOST, PORT), true).getIdentity();
         identity.newDevice(NAME2);
         int priorThreshold = identity.getProposed().getThreshold();
-        String priorPublicKey = identity.getProposed().getDeviceB64().get(NAME2);
+        String priorPublicKey = identity.getProposed().getDevice().get(NAME2);
         Config proposed = new ProposeSend(activity, identity, true).getProposed();
 
         assertEquals(priorThreshold, proposed.getThreshold());
-        assertEquals(priorPublicKey, proposed.getDeviceB64().get(NAME2));
+        assertEquals(priorPublicKey, proposed.getDevice().get(NAME2));
         assertEquals(2, proposed.getDevice().size());
     }
 
@@ -44,7 +44,7 @@ public class ProposeSendTest extends APITest {
         identity.newDevice(NAME2);
         Config proposed = new ProposeSend(activity, identity, true).getProposed();
 
-        assertEquals(Ed25519.PubString(identity.getPub()), proposed.getDeviceB64().get(NAME2));
+        assertEquals(Ed25519.PubString(identity.getPub()), proposed.getDevice().get(NAME2));
     }
 
     @Test

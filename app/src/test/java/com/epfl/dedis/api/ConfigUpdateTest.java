@@ -19,12 +19,12 @@ public class ConfigUpdateTest extends APITest {
     public void cothorityReturnsValidConfigForExistingIdentity() {
         Identity identity = new CreateIdentity(activity, NAME1, cothority(HOST, PORT), true).getIdentity();
         int priorThreshold = identity.getConfig().getThreshold();
-        String priorPublicKey = identity.getConfig().getDeviceB64().get(NAME1);
+        String priorPublicKey = identity.getConfig().getDevice().get(NAME1);
         Config config = new ConfigUpdate(activity, identity, true).getConfig();
 
         assertEquals(priorThreshold, config.getThreshold());
-        assertEquals(priorPublicKey, config.getDeviceB64().get(NAME1));
-        assertEquals(1, config.getDeviceB64().size());
+        assertEquals(priorPublicKey, config.getDevice().get(NAME1));
+        assertEquals(1, config.getDevice().size());
     }
 
     @Test
@@ -32,7 +32,7 @@ public class ConfigUpdateTest extends APITest {
         Identity identity = new CreateIdentity(activity, NAME1, cothority(HOST, PORT), true).getIdentity();
         Config config = new ConfigUpdate(activity, identity, true).getConfig();
 
-        assertEquals(Ed25519.PubString(identity.getPub()), config.getDeviceB64().get(NAME1));
+        assertEquals(Ed25519.PubString(identity.getPub()), config.getDevice().get(NAME1));
     }
 
     @Test

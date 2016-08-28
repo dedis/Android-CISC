@@ -12,7 +12,13 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class HTTP extends AsyncTask<String, Void, String> {
+/**
+ * The HTTP class is the network socket of this project. It handles all
+ * communication with the Cothority service through the standard HTTP-
+ * protocol. The socket is fully concurrent to avoid any blocking of the
+ * main thread.
+ */
+public class HTTP extends AsyncTask<Void, Void, String> {
 
     private static final int TIMEOUT = 1000;
     private static final int BUF_SIZE = 1000;
@@ -32,8 +38,15 @@ public class HTTP extends AsyncTask<String, Void, String> {
         this.json = json;
     }
 
+    /**
+     * Spawns a new thread to deal with the network traffic. All acknowledgements
+     * from the Cothority are parsed to Strings.
+     *
+     * @param params Unused in this context.
+     * @return Acknowledgement message from the Cothority.
+     */
     @Override
-    public String doInBackground(String... params) {
+    public String doInBackground(Void... params) {
         try {
             URL url = new URL("http://" + cothority.getHost() + ":" + cothority.getPort() + "/" + path);
             HttpURLConnection http = (HttpURLConnection) url.openConnection();
@@ -54,13 +67,13 @@ public class HTTP extends AsyncTask<String, Void, String> {
             char[] chars = new char[BUF_SIZE];
             int size = br.read(chars);
 
+            // Zero character marks an error from the Cothority.
             if (chars[0] == '0') {
                 http.disconnect();
                 return ERR_COTHORITY;
             }
 
             String response = new String(chars).substring(0, size);
-            //System.out.println(path + " " + response + "\n");
             http.disconnect();
             return response;
         } catch (IOException e) {
@@ -68,6 +81,12 @@ public class HTTP extends AsyncTask<String, Void, String> {
         }
     }
 
+    /**
+     * Joins the thread spawned by doInBackground and passes the
+     * result to the calling activity.
+     *
+     * @param result Acknowledgement from doInBackground.
+     */
     @Override
     public void onPostExecute(String result) {
         message.callback(result);

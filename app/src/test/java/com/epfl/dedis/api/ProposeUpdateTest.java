@@ -1,7 +1,6 @@
 package com.epfl.dedis.api;
 
 import com.epfl.dedis.cisc.R;
-import com.epfl.dedis.crypto.Ed25519;
 import com.epfl.dedis.net.Config;
 import com.epfl.dedis.net.Identity;
 

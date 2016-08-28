@@ -4,10 +4,15 @@ import com.epfl.dedis.crypto.Ed25519;
 import com.google.gson.annotations.SerializedName;
 
 import java.security.PublicKey;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The config class holds the information about all devices
+ * currently stored in a Skipchain. This structure is maintained
+ * locally on the device and its fields are serialized when
+ * communication with a Cothority is needed.
+ */
 public class Config {
 
     @SerializedName("Threshold")
@@ -21,49 +26,40 @@ public class Config {
 
     public Config(int threshold, String name, PublicKey pub){
         this.threshold = threshold;
-
-        String pubStr = Ed25519.PubString(pub);
         this.device = new HashMap<>();
-        this.device.put(name, pubStr);
+        this.device.put(name, Ed25519.PubString(pub));
         this.data = new HashMap<>();
     }
 
+    // Copy constructor
     public Config(int threshold, Map<String, String> device, Map<String, String> data) {
         this.threshold = threshold;
         this.device = new HashMap<>(device);
         this.data = new HashMap<>(data);
     }
 
-    public Config(Config config) {
-        this(config.getThreshold(), config.getDeviceB64(), config.getData());
+    public Config(Config that) {
+        this(that.getThreshold(), that.getDevice(), that.getData());
     }
 
-    public Map<String, PublicKey> getDevice() {
-        Map<String, PublicKey>devices = new HashMap<>();
-        for (Map.Entry<String, String> entry : device.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-            devices.put(key, Ed25519.StringToPub(value));
-        }
-        return devices;
-    }
-
-    public Map<String, String> getDeviceB64() {
-        return device;
-    }
-
-    public Map<String, String> getData() {
-        return data;
-    }
-
+    /**
+     * @return Skipchain voting threshold
+     */
     public int getThreshold() {
         return threshold;
     }
 
-    @Override
-    public String toString() {
-        return "Threshold: " + threshold + "\n" +
-                "Device: " + Arrays.toString(device.entrySet().toArray()) + "\n" +
-                "Data: " + Arrays.toString(data.entrySet().toArray());
+    /**
+     * @return Devices with their corresponding public keys
+     */
+    public Map<String, String> getDevice() {
+        return device;
+    }
+
+    /**
+     * @return Devices with their corresponding data
+     */
+    public Map<String, String> getData() {
+        return data;
     }
 }
