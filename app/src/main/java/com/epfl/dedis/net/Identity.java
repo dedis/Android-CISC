@@ -22,8 +22,6 @@ public class Identity {
     private Config config;
     private Config proposed;
 
-    //private transient KeyPair keyPair;
-
     public Identity(String name) {
         KeyPair keyPair = new KeyPairGenerator().generateKeyPair();
         this.seed = ((EdDSAPrivateKey)keyPair.getPrivate()).getSeed();
@@ -36,17 +34,17 @@ public class Identity {
         this.cothority = cothority;
     }
 
-    public Identity(String name, Cothority cothority, byte[] skipchainId) {
-        this.deviceName = name;
+    public Identity(Cothority cothority, byte[] skipchainId) {
         this.cothority = cothority;
         this.skipchainId = skipchainId;
     }
 
-    public void newDevice() {
+    public void newDevice(String name) {
+        deviceName = name;
         KeyPair keyPair = new KeyPairGenerator().generateKeyPair();
         seed = ((EdDSAPrivateKey)keyPair.getPrivate()).getSeed();
         proposed = new Config(config);
-        proposed.getDeviceB64().put(deviceName + "1", Ed25519.PubString(keyPair.getPublic()));
+        proposed.getDeviceB64().put(deviceName, Ed25519.PubString(keyPair.getPublic()));
     }
 
     public static Identity load(String str){
@@ -64,15 +62,6 @@ public class Identity {
 
     public PrivateKey getPrivate() {
         return getEdDSAPrivate();
-    }
-
-    public int[] getPubEncoded() {
-        EdDSAPublicKeySpec pubKey = new EdDSAPublicKeySpec(getEdDSAPrivate().getA(), Ed25519.getCurveSpec());
-        return Utils.byteArrayToIntArray(new EdDSAPublicKey(pubKey).getEncoded());
-    }
-
-    public int[] getPrivateEncoded() {
-        return Utils.byteArrayToIntArray(getEdDSAPrivate().getEncoded());
     }
 
     public EdDSAPrivateKey getEdDSAPrivate() {
@@ -107,4 +96,13 @@ public class Identity {
     public void setConfig(Config config) {
         this.config = config;
     }
+
+    //    public int[] getPubEncoded() {
+//        EdDSAPublicKeySpec pubKey = new EdDSAPublicKeySpec(getEdDSAPrivate().getA(), Ed25519.getCurveSpec());
+//        return Utils.byteArrayToIntArray(new EdDSAPublicKey(pubKey).getEncoded());
+//    }
+//
+//    public int[] getPrivateEncoded() {
+//        return Utils.byteArrayToIntArray(getEdDSAPrivate().getEncoded());
+//    }
 }

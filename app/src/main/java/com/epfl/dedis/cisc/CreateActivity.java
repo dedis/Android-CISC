@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.epfl.dedis.api.CreateIdentity;
 import com.epfl.dedis.net.Cothority;
 
+import java.util.UUID;
+
 public class CreateActivity extends AppCompatActivity implements Activity {
 
     private EditText mHostEditText;
@@ -70,7 +72,7 @@ public class CreateActivity extends AppCompatActivity implements Activity {
                 if (host.isEmpty() || port.isEmpty()) {
                     callbackError(R.string.err_empty_fields);
                 } else {
-                    createIdentity = new CreateIdentity(CreateActivity.this, new Cothority(host, port));
+                    createIdentity = new CreateIdentity(CreateActivity.this, UUID.randomUUID().toString(), new Cothority(host, port));
                 }
             }
         });

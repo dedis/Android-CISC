@@ -22,17 +22,15 @@ public class JoinActivity extends AppCompatActivity implements Activity {
     private int stage;
     private Identity identity;
 
-    private void toast(int text) {
-        Toast.makeText(this, text, Toast.LENGTH_LONG).show();
-    }
-
     public void callbackSuccess() {
         if (stage == 0) {
-            identity.newDevice();
+            identity.newDevice("aaa");
             new ProposeSend(this, identity);
         } else if (stage == 1) {}
     }
-    public void callbackError(int error) {}
+    public void callbackError(int error) {
+        Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +54,7 @@ public class JoinActivity extends AppCompatActivity implements Activity {
                 String host = mHostEditText.getText().toString();
                 String port = mPortEditText.getText().toString();
                 byte[] id = Utils.GSON.fromJson(mIdentityEditText.getText().toString(), byte[].class);
-                identity = new Identity(NAME, new Cothority(host, port), id);
+                identity = new Identity(new Cothority(host, port), id);
                 new ConfigUpdate(JoinActivity.this, identity);
             }
         });

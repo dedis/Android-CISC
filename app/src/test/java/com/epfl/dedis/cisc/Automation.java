@@ -12,6 +12,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.util.UUID;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -20,26 +22,26 @@ public class Automation {
 
     private static final String HOST = "localhost";
     private static final String PORT = "2000";
-    private static final String DEVICE = "MOTOROLA";
+    private static final String DEVICE = UUID.randomUUID().toString();
     private static final byte[] FOO = new byte[]{1, 2, 3};
 
-    private static Identity identity;
-    private static Activity activity;
+    static Identity identity;
+    static Activity activity;
 
     @BeforeClass
-    public static void setUpBeforeClass() {
+    public static void setup() {
         activity = new Activity() {
             public void callbackSuccess() {}
             public void callbackError(int error) {}
         };
 
         Cothority cothority = new Cothority(HOST, PORT);
-        CreateIdentity ci = new CreateIdentity(activity, cothority, true);
+        CreateIdentity ci = new CreateIdentity(activity, DEVICE, cothority, true);
         identity = ci.getIdentity();
     }
 
     @Test
-    public void addIdentityEmptySkipchain() {
+    public void addIdentityToCothority() {
         assertEquals(DEVICE, identity.getDeviceName());
         assertEquals(identity.getPub(), identity.getConfig().getDevice().get(DEVICE));
     }
@@ -58,19 +60,20 @@ public class Automation {
 
     @Test
     public void configUpdateInexistentIdentity() {
-        Identity mockIdentity = new Identity(DEVICE, identity.getCothority(), FOO);
+        Identity mockIdentity = new Identity(identity.getCothority(), FOO);
         ConfigUpdate cu = new ConfigUpdate(activity, mockIdentity, true);
         assertNull(cu.getConfig());
     }
 
     @Test
     public void proposeSendExistingIdentity() {
-        identity.newDevice();
-        String priorPublicKey = identity.getProposed().getDeviceB64().get(DEVICE);
+        String nnn = UUID.randomUUID().toString();
+        identity.newDevice(nnn);
+        String priorPublicKey = identity.getProposed().getDeviceB64().get(nnn);
 
         ProposeSend proposeSend = new ProposeSend(activity, identity, true);
         Config proposed = proposeSend.getProposed();
 
-        assertEquals(priorPublicKey, proposed.getDeviceB64().get(DEVICE));
+        assertEquals(priorPublicKey, proposed.getDeviceB64().get(nnn));
     }
 }

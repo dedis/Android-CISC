@@ -17,13 +17,13 @@ public class CreateIdentity implements Message {
     private Activity activity;
     private Identity identity;
 
-    public CreateIdentity(Activity activity, Cothority cothority){
-        this(activity, cothority, false);
+    public CreateIdentity(Activity activity, String name, Cothority cothority){
+        this(activity, name, cothority, false);
     }
 
-    public CreateIdentity(Activity activity, Cothority cothority, boolean wait) {
+    public CreateIdentity(Activity activity, String name, Cothority cothority, boolean wait) {
         this.activity = activity;
-        this.identity = new Identity(DEVICE, cothority);
+        this.identity = new Identity(name, cothority);
 
         HTTP http = new HTTP(this, identity.getCothority(), ADD_IDENTITY, toJson());
         if (wait) {

@@ -4,6 +4,7 @@ import com.epfl.dedis.crypto.Ed25519;
 import com.google.gson.annotations.SerializedName;
 
 import java.security.PublicKey;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,6 +62,8 @@ public class Config {
 
     @Override
     public String toString() {
-        return "->" + threshold;
+        return "Threshold: " + threshold + "\n" +
+                "Device: " + Arrays.toString(device.entrySet().toArray()) + "\n" +
+                "Data: " + Arrays.toString(data.entrySet().toArray());
     }
 }
