@@ -77,6 +77,10 @@ public class Identity {
         return name;
     }
 
+    public byte[] getSeed() {
+        return seed;
+    }
+
     public Cothority getCothority() {
         return cothority;
     }

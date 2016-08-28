@@ -35,7 +35,7 @@ public class Config {
     }
 
     public Config(Config config) {
-        this(config.getThreshold(), config.getDeviceB64(), new HashMap<String, String>());
+        this(config.getThreshold(), config.getDeviceB64(), config.getData());
     }
 
     public Map<String, PublicKey> getDevice() {

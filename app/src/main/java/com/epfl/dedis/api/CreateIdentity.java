@@ -7,10 +7,12 @@ import com.epfl.dedis.net.Config;
 import com.epfl.dedis.net.Cothority;
 import com.epfl.dedis.net.HTTP;
 import com.epfl.dedis.net.Identity;
+import com.google.gson.annotations.SerializedName;
 
 public class CreateIdentity implements Message {
 
     private class CreateIdentityMessage {
+        @SerializedName("Config")
         Config config;
     }
 

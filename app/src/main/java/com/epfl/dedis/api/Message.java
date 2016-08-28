@@ -8,6 +8,7 @@ public interface Message {
     String ADD_IDENTITY = "ai";
     String CONFIG_UPDATE = "cu";
     String PROPOSE_SEND = "ps";
+    String PROPOSE_UPDATE = "pu";
 
     void callback(String result);
 
