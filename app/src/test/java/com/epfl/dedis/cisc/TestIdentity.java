@@ -5,7 +5,6 @@ import com.epfl.dedis.net.Identity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.robolectric.RobolectricGradleTestRunner;
 
 import static org.junit.Assert.*;
 /**
@@ -21,7 +20,7 @@ public class TestIdentity {
         Identity id2 = Identity.load(save);
         assertEquals(id.getPub(), id2.getPub());
         assertEquals(id.getPrivate(), id2.getPrivate());
-        assertEquals(id.getDeviceName(), id2.getDeviceName());
+        assertEquals(id.getName(), id2.getName());
     }
 
 }

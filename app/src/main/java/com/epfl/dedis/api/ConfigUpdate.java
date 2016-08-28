@@ -30,7 +30,7 @@ public class ConfigUpdate implements Message {
         configUpdateMessage.id = Utils.byteArrayToIntArray(identity.getSkipchainId());
         configUpdateMessage.accountList = null;
 
-        HTTP http = new HTTP(this, identity.getCothority(), CONFIG_UPDATE, Utils.GSON.toJson(configUpdateMessage));
+        HTTP http = new HTTP(this, identity.getCothority(), CONFIG_UPDATE, Utils.toJson(configUpdateMessage));
         if (wait) {
             String result = http.doInBackground();
             http.onPostExecute(result);
@@ -46,7 +46,7 @@ public class ConfigUpdate implements Message {
             case "2": activity.callbackError(R.string.err_refused);
                 break;
             default: {
-                config = Utils.GSON.fromJson(result, Config.class);
+                config = Utils.fromJson(result, Config.class);
                 identity.setConfig(config);
                 activity.callbackSuccess();
             }

@@ -3,9 +3,7 @@ package com.epfl.dedis.crypto;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import net.i2p.crypto.eddsa.KeyPairGenerator;
-
-import java.security.KeyPair;
+import java.util.UUID;
 
 public class Utils {
 
@@ -20,5 +18,17 @@ public class Utils {
             conv[i] = array[i] & 0xff;
         }
         return conv;
+    }
+
+    public static String uuid() {
+        return UUID.randomUUID().toString();
+    }
+
+    public static <T> T fromJson(String json, Class<T> type) {
+        return GSON.fromJson(json, type);
+    }
+
+    public static <T> String toJson(T object) {
+        return GSON.toJson(object);
     }
 }

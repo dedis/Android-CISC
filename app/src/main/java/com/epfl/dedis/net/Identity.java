@@ -16,7 +16,7 @@ import java.security.PublicKey;
 public class Identity {
     private byte[] seed;
     private byte[] skipchainId;
-    private String deviceName;
+    private String name;
     private Cothority cothority;
 
     private Config config;
@@ -25,7 +25,7 @@ public class Identity {
     public Identity(String name) {
         KeyPair keyPair = new KeyPairGenerator().generateKeyPair();
         this.seed = ((EdDSAPrivateKey)keyPair.getPrivate()).getSeed();
-        this.deviceName = name;
+        this.name = name;
         this.config = new Config(3, name, keyPair.getPublic());
     }
 
@@ -40,19 +40,19 @@ public class Identity {
     }
 
     public void newDevice(String name) {
-        deviceName = name;
+        this.name = name;
         KeyPair keyPair = new KeyPairGenerator().generateKeyPair();
         seed = ((EdDSAPrivateKey)keyPair.getPrivate()).getSeed();
         proposed = new Config(config);
-        proposed.getDeviceB64().put(deviceName, Ed25519.PubString(keyPair.getPublic()));
+        proposed.getDeviceB64().put(this.name, Ed25519.PubString(keyPair.getPublic()));
     }
 
     public static Identity load(String str){
-        return Utils.GSON.fromJson(str, Identity.class);
+        return Utils.fromJson(str, Identity.class);
     }
 
     public String save(){
-        return Utils.GSON.toJson(this);
+        return Utils.toJson(this);
     }
 
     public PublicKey getPub() {
@@ -73,8 +73,8 @@ public class Identity {
         return skipchainId;
     }
 
-    public String getDeviceName() {
-        return deviceName;
+    public String getName() {
+        return name;
     }
 
     public Cothority getCothority() {
@@ -95,6 +95,10 @@ public class Identity {
 
     public void setConfig(Config config) {
         this.config = config;
+    }
+
+    public void setProposed(Config proposed) {
+        this.proposed = proposed;
     }
 
     //    public int[] getPubEncoded() {

@@ -41,7 +41,7 @@ public class CreateIdentity implements Message {
             case "2": activity.callbackError(R.string.err_refused);
                 break;
             default: {
-                identity.setSkipchainId(Utils.GSON.fromJson(result, byte[].class));
+                identity.setSkipchainId(Utils.fromJson(result, byte[].class));
                 activity.callbackSuccess();
             }
         }
@@ -50,7 +50,7 @@ public class CreateIdentity implements Message {
     public String toJson() {
         CreateIdentityMessage createIdentityMessage = new CreateIdentityMessage();
         createIdentityMessage.config = identity.getConfig();
-        return Utils.GSON.toJson(createIdentityMessage);
+        return Utils.toJson(createIdentityMessage);
     }
 
     public Identity getIdentity() {

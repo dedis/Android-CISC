@@ -24,7 +24,7 @@ public class JoinActivity extends AppCompatActivity implements Activity {
 
     public void callbackSuccess() {
         if (stage == 0) {
-            identity.newDevice("aaa");
+            identity.newDevice(Utils.uuid());
             new ProposeSend(this, identity);
         } else if (stage == 1) {}
     }
@@ -53,7 +53,7 @@ public class JoinActivity extends AppCompatActivity implements Activity {
             public void onClick(View v) {
                 String host = mHostEditText.getText().toString();
                 String port = mPortEditText.getText().toString();
-                byte[] id = Utils.GSON.fromJson(mIdentityEditText.getText().toString(), byte[].class);
+                byte[] id = Utils.fromJson(mIdentityEditText.getText().toString(), byte[].class);
                 identity = new Identity(new Cothority(host, port), id);
                 new ConfigUpdate(JoinActivity.this, identity);
             }

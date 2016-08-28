@@ -33,7 +33,7 @@ public class ProposeSend implements Message {
         proposeSendMessage.id = Utils.byteArrayToIntArray(identity.getSkipchainId());
         proposeSendMessage.config = identity.getProposed();
 
-        HTTP http = new HTTP(this, identity.getCothority(), PROPOSE_SEND, Utils.GSON.toJson(proposeSendMessage));
+        HTTP http = new HTTP(this, identity.getCothority(), PROPOSE_SEND, Utils.toJson(proposeSendMessage));
         if (wait) {
             String result = http.doInBackground();
             http.onPostExecute(result);
@@ -49,7 +49,7 @@ public class ProposeSend implements Message {
             case "2": activity.callbackError(R.string.err_refused);
                 break;
             default: {
-                proposed = Utils.GSON.fromJson(result, Config.class);
+                proposed = Utils.fromJson(result, Config.class);
                 activity.callbackSuccess();
             }
         }
