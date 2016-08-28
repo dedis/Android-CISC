@@ -28,7 +28,15 @@ public class ProposeSendTest extends APITest {
     }
 
     @Test
-    public void cothorityReturnsValidProposedForDataChange() {}
+    public void cothorityReturnsValidProposedForDataUpdate() {
+        Identity identity = new CreateIdentity(activity, NAME1, cothority(HOST, PORT), true).getIdentity();
+        identity.updateData("test data");
+        String priorData = identity.getProposed().getData().get(NAME1);
+        Config proposed = new ProposeSend(activity, identity, true).getProposed();
+
+        assertEquals(priorData, proposed.getData().get(NAME1));
+        assertEquals(1, proposed.getData().size());
+    }
 
     @Test
     public void keyPairMatchingAfterSuccessfulConfigUpdate() {

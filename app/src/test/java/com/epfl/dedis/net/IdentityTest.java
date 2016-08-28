@@ -1,15 +1,13 @@
-package com.epfl.dedis.cisc;
-
-import com.epfl.dedis.net.Identity;
+package com.epfl.dedis.net;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnit4.class)
-public class TestIdentity {
+public class IdentityTest {
 
     @Test
     public void SaveId(){
@@ -20,5 +18,4 @@ public class TestIdentity {
         assertEquals(id.getPrivate(), id2.getPrivate());
         assertEquals(id.getName(), id2.getName());
     }
-
 }

@@ -44,7 +44,12 @@ public class Identity {
         KeyPair keyPair = new KeyPairGenerator().generateKeyPair();
         seed = ((EdDSAPrivateKey)keyPair.getPrivate()).getSeed();
         proposed = new Config(config);
-        proposed.getDeviceB64().put(this.name, Ed25519.PubString(keyPair.getPublic()));
+        proposed.getDeviceB64().put(name, Ed25519.PubString(keyPair.getPublic()));
+    }
+
+    public void updateData(String data) {
+        proposed = new Config(config);
+        proposed.getData().put(name, data);
     }
 
     public static Identity load(String str){
@@ -75,10 +80,6 @@ public class Identity {
 
     public String getName() {
         return name;
-    }
-
-    public byte[] getSeed() {
-        return seed;
     }
 
     public Cothority getCothority() {

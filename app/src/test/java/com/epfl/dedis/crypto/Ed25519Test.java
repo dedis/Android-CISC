@@ -1,6 +1,4 @@
-package com.epfl.dedis.cisc;
-
-import com.epfl.dedis.crypto.Ed25519;
+package com.epfl.dedis.crypto;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,10 +10,10 @@ import java.security.PublicKey;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnit4.class)
-public class TestEd25519 {
+public class Ed25519Test {
 
     @Test
-    public void testStrings(){
+    public void keyPairIsCorrectlyConvertedToString(){
         Ed25519 ed = new Ed25519();
         PublicKey pub = ed.getPublic();
         PrivateKey priv = ed.getPrivate();

@@ -6,11 +6,15 @@ import com.epfl.dedis.crypto.Utils;
 import com.epfl.dedis.net.Config;
 import com.epfl.dedis.net.HTTP;
 import com.epfl.dedis.net.Identity;
+import com.google.gson.annotations.SerializedName;
 
 public class ConfigUpdate implements Message {
 
     private class ConfigUpdateMessage{
+        @SerializedName("ID")
         int[] id;
+
+        @SerializedName("AccountList")
         Config accountList;
     }
 
