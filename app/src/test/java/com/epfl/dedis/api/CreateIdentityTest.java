@@ -1,6 +1,5 @@
 package com.epfl.dedis.api;
 
-import com.epfl.dedis.api.CreateIdentity;
 import com.epfl.dedis.cisc.R;
 
 import org.junit.Test;
@@ -17,8 +16,8 @@ public class CreateIdentityTest extends APITest {
     @Test
     public void cothorityReturnsValidSkipchainIdentity() {
         CreateIdentity ci = new CreateIdentity(activity, NAME1, cothority(HOST, PORT), true);
-        assertNotNull(ci.getIdentity().getSkipchainId());
-        assertEquals(32, ci.getIdentity().getSkipchainId().length);
+        assertNotNull(ci.getIdentity().getId());
+        assertEquals(32, ci.getIdentity().getId().length);
     }
 
     @Test
@@ -32,6 +31,6 @@ public class CreateIdentityTest extends APITest {
     @Test
     public void cothorityReturnsNoSkipchainIdentityForWrongAddress() {
         CreateIdentity ci = new CreateIdentity(activity, NAME1, cothority("foo", PORT), true);
-        assertNull(ci.getIdentity().getSkipchainId());
+        assertNull(ci.getIdentity().getId());
     }
 }

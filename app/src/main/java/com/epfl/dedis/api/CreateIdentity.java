@@ -43,7 +43,7 @@ public class CreateIdentity implements Message {
             case "2": activity.callbackError(R.string.err_refused);
                 break;
             default: {
-                identity.setSkipchainId(Utils.fromJson(result, byte[].class));
+                identity.setId(Utils.fromJson(result, byte[].class));
                 activity.callbackSuccess();
             }
         }

@@ -30,7 +30,7 @@ public class ProposeSend implements Message {
         this.activity = activity;
 
         ProposeSendMessage proposeSendMessage = new ProposeSendMessage();
-        proposeSendMessage.id = Utils.byteArrayToIntArray(identity.getSkipchainId());
+        proposeSendMessage.id = Utils.byteArrayToIntArray(identity.getId());
         proposeSendMessage.config = identity.getProposed();
 
         HTTP http = new HTTP(this, identity.getCothority(), PROPOSE_SEND, Utils.toJson(proposeSendMessage));

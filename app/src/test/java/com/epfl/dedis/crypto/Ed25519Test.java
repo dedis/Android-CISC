@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
@@ -14,13 +15,13 @@ public class Ed25519Test {
 
     @Test
     public void keyPairIsCorrectlyConvertedToString(){
-        Ed25519 ed = new Ed25519();
-        PublicKey pub = ed.getPublic();
-        PrivateKey priv = ed.getPrivate();
+        KeyPair keyPair = Ed25519.newKeyPair();
+        PublicKey pub = keyPair.getPublic();
+        PrivateKey sec = keyPair.getPrivate();
 
         assertEquals(pub, Ed25519.BytesToPub(Ed25519.PubBytes(pub)));
         assertEquals(pub, Ed25519.StringToPub(Ed25519.PubString(pub)));
-        assertEquals(priv, Ed25519.BytesToPrivate(Ed25519.PrivateBytes(priv)));
-        assertEquals(priv, Ed25519.StringToPrivate(Ed25519.PrivateString(priv)));
+        assertEquals(sec, Ed25519.BytesToPrivate(Ed25519.PrivateBytes(sec)));
+        assertEquals(sec, Ed25519.StringToPrivate(Ed25519.PrivateString(sec)));
     }
 }

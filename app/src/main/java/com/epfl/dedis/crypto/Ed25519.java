@@ -33,6 +33,10 @@ public class Ed25519 {
         return pub;
     }
 
+    public static KeyPair newKeyPair() {
+        return new KeyPairGenerator().generateKeyPair();
+    }
+
     public static EdDSANamedCurveSpec getCurveSpec(){
         return EdDSANamedCurveTable.getByName("ed25519-sha-512");
     }

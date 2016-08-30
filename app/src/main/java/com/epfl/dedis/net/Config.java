@@ -16,26 +16,26 @@ import java.util.Map;
 public class Config {
 
     @SerializedName("Threshold")
-    private int threshold;
+    private int _threshold;
 
     @SerializedName("Device")
-    private Map<String, String> device;
+    private Map<String, String> _device;
 
     @SerializedName("Data")
-    private Map<String, String> data;
+    private Map<String, String> _data;
 
     public Config(int threshold, String name, PublicKey pub){
-        this.threshold = threshold;
-        this.device = new HashMap<>();
-        this.device.put(name, Ed25519.PubString(pub));
-        this.data = new HashMap<>();
+        _threshold = threshold;
+        _device = new HashMap<>();
+        _device.put(name, Ed25519.PubString(pub));
+        _data = new HashMap<>();
     }
 
     // Copy constructor
     public Config(int threshold, Map<String, String> device, Map<String, String> data) {
-        this.threshold = threshold;
-        this.device = new HashMap<>(device);
-        this.data = new HashMap<>(data);
+        _threshold = threshold;
+        _device = new HashMap<>(device);
+        _data = new HashMap<>(data);
     }
 
     public Config(Config that) {
@@ -46,20 +46,20 @@ public class Config {
      * @return Skipchain voting threshold
      */
     public int getThreshold() {
-        return threshold;
+        return _threshold;
     }
 
     /**
      * @return Devices with their corresponding public keys
      */
     public Map<String, String> getDevice() {
-        return device;
+        return _device;
     }
 
     /**
      * @return Devices with their corresponding data
      */
     public Map<String, String> getData() {
-        return data;
+        return _data;
     }
 }

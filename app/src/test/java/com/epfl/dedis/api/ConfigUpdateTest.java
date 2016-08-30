@@ -32,7 +32,7 @@ public class ConfigUpdateTest extends APITest {
         Identity identity = new CreateIdentity(activity, NAME1, cothority(HOST, PORT), true).getIdentity();
         Config config = new ConfigUpdate(activity, identity, true).getConfig();
 
-        assertEquals(Ed25519.PubString(identity.getPub()), config.getDevice().get(NAME1));
+        assertEquals(Ed25519.PubString(identity.getPublic()), config.getDevice().get(NAME1));
     }
 
     @Test

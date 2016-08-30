@@ -1,19 +1,19 @@
 package com.epfl.dedis.net;
 
 public class Cothority {
-    private String host;
-    private String port;
+    private String _host;
+    private String _port;
 
     public Cothority(String host, String port){
-        this.host = host;
-        this.port = port;
+        _host = host;
+        _port = port;
     }
 
     public String getHost() {
-        return host;
+        return _host;
     }
 
     public String getPort() {
-        return port;
+        return _port;
     }
 }

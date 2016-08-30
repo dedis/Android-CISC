@@ -44,13 +44,13 @@ public class ProposeSendTest extends APITest {
         identity.newDevice(NAME2);
         Config proposed = new ProposeSend(activity, identity, true).getProposed();
 
-        assertEquals(Ed25519.PubString(identity.getPub()), proposed.getDevice().get(NAME2));
+        assertEquals(Ed25519.PubString(identity.getPublic()), proposed.getDevice().get(NAME2));
     }
 
     @Test
     public void httpThrowsCorrectErrorMessageForWrongAddress() {
         Identity identity = new Identity(NAME1, cothority("foo", PORT));
-        identity.setSkipchainId(FOO);
+        identity.setId(FOO);
         identity.newDevice(NAME2);
         new ProposeSend(activity, identity, true).getProposed();
 
@@ -60,7 +60,7 @@ public class ProposeSendTest extends APITest {
     @Test
     public void cothorityThrowsCorrectErrorMessageForInexistentIdentity() {
         Identity identity = new Identity(NAME1, cothority(HOST, PORT));
-        identity.setSkipchainId(FOO);
+        identity.setId(FOO);
         identity.newDevice(NAME2);
         new ProposeSend(activity, identity, true).getProposed();
 

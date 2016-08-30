@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class ConfigUpdate implements Message {
 
-    private class ConfigUpdateMessage{
+    private class ConfigUpdateMessage {
         @SerializedName("ID")
         int[] id;
 
@@ -31,7 +31,7 @@ public class ConfigUpdate implements Message {
         this.identity = identity;
 
         ConfigUpdateMessage configUpdateMessage = new ConfigUpdateMessage();
-        configUpdateMessage.id = Utils.byteArrayToIntArray(identity.getSkipchainId());
+        configUpdateMessage.id = Utils.byteArrayToIntArray(identity.getId());
         configUpdateMessage.accountList = null;
 
         HTTP http = new HTTP(this, identity.getCothority(), CONFIG_UPDATE, Utils.toJson(configUpdateMessage));

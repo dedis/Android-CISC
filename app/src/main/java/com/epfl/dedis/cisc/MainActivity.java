@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.epfl.dedis.api.ConfigUpdate;
+import com.epfl.dedis.crypto.Utils;
 import com.epfl.dedis.net.Identity;
 
 import java.util.Arrays;
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
     private Identity identity;
 
     public void callbackSuccess() {
-        mIdentityValue.setText(Arrays.toString(identity.getSkipchainId()));
+        mIdentityValue.setText(Arrays.toString(identity.getId()));
         mStatusValue.setText(R.string.suc_connection);
     }
 
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
         SharedPreferences pref = getSharedPreferences(PREF, Context.MODE_PRIVATE);
         String json = pref.getString(IDENTITY, "");
         if (!json.isEmpty()) {
-            identity = Identity.load(json);
+            identity = Utils.fromJson(json, Identity.class);//Identity.load(json);
             new ConfigUpdate(this, identity);
         }
     }

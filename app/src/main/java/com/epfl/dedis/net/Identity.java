@@ -1,117 +1,141 @@
 package com.epfl.dedis.net;
 
 import com.epfl.dedis.crypto.Ed25519;
-import com.epfl.dedis.crypto.Utils;
 
 import net.i2p.crypto.eddsa.EdDSAPrivateKey;
 import net.i2p.crypto.eddsa.EdDSAPublicKey;
-import net.i2p.crypto.eddsa.KeyPairGenerator;
 import net.i2p.crypto.eddsa.spec.EdDSAPrivateKeySpec;
 import net.i2p.crypto.eddsa.spec.EdDSAPublicKeySpec;
 
 import java.security.KeyPair;
-import java.security.PrivateKey;
 import java.security.PublicKey;
 
+/**
+ * The Identity bundles the all the information about a Skipchain
+ * and the device that is currently connected to it. This class
+ * serves as the principal data structure from which all request
+ * are made.
+ */
 public class Identity {
-    private byte[] seed;
-    private byte[] skipchainId;
-    private String name;
-    private Cothority cothority;
 
-    private Config config;
-    private Config proposed;
+    private String _name;
+    private byte[] _id;
+    private byte[] _seed;
 
-    public Identity(String name) {
-        KeyPair keyPair = new KeyPairGenerator().generateKeyPair();
-        this.seed = ((EdDSAPrivateKey)keyPair.getPrivate()).getSeed();
-        this.name = name;
-        this.config = new Config(3, name, keyPair.getPublic());
-    }
+    private Cothority _cothority;
+    private Config _config;
+    private Config _proposed;
 
     public Identity(String name, Cothority cothority) {
-        this(name);
-        this.cothority = cothority;
+        _name = name;
+        _cothority = cothority;
+
+        KeyPair keyPair = Ed25519.newKeyPair();
+        _seed = ((EdDSAPrivateKey)keyPair.getPrivate()).getSeed();
+        _config = new Config(3, name, keyPair.getPublic());
     }
 
-    public Identity(Cothority cothority, byte[] skipchainId) {
-        this.cothority = cothority;
-        this.skipchainId = skipchainId;
+    // Debugging constructor
+    public Identity(Cothority cothority, byte[] id) {
+        _cothority = cothority;
+        _id = id;
     }
 
+    /**
+     * In case the Identity doesn't have a owner yet a new
+     * one is created by setting the configuration to proposed.
+     *
+     * @param name Device owner's identification
+     */
     public void newDevice(String name) {
-        this.name = name;
-        KeyPair keyPair = new KeyPairGenerator().generateKeyPair();
-        seed = ((EdDSAPrivateKey)keyPair.getPrivate()).getSeed();
-        proposed = new Config(config);
-        proposed.getDevice().put(name, Ed25519.PubString(keyPair.getPublic()));
+        _name = name;
+        _proposed = new Config(_config);
+
+        KeyPair keyPair = Ed25519.newKeyPair();
+        _seed = ((EdDSAPrivateKey)keyPair.getPrivate()).getSeed();
+        _proposed.getDevice().put(name, Ed25519.PubString(keyPair.getPublic()));
     }
 
+    /**
+     * Modify or add data for the device owner then set configuration
+     * as proposed.
+     *
+     * @param data Associated to the device owner
+     */
     public void updateData(String data) {
-        proposed = new Config(config);
-        proposed.getData().put(name, data);
+        _proposed = new Config(_config);
+        _proposed.getData().put(_name, data);
     }
 
-    public static Identity load(String str){
-        return Utils.fromJson(str, Identity.class);
+    /**
+     * @return Device owner's public key
+     */
+    public PublicKey getPublic() {
+        EdDSAPublicKeySpec epks = new EdDSAPublicKeySpec(getPrivate().getA(), Ed25519.getCurveSpec());
+        return new EdDSAPublicKey(epks);
     }
 
-    public String save(){
-        return Utils.toJson(this);
+    /**
+     * @return Device owner's private key
+     */
+    public EdDSAPrivateKey getPrivate() {
+        EdDSAPrivateKeySpec epks = new EdDSAPrivateKeySpec(_seed, Ed25519.getCurveSpec());
+        return new EdDSAPrivateKey(epks);
     }
 
-    public PublicKey getPub() {
-        EdDSAPublicKeySpec pubKey = new EdDSAPublicKeySpec(getEdDSAPrivate().getA(), Ed25519.getCurveSpec());
-        return new EdDSAPublicKey(pubKey);
-    }
-
-    public PrivateKey getPrivate() {
-        return getEdDSAPrivate();
-    }
-
-    public EdDSAPrivateKey getEdDSAPrivate() {
-        EdDSAPrivateKeySpec key = new EdDSAPrivateKeySpec(seed, Ed25519.getCurveSpec());
-        return new EdDSAPrivateKey(key);
-    }
-
-    public byte[] getSkipchainId() {
-        return skipchainId;
-    }
-
+    /**
+     * @return Device owner's name
+     */
     public String getName() {
-        return name;
+        return _name;
     }
 
+    /**
+     * @return Skipchain ID
+     */
+    public byte[] getId() {
+        return _id;
+    }
+
+    /**
+     * @return Cothority (Network information)
+     */
     public Cothority getCothority() {
-        return cothority;
+        return _cothority;
     }
 
+    /**
+     * @return Current Configuration
+     */
     public Config getConfig() {
-        return config;
+        return _config;
     }
 
+    /**
+     * @return Proposed Configuration
+     */
     public Config getProposed() {
-        return proposed;
+        return _proposed;
     }
 
-    public void setSkipchainId(byte[] skipchainId) {
-        this.skipchainId = skipchainId;
+    /**
+     * @param id Skipchain identity
+     */
+    public void setId(byte[] id) {
+        _id = id;
     }
 
+    /**
+     * @param config Configuration
+     */
     public void setConfig(Config config) {
-        this.config = config;
+        _config = config;
     }
 
+    /**
+     * @param proposed Configuration
+     */
     public void setProposed(Config proposed) {
-        this.proposed = proposed;
+        _proposed = proposed;
     }
-
-    //    public int[] getPubEncoded() {
-//        EdDSAPublicKeySpec pubKey = new EdDSAPublicKeySpec(getEdDSAPrivate().getA(), Ed25519.getCurveSpec());
-//        return Utils.byteArrayToIntArray(new EdDSAPublicKey(pubKey).getEncoded());
-//    }
-//
-//    public int[] getPrivateEncoded() {
-//        return Utils.byteArrayToIntArray(getEdDSAPrivate().getEncoded());
-//    }
 }

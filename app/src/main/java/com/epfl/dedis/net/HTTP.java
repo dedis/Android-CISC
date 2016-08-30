@@ -20,22 +20,22 @@ import java.net.URL;
  */
 public class HTTP extends AsyncTask<Void, Void, String> {
 
-    private static final int TIMEOUT = 1000;
-    private static final int BUF_SIZE = 1000;
+    private static final int TIMEOUT = 2000;
+    private static final int BUF_SIZE = 10000;
 
     private static final String ERR_COTHORITY = "1";
     private static final String ERR_NETWORK = "2";
 
-    private Message message;
-    private Cothority cothority;
-    private String path;
-    private String json;
+    private Message _message;
+    private Cothority _cothority;
+    private String _path;
+    private String _json;
 
     public HTTP(Message message, Cothority cothority, String path, String json) {
-        this.message = message;
-        this.cothority = cothority;
-        this.path = path;
-        this.json = json;
+        _message = message;
+        _cothority = cothority;
+        _path = path;
+        _json = json;
     }
 
     /**
@@ -48,7 +48,7 @@ public class HTTP extends AsyncTask<Void, Void, String> {
     @Override
     public String doInBackground(Void... params) {
         try {
-            URL url = new URL("http://" + cothority.getHost() + ":" + cothority.getPort() + "/" + path);
+            URL url = new URL("http://" + _cothority.getHost() + ":" + _cothority.getPort() + "/" + _path);
             HttpURLConnection http = (HttpURLConnection) url.openConnection();
             http.setConnectTimeout(TIMEOUT);
             http.setRequestMethod("POST");
@@ -57,7 +57,7 @@ public class HTTP extends AsyncTask<Void, Void, String> {
 
             OutputStream out = http.getOutputStream();
             OutputStreamWriter writer = new OutputStreamWriter(out);
-            writer.write(json);
+            writer.write(_json);
             writer.flush();
             writer.close();
 
@@ -89,6 +89,6 @@ public class HTTP extends AsyncTask<Void, Void, String> {
      */
     @Override
     public void onPostExecute(String result) {
-        message.callback(result);
+        _message.callback(result);
     }
 }

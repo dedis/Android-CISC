@@ -31,7 +31,7 @@ public class ProposeUpdate implements Message{
         this.identity = identity;
 
         ProposeUpdateMessage configUpdateMessage = new ProposeUpdateMessage();
-        configUpdateMessage.id = Utils.byteArrayToIntArray(identity.getSkipchainId());
+        configUpdateMessage.id = Utils.byteArrayToIntArray(identity.getId());
         configUpdateMessage.accountList = null;
 
         HTTP http = new HTTP(this, identity.getCothority(), PROPOSE_UPDATE, Utils.toJson(configUpdateMessage));

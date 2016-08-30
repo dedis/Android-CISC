@@ -23,7 +23,7 @@ public class CreateActivity extends AppCompatActivity implements Activity {
 
     public void callbackSuccess() {
         SharedPreferences.Editor editor = getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
-        editor.putString(IDENTITY, createIdentity.getIdentity().save());
+        editor.putString(IDENTITY, Utils.toJson(createIdentity.getIdentity()));
         editor.apply();
 
         Intent i = new Intent(this, ConfigActivity.class);
