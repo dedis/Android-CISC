@@ -91,6 +91,13 @@ public class Identity {
     }
 
     /**
+     * @return Device's owners EdDSA seed
+     */
+    public byte[] getSeed() {
+        return _seed;
+    }
+
+    /**
      * @return Skipchain ID
      */
     public byte[] getId() {
