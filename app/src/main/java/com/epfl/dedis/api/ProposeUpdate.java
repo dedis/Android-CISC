@@ -13,9 +13,6 @@ public class ProposeUpdate implements Message{
     private class ProposeUpdateMessage{
         @SerializedName("ID")
         int[] id;
-
-        @SerializedName("AccountList")
-        Config accountList;
     }
 
     private Activity activity;
@@ -32,7 +29,6 @@ public class ProposeUpdate implements Message{
 
         ProposeUpdateMessage configUpdateMessage = new ProposeUpdateMessage();
         configUpdateMessage.id = Utils.byteArrayToIntArray(identity.getId());
-        configUpdateMessage.accountList = null;
 
         HTTP http = new HTTP(this, identity.getCothority(), PROPOSE_UPDATE, Utils.toJson(configUpdateMessage));
         if (wait) {

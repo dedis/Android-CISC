@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
         mStatusValue = (TextView) findViewById(R.id.main_status_value);
         assert mStatusValue != null;
 
-        sendConfigUpdate();
+        //sendConfigUpdate();
 
         FloatingActionButton mCreateButton = (FloatingActionButton) findViewById(R.id.main_create_button);
         assert mCreateButton != null;

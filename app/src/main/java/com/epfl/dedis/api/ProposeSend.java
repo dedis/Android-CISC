@@ -15,8 +15,8 @@ public class ProposeSend implements Message {
         @SerializedName("ID")
         int[] id;
 
-        @SerializedName("Config")
-        Config config;
+        @SerializedName("Propose")
+        Config propose;
     }
 
     private Activity activity;
@@ -31,7 +31,7 @@ public class ProposeSend implements Message {
 
         ProposeSendMessage proposeSendMessage = new ProposeSendMessage();
         proposeSendMessage.id = Utils.byteArrayToIntArray(identity.getId());
-        proposeSendMessage.config = identity.getProposed();
+        proposeSendMessage.propose = identity.getProposed();
 
         HTTP http = new HTTP(this, identity.getCothority(), PROPOSE_SEND, Utils.toJson(proposeSendMessage));
         if (wait) {
@@ -55,6 +55,7 @@ public class ProposeSend implements Message {
         }
     }
 
+    // Not used - ProposeSend only returns OK or an error.
     public Config getProposed() {
         return proposed;
     }

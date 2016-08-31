@@ -4,6 +4,10 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
     defaultConfig {
         applicationId "com.epfl.dedis.cisc"
         minSdkVersion 21
@@ -31,4 +35,5 @@ dependencies {
     compile 'net.i2p.crypto:eddsa:0.1.0'
     compile 'com.google.code.gson:gson:2.7'
     compile 'commons-codec:commons-codec:1.10'
+    compile 'com.google.guava:guava:19.0'
 }

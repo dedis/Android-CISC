@@ -3,9 +3,16 @@ package com.epfl.dedis.net;
 import com.epfl.dedis.crypto.Ed25519;
 import com.google.gson.annotations.SerializedName;
 
+import org.apache.commons.codec.binary.Hex;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.security.MessageDigest;
 import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * The config class holds the information about all devices
@@ -26,9 +33,10 @@ public class Config {
 
     public Config(int threshold, String name, PublicKey pub){
         _threshold = threshold;
-        _device = new HashMap<>();
+        _device = new TreeMap<>();
         _device.put(name, Ed25519.PubString(pub));
         _data = new HashMap<>();
+        _data.put(name, null);
     }
 
     // Copy constructor
@@ -40,6 +48,46 @@ public class Config {
 
     public Config(Config that) {
         this(that.getThreshold(), that.getDevice(), that.getData());
+    }
+
+    public void set_threshold(int threshold) {
+        _threshold = threshold;
+    }
+
+    public void set_device(Map<String, String> device) {
+        _device = device;
+    }
+
+    public void addData(String owner, String data) {
+        _data.put(owner, data);
+    }
+
+    public void addDevice(String name, PublicKey pub){
+        _device.put(name, Ed25519.PubString(pub));
+    }
+
+    public byte[] hash() throws Exception {
+        MessageDigest sha512 = MessageDigest.getInstance("SHA-256");
+
+        ByteBuffer buffer = ByteBuffer.allocate(4);
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+        buffer.putInt(_threshold);
+
+        sha512.update(buffer.array());
+
+        for (Map.Entry<String, String> entry : _device.entrySet()) {
+            sha512.update(entry.getKey().getBytes());
+
+            String value = _data.get(entry.getKey());
+            if (value != null) {
+                sha512.update(value.getBytes());
+            }
+            PublicKey pub = Ed25519.StringToPub(entry.getValue());
+            //System.out.println( Hex.encodeHexString( Ed25519.PubBytes(pub) ));
+            sha512.update(Ed25519.PubBytes(pub));
+        }
+
+        return sha512.digest();
     }
 
     /**

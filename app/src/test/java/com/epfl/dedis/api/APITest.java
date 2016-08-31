@@ -11,6 +11,7 @@ public abstract class APITest {
     protected static final String PORT = "2000";
     protected static final String NAME1 = "test1";
     protected static final String NAME2 = "test2";
+    protected static final String NAME3 = "test3";
     protected static final byte[] FOO = new byte[]{1, 2, 3};
 
     protected static Activity activity;

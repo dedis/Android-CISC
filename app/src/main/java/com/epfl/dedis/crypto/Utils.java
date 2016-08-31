@@ -3,6 +3,8 @@ package com.epfl.dedis.crypto;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.apache.commons.codec.binary.Base64;
+
 import java.util.UUID;
 
 public class Utils {
@@ -30,5 +32,13 @@ public class Utils {
 
     public static <T> String toJson(T object) {
         return GSON.toJson(object);
+    }
+
+    public static String ByteArrayToBase64(byte[] buf){
+        return new String(Base64.encodeBase64(buf));
+    }
+
+    public static byte[] Base64ToByteArray(String base){
+        return Base64.decodeBase64(base);
     }
 }

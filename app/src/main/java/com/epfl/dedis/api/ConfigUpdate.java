@@ -13,9 +13,6 @@ public class ConfigUpdate implements Message {
     private class ConfigUpdateMessage {
         @SerializedName("ID")
         int[] id;
-
-        @SerializedName("AccountList")
-        Config accountList;
     }
 
     private Activity activity;
@@ -32,7 +29,6 @@ public class ConfigUpdate implements Message {
 
         ConfigUpdateMessage configUpdateMessage = new ConfigUpdateMessage();
         configUpdateMessage.id = Utils.byteArrayToIntArray(identity.getId());
-        configUpdateMessage.accountList = null;
 
         HTTP http = new HTTP(this, identity.getCothority(), CONFIG_UPDATE, Utils.toJson(configUpdateMessage));
         if (wait) {

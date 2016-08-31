@@ -1,5 +1,8 @@
 package com.epfl.dedis.cisc;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +12,7 @@ import android.widget.Toast;
 
 import com.epfl.dedis.api.ConfigUpdate;
 import com.epfl.dedis.api.ProposeSend;
+import com.epfl.dedis.api.ProposeVote;
 import com.epfl.dedis.crypto.Utils;
 import com.epfl.dedis.net.Cothority;
 import com.epfl.dedis.net.Identity;
@@ -22,12 +26,33 @@ public class JoinActivity extends AppCompatActivity implements Activity {
     private int stage;
     private Identity identity;
 
+    private String uuid;
+
     public void callbackSuccess() {
         if (stage == 0) {
-            identity.newDevice(Utils.uuid());
+            uuid = Utils.uuid();
+            identity.newDevice(uuid);
             new ProposeSend(this, identity);
-        } else if (stage == 1) {}
+            stage++;
+        } else if (stage == 1) {
+            new ProposeVote(this, identity);
+            stage++;
+        } else {
+            ConfigUpdate cu = new ConfigUpdate(this, identity);
+
+            if (cu.getConfig().getDevice().containsKey(uuid)) {
+
+                SharedPreferences.Editor editor = getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
+                editor.putString(IDENTITY, Utils.toJson(identity));
+                editor.apply();
+
+                Intent i = new Intent(this, ConfigActivity.class);
+                startActivity(i);
+                this.finish();
+            }
+        }
     }
+
     public void callbackError(int error) {
         Toast.makeText(this, error, Toast.LENGTH_LONG).show();
     }
@@ -45,6 +70,8 @@ public class JoinActivity extends AppCompatActivity implements Activity {
 
         mPortEditText = (EditText) findViewById(R.id.join_port_edit);
         assert mPortEditText != null;
+
+        stage = 0;
 
         FloatingActionButton mJoinButton = (FloatingActionButton) findViewById(R.id.join_join_button);
         assert mJoinButton != null;
