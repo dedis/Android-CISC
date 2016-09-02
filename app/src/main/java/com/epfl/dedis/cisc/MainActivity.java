@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,17 +15,19 @@ import com.epfl.dedis.api.ConfigUpdate;
 import com.epfl.dedis.crypto.Utils;
 import com.epfl.dedis.net.Identity;
 
-import java.util.Arrays;
-
 public class MainActivity extends AppCompatActivity implements Activity {
 
     private TextView mIdentityValue;
     private TextView mStatusValue;
+    private ImageView mQrImage;
 
     private Identity identity;
 
     public void callbackSuccess() {
-        mIdentityValue.setText(Arrays.toString(identity.getId()));
+        String identityBase64 = Utils.encodeBase64(identity.getId());
+
+        mQrImage.setImageBitmap(Utils.encodeQR(identityBase64));
+        mIdentityValue.setText(identityBase64);
         mStatusValue.setText(R.string.suc_connection);
     }
 
@@ -43,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements Activity {
 
         mStatusValue = (TextView) findViewById(R.id.main_status_value);
         assert mStatusValue != null;
+
+        mQrImage = (ImageView) findViewById(R.id.main_qr_image);
+        assert mQrImage != null;
 
         FloatingActionButton mCreateButton = (FloatingActionButton) findViewById(R.id.main_create_button);
         assert mCreateButton != null;

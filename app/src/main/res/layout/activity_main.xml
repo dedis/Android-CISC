@@ -11,6 +11,22 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/main_qr_block"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="15dp" >
+
+        <ImageView
+            android:id="@+id/main_qr_image"
+            android:layout_width="550px"
+            android:layout_height="550px"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/main_identity_block"
         android:layout_width="match_parent"
         android:layout_height="90dp"

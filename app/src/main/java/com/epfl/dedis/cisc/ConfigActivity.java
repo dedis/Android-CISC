@@ -10,7 +10,6 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
 
     private TextView mIdTextView;
     private TextView mAddressTextView;
-    //private TextView mDataTextView;
 
     private SharedPreferences sharedPreferences;
 
@@ -35,9 +34,6 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
 
         mAddressTextView = (TextView) findViewById(R.id.config_address_value);
         assert mAddressTextView != null;
-
-//        mDataTextView = (TextView) findViewById(R.id.config_data_value);
-//        assert mDataTextView != null;
 
         populate();
     }
