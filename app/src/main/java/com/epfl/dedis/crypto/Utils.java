@@ -1,9 +1,9 @@
 package com.epfl.dedis.crypto;
 
+import com.google.common.io.BaseEncoding;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.apache.commons.codec.binary.Base64;
 
 import java.util.UUID;
 
@@ -34,11 +34,11 @@ public class Utils {
         return GSON.toJson(object);
     }
 
-    public static String ByteArrayToBase64(byte[] buf){
-        return new String(Base64.encodeBase64(buf));
+    public static String encodeBase64(byte[] array){
+        return BaseEncoding.base64().encode(array);
     }
 
-    public static byte[] Base64ToByteArray(String base){
-        return Base64.decodeBase64(base);
+    public static byte[] decodeBase64(String string){
+        return BaseEncoding.base64().decode(string);
     }
 }

@@ -42,7 +42,7 @@ public class ProposeVote implements Message {
         try {
             EdDSAEngine engine = new EdDSAEngine();
             engine.initSign(identity.getPrivate());
-            proposeVoteMessage.signature = Utils.ByteArrayToBase64(engine.signOneShot(identity.getProposed().hash()));
+            proposeVoteMessage.signature = Utils.encodeBase64(engine.signOneShot(identity.getProposed().hash()));
         } catch (Exception e) {
             e.printStackTrace();
         }

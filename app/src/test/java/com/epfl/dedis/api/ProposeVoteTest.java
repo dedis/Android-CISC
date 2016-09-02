@@ -38,7 +38,6 @@ public class ProposeVoteTest extends APITest{
         identity2.newDevice(NAME2);
         assertNotNull(identity2.getProposed());
         new ProposeSend(activity, identity2, true);
-        new ProposeVote(activity, identity2, true);
         new ConfigUpdate(activity, identity2, true);
         assertFalse(identity2.getConfig().getDevice().containsKey(NAME2));
 
@@ -61,7 +60,6 @@ public class ProposeVoteTest extends APITest{
         new ConfigUpdate(activity, identity2, true);
         identity2.newDevice(NAME2);
         new ProposeSend(activity, identity2, true);
-        new ProposeVote(activity, identity2, true);
 
         new ProposeUpdate(activity, identity1, true);
         new ProposeVote(activity, identity1, true);
@@ -71,7 +69,6 @@ public class ProposeVoteTest extends APITest{
 
         identity3.newDevice(NAME3);
         new ProposeSend(activity, identity3, true);
-        new ProposeVote(activity, identity3, true);
         new ConfigUpdate(activity, identity3, true);
         assertFalse(identity3.getConfig().getDevice().containsKey(NAME3));
 

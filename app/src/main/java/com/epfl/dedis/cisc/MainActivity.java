@@ -33,15 +33,6 @@ public class MainActivity extends AppCompatActivity implements Activity {
         mStatusValue.setText(error);
     }
 
-    public void sendConfigUpdate() {
-        SharedPreferences pref = getSharedPreferences(PREF, Context.MODE_PRIVATE);
-        String json = pref.getString(IDENTITY, "");
-        if (!json.isEmpty()) {
-            identity = Utils.fromJson(json, Identity.class);//Identity.load(json);
-            new ConfigUpdate(this, identity);
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +43,6 @@ public class MainActivity extends AppCompatActivity implements Activity {
 
         mStatusValue = (TextView) findViewById(R.id.main_status_value);
         assert mStatusValue != null;
-
-        //sendConfigUpdate();
 
         FloatingActionButton mCreateButton = (FloatingActionButton) findViewById(R.id.main_create_button);
         assert mCreateButton != null;
@@ -90,7 +79,12 @@ public class MainActivity extends AppCompatActivity implements Activity {
         mRefreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendConfigUpdate();
+                SharedPreferences pref = getSharedPreferences(PREF, Context.MODE_PRIVATE);
+                String json = pref.getString(IDENTITY, "");
+                if (!json.isEmpty()) {
+                    identity = Utils.fromJson(json, Identity.class);
+                    new ConfigUpdate(MainActivity.this, identity);
+                }
             }
         });
     }

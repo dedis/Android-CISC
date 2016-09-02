@@ -3,15 +3,12 @@ package com.epfl.dedis.net;
 import com.epfl.dedis.crypto.Ed25519;
 import com.google.gson.annotations.SerializedName;
 
-import org.apache.commons.codec.binary.Hex;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.security.MessageDigest;
 import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
@@ -50,20 +47,8 @@ public class Config {
         this(that.getThreshold(), that.getDevice(), that.getData());
     }
 
-    public void set_threshold(int threshold) {
-        _threshold = threshold;
-    }
-
-    public void set_device(Map<String, String> device) {
-        _device = device;
-    }
-
     public void addData(String owner, String data) {
         _data.put(owner, data);
-    }
-
-    public void addDevice(String name, PublicKey pub){
-        _device.put(name, Ed25519.PubString(pub));
     }
 
     public byte[] hash() throws Exception {
@@ -83,7 +68,6 @@ public class Config {
                 sha512.update(value.getBytes());
             }
             PublicKey pub = Ed25519.StringToPub(entry.getValue());
-            //System.out.println( Hex.encodeHexString( Ed25519.PubBytes(pub) ));
             sha512.update(Ed25519.PubBytes(pub));
         }
 

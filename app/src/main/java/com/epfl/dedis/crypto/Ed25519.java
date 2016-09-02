@@ -8,13 +8,9 @@ import net.i2p.crypto.eddsa.spec.EdDSANamedCurveTable;
 import net.i2p.crypto.eddsa.spec.EdDSAPrivateKeySpec;
 import net.i2p.crypto.eddsa.spec.EdDSAPublicKeySpec;
 
-//import org.apache.commons.codec.binary.Base64;
-
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-
-//import android.util.Base64;
 
 import com.google.common.io.BaseEncoding;
 
@@ -46,26 +42,18 @@ public class Ed25519 {
     }
 
     public static String PubString(PublicKey pub){
-        //return new String(Base64.encodeBase64(Ed25519.PubBytes(pub)));
-        //return Base64.encodeToString(Ed25519.PubBytes(pub), Base64.DEFAULT);
         return BaseEncoding.base64().encode(Ed25519.PubBytes(pub));
     }
 
     public static String PrivateString(PrivateKey priv){
-        //return new String(Base64.encodeBase64(Ed25519.PrivateBytes(priv)));
-        //return Base64.encodeToString(Ed25519.PrivateBytes(priv), Base64.DEFAULT);
         return BaseEncoding.base64().encode(Ed25519.PrivateBytes(priv));
     }
 
     public static PublicKey StringToPub(String pub){
-        //return Ed25519.BytesToPub(Base64.decodeBase64(pub));
-        //return Ed25519.BytesToPub(Base64.decode(pub, Base64.DEFAULT));
         return Ed25519.BytesToPub(BaseEncoding.base64().decode(pub));
     }
 
     public static PrivateKey StringToPrivate(String priv){
-        //return Ed25519.BytesToPrivate(Base64.decodeBase64(priv));
-        //return Ed25519.BytesToPrivate(Base64.decode(priv, Base64.DEFAULT));
         return Ed25519.BytesToPrivate(BaseEncoding.base64().decode(priv));
     }
 
