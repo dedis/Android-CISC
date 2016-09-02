@@ -6,6 +6,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import com.epfl.dedis.crypto.Utils;
+import com.epfl.dedis.net.Identity;
+
+import java.util.Arrays;
+
 public class ConfigActivity extends AppCompatActivity implements Activity {
 
     private TextView mIdTextView;
@@ -17,9 +22,10 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
     public void callbackError(int error) {}
 
     private void populate() {
-        mIdTextView.setText(sharedPreferences.getString(ID, ""));
-        String address = sharedPreferences.getString(HOST, "") + ":" + sharedPreferences.getString(PORT, "");
-        mAddressTextView.setText(address);
+        Identity identity = Utils.fromJson(sharedPreferences.getString(IDENTITY, ""), Identity.class);
+
+        mIdTextView.setText(Arrays.toString(identity.getId()));
+        mAddressTextView.setText(identity.getCothority().getHost() + ":" + identity.getCothority().getPort());
     }
 
     @Override

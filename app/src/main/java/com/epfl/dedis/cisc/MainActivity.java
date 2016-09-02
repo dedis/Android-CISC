@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
         mJoinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, JoinActivity.class);
+                Intent i = new Intent(MainActivity.this, ScannerActivity.class);
                 startActivity(i);
             }
         });

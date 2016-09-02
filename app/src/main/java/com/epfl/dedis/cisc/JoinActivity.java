@@ -1,5 +1,6 @@
 package com.epfl.dedis.cisc;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +33,20 @@ public class JoinActivity extends AppCompatActivity implements Activity {
 
     public void callbackError(int error) {
         Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            String result=data.getStringExtra("result");
+
+            String[] json = Utils.fromJson(result, String[].class);
+            byte[] bla = Utils.fromJson(json[0], byte[].class);
+            identity = new Identity(new Cothority(json[1], json[2]), bla);
+            new ConfigUpdate(JoinActivity.this, identity);
+
+            mIdentityEditText.setText(result);
+        }
     }
 
     @Override
@@ -70,7 +85,9 @@ public class JoinActivity extends AppCompatActivity implements Activity {
 
             @Override
             public void onClick(View v) {
-                new ConfigUpdate(JoinActivity.this, identity);
+                //new ConfigUpdate(JoinActivity.this, identity);
+                Intent intent = new Intent(JoinActivity.this, ScannerActivity.class);
+                startActivityForResult(intent, 1);
             }
         });
     }
