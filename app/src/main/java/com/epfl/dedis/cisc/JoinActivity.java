@@ -1,11 +1,10 @@
 package com.epfl.dedis.cisc;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.epfl.dedis.api.ConfigUpdate;
@@ -13,21 +12,30 @@ import com.epfl.dedis.api.ProposeSend;
 import com.epfl.dedis.crypto.Utils;
 import com.epfl.dedis.net.Cothority;
 import com.epfl.dedis.net.Identity;
+import com.google.zxing.Result;
 
-public class JoinActivity extends AppCompatActivity implements Activity {
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-    private EditText mIdentityEditText;
-    private EditText mHostEditText;
-    private EditText mPortEditText;
+public class JoinActivity extends AppCompatActivity implements Activity, ZXingScannerView.ResultHandler {
 
-    private int stage;
+    private ZXingScannerView mScannerView;
+
     private Identity identity;
 
+    private boolean proposed;
+
     public void callbackSuccess() {
-        if (stage == 0) {
+        if (!proposed) {
             identity.newDevice("test");
             new ProposeSend(this, identity);
-            stage++;
+            proposed = true;
+        } else {
+            SharedPreferences.Editor editor = getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
+            editor.putString(IDENTITY, Utils.toJson(identity));
+            editor.apply();
+
+            Intent intent = new Intent(JoinActivity.this, ConfigActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -36,59 +44,34 @@ public class JoinActivity extends AppCompatActivity implements Activity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-            String result=data.getStringExtra("result");
+    public void onResume() {
+        super.onResume();
+        mScannerView.setResultHandler(this);
+        mScannerView.startCamera();
+    }
 
-            String[] json = Utils.fromJson(result, String[].class);
-            byte[] bla = Utils.fromJson(json[0], byte[].class);
-            identity = new Identity(new Cothority(json[1], json[2]), bla);
-            new ConfigUpdate(JoinActivity.this, identity);
+    @Override
+    public void onPause() {
+        super.onPause();
+        mScannerView.stopCamera();
+    }
 
-            mIdentityEditText.setText(result);
-        }
+    @Override
+    public void handleResult(Result rawResult) {
+        String result = rawResult.getText();
+
+        String[] json = Utils.fromJson(result, String[].class);
+        byte[] bla = Utils.fromJson(json[0], byte[].class);
+        identity = new Identity(new Cothority(json[1], json[2]), bla);
+        new ConfigUpdate(JoinActivity.this, identity);
+
+        finish();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_join);
-
-        mIdentityEditText = (EditText) findViewById(R.id.join_identity_edit);
-        assert mIdentityEditText != null;
-
-        mHostEditText = (EditText) findViewById(R.id.join_host_edit);
-        assert mHostEditText != null;
-
-        mPortEditText = (EditText) findViewById(R.id.join_port_edit);
-        assert mPortEditText != null;
-
-        stage = 0;
-
-        FloatingActionButton mJoinButton = (FloatingActionButton) findViewById(R.id.join_join_button);
-        assert mJoinButton != null;
-        mJoinButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                String host = mHostEditText.getText().toString();
-                String port = mPortEditText.getText().toString();
-                byte[] id = Utils.fromJson(mIdentityEditText.getText().toString(), byte[].class);
-                identity = new Identity(new Cothority(host, port), id);
-                new ConfigUpdate(JoinActivity.this, identity);
-            }
-        });
-
-        FloatingActionButton mRefreshButton = (FloatingActionButton) findViewById(R.id.join_refresh_button);
-        assert mRefreshButton != null;
-        mRefreshButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                //new ConfigUpdate(JoinActivity.this, identity);
-                Intent intent = new Intent(JoinActivity.this, ScannerActivity.class);
-                startActivityForResult(intent, 1);
-            }
-        });
+        mScannerView = new ZXingScannerView(this);
+        setContentView(mScannerView);
     }
 }
