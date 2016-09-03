@@ -10,6 +10,10 @@ import static org.junit.Assert.assertNotEquals;
 @RunWith(JUnit4.class)
 public class UtilsTest {
 
+    /**
+     * All types of byte arrays have to be correctly converted to
+     * integer arrays.
+     */
     @Test
     public void byteArrayCorrectlyConvertedToIntArray() {
         int[] array = Utils.byteArrayToIntArray(new byte[]{1, 2, 3});
@@ -22,6 +26,9 @@ public class UtilsTest {
         assertArrayEquals(new int[]{255, 2, 253}, array);
     }
 
+    /**
+     * Make sure there is no UUID collision.
+     */
     @Test
     public void assertNoUUIDCollision() {
         assertNotEquals(Utils.uuid(), Utils.uuid());

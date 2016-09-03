@@ -17,6 +17,10 @@ public abstract class APITest {
     protected static Activity activity;
     protected static int errorMessage;
 
+    /**
+     * Called before any test file in this package. Setting up
+     * a dummy Activity, only handling possible error messages.
+     */
     @BeforeClass
     public static void setup() {
         activity = new Activity() {

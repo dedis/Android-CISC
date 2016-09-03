@@ -14,6 +14,10 @@ import static org.junit.Assert.assertNull;
 @RunWith(JUnit4.class)
 public class ProposeUpdateTest extends APITest{
 
+    /**
+     * In case a Skipchain does not contain a proposed configuration,
+     * none is returned.
+     */
     @Test
     public void cothorityReturnsNullForInexistentProposed() {
         Identity identity = new CreateIdentity(activity, NAME1, cothority(HOST, PORT), true).getIdentity();
@@ -22,8 +26,14 @@ public class ProposeUpdateTest extends APITest{
         assertNull(proposed);
     }
 
+    /**
+     * Polling a Skipchain that contains a fresh proposed configuration
+     * for a recently added device. The ProposeUpdate request needs to
+     * correspond to the one that was sent in a ProposeSend request.
+     */
     @Test
     public void cothorityReturnsValidProposedForExistingProposed() {
+        // Addding a device to a Skipchain then polling the proposed configuration
         Identity identity = new CreateIdentity(activity, NAME1, cothority(HOST, PORT), true).getIdentity();
         identity.newDevice(NAME2);
         Config proposed1 = new ProposeSend(activity, identity, true).getProposed();
@@ -36,7 +46,10 @@ public class ProposeUpdateTest extends APITest{
         assertEquals(2, proposed2.getDevice().size());
     }
 
-
+    /**
+     * Correct error message is returned when sending a ProposeUpdate request
+     * that polls an inexistent Identity.
+     */
     @Test
     public void cothorityThrowsCorrectErrorMessageForInexistentIdentity() {
         new CreateIdentity(activity, NAME1, cothority(HOST, PORT), true);
@@ -47,6 +60,10 @@ public class ProposeUpdateTest extends APITest{
         assertNull(proposed);
     }
 
+    /**
+     * Correct error message is thrown when sending a ProposeUpdate request
+     * containing an invalid network address.
+     */
     @Test
     public void httpThrowsCorrectErrorMessageForWrongAddress() {
         Identity identity = new Identity(cothority("foo", PORT), FOO);

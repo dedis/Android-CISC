@@ -15,6 +15,10 @@ import static org.junit.Assert.assertNull;
 @RunWith(JUnit4.class)
 public class IdentityTest {
 
+    /**
+     * GSON does not change any field value after applying its
+     * serialization.
+     */
     @Test
     public void unchangedFieldsAfterSerialization() {
         Identity identity = new Identity("test", null);
@@ -25,6 +29,10 @@ public class IdentityTest {
         assertEquals(identity.getName(), copy.getName());
     }
 
+    /**
+     * A newly added device does appear in the proposed configuration
+     * but not in latest one.
+     */
     @Test
     public void correctlyAddNewDevice() {
         Identity identity = new Identity(null, new byte[]{});
@@ -38,6 +46,10 @@ public class IdentityTest {
         assertEquals(0, identity.getProposed().getData().size());
     }
 
+    /**
+     * When updating the owner's data the proposed configuration is
+     * set.
+     */
     @Test
     public void correctlyUpdateData() {
         Identity identity = new Identity("test", null);

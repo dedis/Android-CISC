@@ -13,6 +13,9 @@ import static org.junit.Assert.assertEquals;
 @RunWith(JUnit4.class)
 public class Ed25519Test {
 
+    /**
+     * Testing correct public key manipulations.
+     */
     @Test
     public void keyPairIsCorrectlyConvertedToString(){
         KeyPair keyPair = Ed25519.newKeyPair();

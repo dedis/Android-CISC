@@ -1,7 +1,6 @@
 package com.epfl.dedis.api;
 
 import com.epfl.dedis.cisc.R;
-import com.epfl.dedis.crypto.Ed25519;
 import com.epfl.dedis.net.Config;
 import com.epfl.dedis.net.Identity;
 
@@ -14,8 +13,14 @@ import static org.junit.Assert.assertEquals;
 @RunWith(JUnit4.class)
 public class ProposeSendTest extends APITest {
 
+    /**
+     * A new device is added to an existing Skipchain. For testing purposes
+     * the Cothority returns the proposed configuration for a successful
+     * ProposeSend request.
+     */
     @Test
     public void cothorityReturnsValidProposedForNewDevice() {
+        // Adding a device to a configuration and storing the posterior data
         Identity identity = new CreateIdentity(activity, NAME1, cothority(HOST, PORT), true).getIdentity();
         identity.newDevice(NAME2);
         int priorThreshold = identity.getProposed().getThreshold();
@@ -27,6 +32,10 @@ public class ProposeSendTest extends APITest {
         assertEquals(2, proposed.getDevice().size());
     }
 
+    /**
+     * A device updates its data then sends ProposeSend request.
+     * Prior and posterior data have to be equal.
+     */
     @Test
     public void cothorityReturnsValidProposedForDataUpdate() {
         Identity identity = new CreateIdentity(activity, NAME1, cothority(HOST, PORT), true).getIdentity();
@@ -38,15 +47,11 @@ public class ProposeSendTest extends APITest {
         assertEquals(1, proposed.getData().size());
     }
 
-    @Test
-    public void keyPairMatchingAfterSuccessfulConfigUpdate() {
-        Identity identity = new CreateIdentity(activity, NAME1, cothority(HOST, PORT), true).getIdentity();
-        identity.newDevice(NAME2);
-        Config proposed = new ProposeSend(activity, identity, true).getProposed();
 
-        assertEquals(Ed25519.PubString(identity.getPublic()), proposed.getDevice().get(NAME2));
-    }
-
+    /**
+     * Correct error message is returned when a ProposeSend request
+     * contains an invalid network address.
+     */
     @Test
     public void httpThrowsCorrectErrorMessageForWrongAddress() {
         Identity identity = new Identity(NAME1, cothority("foo", PORT));
@@ -57,6 +62,10 @@ public class ProposeSendTest extends APITest {
         assertEquals(R.string.err_refused, errorMessage);
     }
 
+    /**
+     * Correct error message is thrown when a ProposeSend request
+     * polls an inexistent identity.
+     */
     @Test
     public void cothorityThrowsCorrectErrorMessageForInexistentIdentity() {
         Identity identity = new Identity(NAME1, cothority(HOST, PORT));

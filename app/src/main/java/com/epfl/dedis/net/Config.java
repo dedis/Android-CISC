@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,27 +52,26 @@ public class Config {
         _data.put(owner, data);
     }
 
-    public byte[] hash() throws Exception {
-        MessageDigest sha512 = MessageDigest.getInstance("SHA-256");
+    public byte[] hash() throws NoSuchAlgorithmException {
+        MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
 
         ByteBuffer buffer = ByteBuffer.allocate(4);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
         buffer.putInt(_threshold);
-
-        sha512.update(buffer.array());
+        sha256.update(buffer.array());
 
         for (Map.Entry<String, String> entry : _device.entrySet()) {
-            sha512.update(entry.getKey().getBytes());
+            sha256.update(entry.getKey().getBytes());
 
             String value = _data.get(entry.getKey());
             if (value != null) {
-                sha512.update(value.getBytes());
+                sha256.update(value.getBytes());
             }
             PublicKey pub = Ed25519.StringToPub(entry.getValue());
-            sha512.update(Ed25519.PubBytes(pub));
+            sha256.update(Ed25519.PubBytes(pub));
         }
 
-        return sha512.digest();
+        return sha256.digest();
     }
 
     /**
