@@ -2,8 +2,10 @@ package com.epfl.dedis.crypto;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.util.TypedValue;
 
 import com.google.common.io.BaseEncoding;
+import com.google.common.io.Resources;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.zxing.BarcodeFormat;
@@ -49,18 +51,19 @@ public class Utils {
         return BaseEncoding.base64().decode(string);
     }
 
-    public static Bitmap encodeQR(String message) {
+    public static Bitmap encodeQR(String message, int px) {
         QRCodeWriter writer = new QRCodeWriter();
         BitMatrix matrix = null;
+
         try {
-            matrix = writer.encode(message, BarcodeFormat.QR_CODE, 550, 550);
+            matrix = writer.encode(message, BarcodeFormat.QR_CODE, px, px);
         } catch (WriterException e) {
             e.printStackTrace();
         }
 
-        Bitmap bitmap = Bitmap.createBitmap(550, 550, Bitmap.Config.RGB_565);
-        for (int x = 0; x < 550; x++){
-            for (int y = 0; y < 550; y++){
+        Bitmap bitmap = Bitmap.createBitmap(px, px, Bitmap.Config.RGB_565);
+        for (int x = 0; x < px; x++){
+            for (int y = 0; y < px; y++){
                 bitmap.setPixel(x, y, matrix.get(x,y) ? Color.BLACK : Color.WHITE);
             }
         }

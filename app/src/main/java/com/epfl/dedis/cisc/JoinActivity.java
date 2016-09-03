@@ -12,6 +12,7 @@ import com.epfl.dedis.api.ProposeSend;
 import com.epfl.dedis.crypto.Utils;
 import com.epfl.dedis.net.Cothority;
 import com.epfl.dedis.net.Identity;
+import com.google.gson.annotations.SerializedName;
 import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
@@ -20,18 +21,29 @@ public class JoinActivity extends AppCompatActivity implements Activity, ZXingSc
 
     private ZXingScannerView mScannerView;
 
-    private Identity identity;
+    private Identity mIdentity;
 
-    private boolean proposed;
+    private boolean mProposed;
+
+    private class QRMessage {
+        @SerializedName("ID")
+        byte[] id;
+
+        @SerializedName("Host")
+        String host;
+
+        @SerializedName("Port")
+        String port;
+    }
 
     public void callbackSuccess() {
-        if (!proposed) {
-            identity.newDevice("test");
-            new ProposeSend(this, identity);
-            proposed = true;
+        if (!mProposed) {
+            mIdentity.newDevice(Utils.uuid());
+            new ProposeSend(this, mIdentity);
+            mProposed = true;
         } else {
             SharedPreferences.Editor editor = getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
-            editor.putString(IDENTITY, Utils.toJson(identity));
+            editor.putString(IDENTITY, Utils.toJson(mIdentity));
             editor.apply();
 
             Intent intent = new Intent(JoinActivity.this, ConfigActivity.class);
@@ -58,13 +70,11 @@ public class JoinActivity extends AppCompatActivity implements Activity, ZXingSc
 
     @Override
     public void handleResult(Result rawResult) {
-        String result = rawResult.getText();
+        String json = rawResult.getText();
+        QRMessage qrm = Utils.fromJson(json, QRMessage.class);
 
-        String[] json = Utils.fromJson(result, String[].class);
-        byte[] bla = Utils.fromJson(json[0], byte[].class);
-        identity = new Identity(new Cothority(json[1], json[2]), bla);
-        new ConfigUpdate(JoinActivity.this, identity);
-
+        mIdentity = new Identity(new Cothority(qrm.host, qrm.port), qrm.id);
+        new ConfigUpdate(JoinActivity.this, mIdentity);
         finish();
     }
 

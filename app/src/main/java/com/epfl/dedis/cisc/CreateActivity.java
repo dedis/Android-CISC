@@ -28,7 +28,7 @@ public class CreateActivity extends AppCompatActivity implements Activity {
 
         Intent i = new Intent(this, ConfigActivity.class);
         startActivity(i);
-        this.finish();
+        finish();
     }
 
     public void callbackError(int error){

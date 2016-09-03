@@ -3,13 +3,14 @@ package com.epfl.dedis.cisc;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.epfl.dedis.api.ConfigUpdate;
 import com.epfl.dedis.crypto.Utils;
@@ -17,23 +18,21 @@ import com.epfl.dedis.net.Identity;
 
 public class MainActivity extends AppCompatActivity implements Activity {
 
-    private TextView mIdentityValue;
-    private TextView mStatusValue;
     private ImageView mQrImage;
 
     private Identity identity;
 
     public void callbackSuccess() {
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mQrImage.getWidth(), r.getDisplayMetrics());
         String identityBase64 = Utils.encodeBase64(identity.getId());
 
-        mQrImage.setImageBitmap(Utils.encodeQR(identityBase64));
-        mIdentityValue.setText(identityBase64);
-        mStatusValue.setText(R.string.suc_connection);
+        mQrImage.setImageBitmap(Utils.encodeQR(identityBase64, (int) px));
+        mQrImage.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorSuccess));
     }
 
     public void callbackError(int error) {
-        Toast.makeText(this, error, Toast.LENGTH_LONG).show();
-        mStatusValue.setText(error);
+        mQrImage.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorFailure));
     }
 
     @Override
@@ -41,14 +40,14 @@ public class MainActivity extends AppCompatActivity implements Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mIdentityValue = (TextView) findViewById(R.id.main_identity_value);
-        assert mIdentityValue != null;
-
-        mStatusValue = (TextView) findViewById(R.id.main_status_value);
-        assert mStatusValue != null;
-
         mQrImage = (ImageView) findViewById(R.id.main_qr_image);
         assert mQrImage != null;
+        mQrImage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, ConfigActivity.class);
+                startActivity(i);
+            }
+        });
 
         FloatingActionButton mCreateButton = (FloatingActionButton) findViewById(R.id.main_create_button);
         assert mCreateButton != null;
@@ -66,16 +65,6 @@ public class MainActivity extends AppCompatActivity implements Activity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, JoinActivity.class);
-                startActivity(i);
-            }
-        });
-
-        FloatingActionButton mConfigButton = (FloatingActionButton) findViewById(R.id.main_config_button);
-        assert mConfigButton != null;
-        mConfigButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, ConfigActivity.class);
                 startActivity(i);
             }
         });

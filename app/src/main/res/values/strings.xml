@@ -5,8 +5,7 @@
     <string name="join_name">CISC - Join</string>
     <string name="scanner_name">CISC - Scan</string>
 
-    <string name="main_identity_label">Identity</string>
-    <string name="main_status_label">Status</string>
+    <string name="main_title_label">DEDIS @EPFL</string>
 
     <string name="create_host_hint">Hostname</string>
     <string name="create_port_hint">Port</string>
@@ -25,6 +24,7 @@
     <string name="hint_port_editText">Port</string>
     <string name="hint_data_editText">Data (SSH-key etc.)</string>
     <string name="hint_id_editText">Skipchain Identity (ID)</string>
+    <string name="hint_qr_imageView">QR-Code</string>
 
     <string name="change_button">Change</string>
     <string name="devices_button">Devices</string>

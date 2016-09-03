@@ -9,22 +9,20 @@ import android.widget.TextView;
 import com.epfl.dedis.crypto.Utils;
 import com.epfl.dedis.net.Identity;
 
-import java.util.Arrays;
-
 public class ConfigActivity extends AppCompatActivity implements Activity {
 
     private TextView mIdTextView;
     private TextView mAddressTextView;
 
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences mSharedPreferences;
 
     public void callbackSuccess() {}
     public void callbackError(int error) {}
 
     private void populate() {
-        Identity identity = Utils.fromJson(sharedPreferences.getString(IDENTITY, ""), Identity.class);
+        Identity identity = Utils.fromJson(mSharedPreferences.getString(IDENTITY, ""), Identity.class);
 
-        mIdTextView.setText(Arrays.toString(identity.getId()));
+        mIdTextView.setText(Utils.encodeBase64(identity.getId()));
         mAddressTextView.setText(identity.getCothority().getHost() + ":" + identity.getCothority().getPort());
     }
 
@@ -33,7 +31,7 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
 
-        sharedPreferences = getSharedPreferences(PREF, Context.MODE_PRIVATE);
+        mSharedPreferences = getSharedPreferences(PREF, Context.MODE_PRIVATE);
 
         mIdTextView = (TextView) findViewById(R.id.config_identity_value);
         assert mIdTextView != null;
