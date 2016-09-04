@@ -13,7 +13,7 @@ public class ProposeSend implements Message {
     private class ProposeSendMessage {
 
         @SerializedName("ID")
-        int[] id;
+        String id;
 
         @SerializedName("Propose")
         Config propose;
@@ -30,7 +30,7 @@ public class ProposeSend implements Message {
         this.activity = activity;
 
         ProposeSendMessage proposeSendMessage = new ProposeSendMessage();
-        proposeSendMessage.id = Utils.byteArrayToIntArray(identity.getId());
+        proposeSendMessage.id = Utils.encodeBase64(identity.getId());
         proposeSendMessage.propose = identity.getProposed();
 
         HTTP http = new HTTP(this, identity.getCothority(), PROPOSE_SEND, Utils.toJson(proposeSendMessage));

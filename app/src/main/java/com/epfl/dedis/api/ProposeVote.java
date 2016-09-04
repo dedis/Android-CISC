@@ -14,7 +14,7 @@ public class ProposeVote implements Message {
     private class ProposeVoteMessage {
 
         @SerializedName("ID")
-        private int[] id;
+        private String id;
 
         @SerializedName("Signer")
         private String signer;
@@ -36,7 +36,7 @@ public class ProposeVote implements Message {
         this.identity = identity;
 
         ProposeVoteMessage proposeVoteMessage = new ProposeVoteMessage();
-        proposeVoteMessage.id = Utils.byteArrayToIntArray(identity.getId());
+        proposeVoteMessage.id = Utils.encodeBase64(identity.getId());
         proposeVoteMessage.signer = identity.getName();
 
         try {

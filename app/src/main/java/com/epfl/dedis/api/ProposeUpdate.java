@@ -12,7 +12,7 @@ public class ProposeUpdate implements Message{
 
     private class ProposeUpdateMessage{
         @SerializedName("ID")
-        int[] id;
+        String id;
     }
 
     private Activity activity;
@@ -28,7 +28,7 @@ public class ProposeUpdate implements Message{
         this.identity = identity;
 
         ProposeUpdateMessage configUpdateMessage = new ProposeUpdateMessage();
-        configUpdateMessage.id = Utils.byteArrayToIntArray(identity.getId());
+        configUpdateMessage.id = Utils.encodeBase64(identity.getId());
 
         HTTP http = new HTTP(this, identity.getCothority(), PROPOSE_UPDATE, Utils.toJson(configUpdateMessage));
         if (wait) {

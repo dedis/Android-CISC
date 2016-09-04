@@ -33,4 +33,10 @@ public class UtilsTest {
     public void assertNoUUIDCollision() {
         assertNotEquals(Utils.uuid(), Utils.uuid());
     }
+
+    @Test
+    public void test() {
+        String s = new byte[]{1, 2, 3}.toString();
+        System.out.println(s);
+    }
 }
