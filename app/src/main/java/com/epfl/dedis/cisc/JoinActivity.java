@@ -36,7 +36,7 @@ public class JoinActivity extends AppCompatActivity implements Activity, ZXingSc
         String port;
     }
 
-    public void callbackSuccess() {
+    public void taskJoin() {
         if (!mProposed) {
             mIdentity.newDevice(Utils.uuid());
             new ProposeSend(this, mIdentity);
@@ -51,7 +51,7 @@ public class JoinActivity extends AppCompatActivity implements Activity, ZXingSc
         }
     }
 
-    public void callbackError(int error) {
+    public void taskFail(int error) {
         Toast.makeText(this, error, Toast.LENGTH_LONG).show();
     }
 

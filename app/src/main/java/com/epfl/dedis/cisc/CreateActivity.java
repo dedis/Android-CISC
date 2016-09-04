@@ -21,7 +21,7 @@ public class CreateActivity extends AppCompatActivity implements Activity {
 
     private CreateIdentity createIdentity;
 
-    public void callbackSuccess() {
+    public void taskJoin() {
         SharedPreferences.Editor editor = getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
         editor.putString(IDENTITY, Utils.toJson(createIdentity.getIdentity()));
         editor.apply();
@@ -31,7 +31,7 @@ public class CreateActivity extends AppCompatActivity implements Activity {
         finish();
     }
 
-    public void callbackError(int error){
+    public void taskFail(int error){
         Toast.makeText(this, error, Toast.LENGTH_LONG).show();
     }
 
@@ -69,7 +69,7 @@ public class CreateActivity extends AppCompatActivity implements Activity {
                 String port = mPortEditText.getText().toString();
 
                 if (host.isEmpty() || port.isEmpty()) {
-                    callbackError(R.string.err_empty_fields);
+                    taskFail(R.string.err_empty_fields);
                 } else {
                     createIdentity = new CreateIdentity(CreateActivity.this, Utils.uuid(), new Cothority(host, port));
                 }

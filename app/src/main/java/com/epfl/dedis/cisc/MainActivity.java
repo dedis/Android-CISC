@@ -11,10 +11,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.epfl.dedis.api.ConfigUpdate;
 import com.epfl.dedis.crypto.Utils;
 import com.epfl.dedis.net.Identity;
+import com.google.zxing.WriterException;
 
 public class MainActivity extends AppCompatActivity implements Activity {
 
@@ -22,16 +24,20 @@ public class MainActivity extends AppCompatActivity implements Activity {
 
     private Identity identity;
 
-    public void callbackSuccess() {
+    public void taskJoin() {
         Resources r = getResources();
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mQrImage.getWidth(), r.getDisplayMetrics());
         String identityBase64 = Utils.encodeBase64(identity.getId());
 
-        mQrImage.setImageBitmap(Utils.encodeQR(identityBase64, (int) px));
-        mQrImage.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorSuccess));
+        try {
+            mQrImage.setImageBitmap(Utils.encodeQR(identityBase64, (int) px));
+            mQrImage.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorSuccess));
+        } catch (WriterException e){
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
-    public void callbackError(int error) {
+    public void taskFail(int error) {
         mQrImage.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorFailure));
     }
 

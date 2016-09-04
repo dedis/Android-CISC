@@ -27,7 +27,10 @@ public class CreateIdentity implements Message {
         this.activity = activity;
         this.identity = new Identity(name, cothority);
 
-        HTTP http = new HTTP(this, identity.getCothority(), ADD_IDENTITY, toJson());
+        CreateIdentityMessage createIdentityMessage = new CreateIdentityMessage();
+        createIdentityMessage.config = identity.getConfig();
+
+        HTTP http = new HTTP(this, identity.getCothority(), ADD_IDENTITY, Utils.toJson(createIdentityMessage));
         if (wait) {
             String result = http.doInBackground();
             http.onPostExecute(result);
@@ -38,21 +41,25 @@ public class CreateIdentity implements Message {
 
     public void callback(String result) {
         switch (result) {
-            case "1": activity.callbackError(R.string.err_add_identity);
+            case "1": activity.taskFail(R.string.err_add_identity);
                 break;
-            case "2": activity.callbackError(R.string.err_refused);
+            case "2": activity.taskFail(R.string.err_refused);
                 break;
             default: {
-                identity.setId(Utils.fromJson(result, byte[].class));
-                activity.callbackSuccess();
+                identity.setId(Utils.decodeBase64(result));
+                activity.taskJoin();
             }
         }
     }
 
-    public String toJson() {
-        CreateIdentityMessage createIdentityMessage = new CreateIdentityMessage();
-        createIdentityMessage.config = identity.getConfig();
-        return Utils.toJson(createIdentityMessage);
+    public void callbackError(int error) {
+        switch (error) {
+            case 400: activity.taskFail(R.string.err_refused); break;
+            case 500: activity.taskFail(R.string.err_refused); break;
+            case 501: activity.taskFail(R.string.err_refused); break;
+            case 502: activity.taskFail(R.string.err_config_update); break;
+            default: activity.taskFail(R.string.err_refused);
+        }
     }
 
     public Identity getIdentity() {

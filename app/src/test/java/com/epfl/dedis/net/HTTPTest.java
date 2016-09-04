@@ -17,6 +17,6 @@ public class HTTPTest {
     public void throwCorrectErrorStringForWrongAddress() {
         HTTP http = new HTTP(null, new Cothority("0", "1"), "foo", "bar");
         String error = http.doInBackground();
-        assertEquals("2", error);
+        assertEquals("", error);
     }
 }

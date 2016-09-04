@@ -24,8 +24,8 @@ public abstract class APITest {
     @BeforeClass
     public static void setup() {
         activity = new Activity() {
-            public void callbackSuccess() {}
-            public void callbackError(int error) {
+            public void taskJoin() {}
+            public void taskFail(int error) {
                 errorMessage = error;
             }
         };

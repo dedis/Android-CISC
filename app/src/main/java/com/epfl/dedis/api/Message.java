@@ -12,5 +12,6 @@ public interface Message {
     String PROPOSE_VOTE = "pv";
 
     void callback(String result);
+    void callbackError(int error);
 
 }

@@ -16,8 +16,8 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
 
     private SharedPreferences mSharedPreferences;
 
-    public void callbackSuccess() {}
-    public void callbackError(int error) {}
+    public void taskJoin() {}
+    public void taskFail(int error) {}
 
     private void populate() {
         Identity identity = Utils.fromJson(mSharedPreferences.getString(IDENTITY, ""), Identity.class);

@@ -43,15 +43,17 @@ public class ProposeSend implements Message {
     }
 
     public void callback(String result) {
-        switch (result) {
-            case "1": activity.callbackError(R.string.err_propose_send);
-                break;
-            case "2": activity.callbackError(R.string.err_refused);
-                break;
-            default: {
-                proposed = Utils.fromJson(result, Config.class);
-                activity.callbackSuccess();
-            }
+        proposed = Utils.fromJson(result, Config.class);
+        activity.taskJoin();
+    }
+
+    public void callbackError(int error) {
+        switch (error) {
+            case 400: activity.taskFail(R.string.err_refused); break;
+            case 500: activity.taskFail(R.string.err_refused); break;
+            case 501: activity.taskFail(R.string.err_refused); break;
+            case 502: activity.taskFail(R.string.err_propose_send); break;
+            default: activity.taskFail(R.string.err_refused);
         }
     }
 

@@ -31,6 +31,8 @@ public class HTTP extends AsyncTask<Void, Void, String> {
     private String _path;
     private String _json;
 
+    private int responseCode;
+
     public HTTP(Message message, Cothority cothority, String path, String json) {
         _message = message;
         _cothority = cothority;
@@ -61,23 +63,24 @@ public class HTTP extends AsyncTask<Void, Void, String> {
             writer.flush();
             writer.close();
 
+            responseCode = http.getResponseCode();
+            if (responseCode != 200) {
+                http.disconnect();
+                return "";
+            }
+
             InputStreamReader in = new InputStreamReader(http.getInputStream());
             BufferedReader br = new BufferedReader(in);
 
             char[] chars = new char[BUF_SIZE];
             int size = br.read(chars);
 
-            // Zero character marks an error from the Cothority.
-            if (chars[0] == '0') {
-                http.disconnect();
-                return ERR_COTHORITY;
-            }
-
             String response = new String(chars).substring(0, size);
             http.disconnect();
             return response;
         } catch (IOException e) {
-            return ERR_NETWORK;
+            responseCode = 400;
+            return "";
         }
     }
 
@@ -89,6 +92,10 @@ public class HTTP extends AsyncTask<Void, Void, String> {
      */
     @Override
     public void onPostExecute(String result) {
-        _message.callback(result);
+        if (result.isEmpty()) {
+            _message.callbackError(responseCode);
+        } else {
+            _message.callback(result);
+        }
     }
 }

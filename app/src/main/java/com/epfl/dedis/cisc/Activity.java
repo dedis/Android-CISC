@@ -11,6 +11,6 @@ public interface Activity {
     String PORT = "PORT";
     String ID = "ID";
 
-    void callbackSuccess();
-    void callbackError(int error);
+    void taskJoin();
+    void taskFail(int error);
 }

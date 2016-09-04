@@ -40,16 +40,18 @@ public class ConfigUpdate implements Message {
     }
 
     public void callback(String result) {
-        switch (result) {
-            case "1": activity.callbackError(R.string.err_config_update);
-                break;
-            case "2": activity.callbackError(R.string.err_refused);
-                break;
-            default: {
-                config = Utils.fromJson(result, Config.class);
-                identity.setConfig(config);
-                activity.callbackSuccess();
-            }
+        config = Utils.fromJson(result, Config.class);
+        identity.setConfig(config);
+        activity.taskJoin();
+    }
+
+    public void callbackError(int error) {
+        switch (error) {
+            case 400: activity.taskFail(R.string.err_refused); break;
+            case 500: activity.taskFail(R.string.err_refused); break;
+            case 501: activity.taskFail(R.string.err_refused); break;
+            case 502: activity.taskFail(R.string.err_config_update); break;
+            default: activity.taskFail(R.string.err_refused);
         }
     }
 

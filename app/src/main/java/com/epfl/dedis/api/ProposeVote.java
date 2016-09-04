@@ -1,6 +1,7 @@
 package com.epfl.dedis.api;
 
 import com.epfl.dedis.cisc.Activity;
+import com.epfl.dedis.cisc.R;
 import com.epfl.dedis.crypto.Utils;
 import com.epfl.dedis.net.Config;
 import com.epfl.dedis.net.HTTP;
@@ -58,5 +59,15 @@ public class ProposeVote implements Message {
 
     public void callback(String result) {
         System.out.println(result);
+    }
+
+    public void callbackError(int error) {
+        switch (error) {
+            case 400: activity.taskFail(R.string.err_refused); break;
+            case 500: activity.taskFail(R.string.err_refused); break;
+            case 501: activity.taskFail(R.string.err_refused); break;
+            case 502: activity.taskFail(R.string.err_propose_send); break;
+            default: activity.taskFail(R.string.err_refused);
+        }
     }
 }
