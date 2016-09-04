@@ -24,6 +24,7 @@ captures/
 *.iml
 .idea/workspace.xml
 .idea/codeStyleSettings.xml
+.idea/statistic.xml
 .idea/libraries
 
 # Mac directory files
