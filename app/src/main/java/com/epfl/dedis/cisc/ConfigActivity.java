@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 import com.epfl.dedis.crypto.Utils;
@@ -43,6 +45,16 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
 
         mStatusTextView = (TextView) findViewById(R.id.config_status_value);
         assert mStatusTextView != null;
+
+        FloatingActionButton deviceButton = (FloatingActionButton) findViewById(R.id.config_devices_button);
+        assert deviceButton != null;
+        deviceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ConfigActivity.this, DeviceActivity.class);
+                startActivity(intent);
+            }
+        });
 
         Intent intent = getIntent();
         System.out.println(intent.getStringExtra("STATUS"));

@@ -4,6 +4,7 @@
     <string name="config_name">CISC - Configuration</string>
     <string name="join_name">CISC - Join</string>
     <string name="scanner_name">CISC - Scan</string>
+    <string name="device_name">CISC - Devices</string>
 
     <string name="main_title_label">DEDIS @EPFL</string>
 

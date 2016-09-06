@@ -35,6 +35,10 @@
             android:label="@string/scanner_name"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".DeviceActivity"
+            android:label="@string/device_name">
+        </activity>
     </application>
 
 </manifest>
