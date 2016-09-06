@@ -11,6 +11,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+import java.nio.ShortBuffer;
 import java.util.UUID;
 
 public class Utils {
@@ -19,15 +20,7 @@ public class Utils {
             .serializeNulls()
             .disableHtmlEscaping()
             .create();
-
-    public static int[] byteArrayToIntArray(byte[] array) {
-        int[] conv = new int[array.length];
-        for (int i = 0; i < array.length; i++){
-            conv[i] = array[i] & 0xff;
-        }
-        return conv;
-    }
-
+    
     public static String uuid() {
         return UUID.randomUUID().toString();
     }
@@ -53,11 +46,13 @@ public class Utils {
         BitMatrix matrix = writer.encode(message, BarcodeFormat.QR_CODE, px, px);
 
         Bitmap bitmap = Bitmap.createBitmap(px, px, Bitmap.Config.RGB_565);
+        short[] array = new short[px * px];
         for (int x = 0; x < px; x++) {
             for (int y = 0; y < px; y++) {
-                bitmap.setPixel(x, y, matrix.get(x,y) ? Color.BLACK : Color.WHITE);
+                array[x * px + y] = matrix.get(x, y) ? (short)Color.BLACK : (short)Color.WHITE;
             }
         }
+        bitmap.copyPixelsFromBuffer(ShortBuffer.wrap(array));
         return bitmap;
     }
 }
