@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_activity"
     android:focusable="true"
     android:focusableInTouchMode="true"
@@ -63,7 +64,8 @@
             android:src="@drawable/ic_add_white"
             android:layout_margin="10dp"
             android:layout_weight="0.3"
-            android:scaleType="center"/>
+            android:scaleType="center"
+            app:backgroundTint="@color/colorPrimary"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/main_join_button"
@@ -73,7 +75,8 @@
             android:src="@drawable/ic_link_white"
             android:layout_margin="10dp"
             android:layout_weight="0.3"
-            android:scaleType="center"/>
+            android:scaleType="center"
+            app:backgroundTint="@color/colorPrimary"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/main_refresh_button"
@@ -83,7 +86,8 @@
             android:src="@drawable/ic_refresh_white"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:scaleType="center"/>
+            android:scaleType="center"
+            app:backgroundTint="@color/colorPrimary"/>
 
     </LinearLayout>
 

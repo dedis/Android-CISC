@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/config_activity"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -28,7 +29,7 @@
         <TextView
             android:id="@+id/config_identity_value"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -96,7 +97,8 @@
             android:src="@drawable/ic_change_white"
             android:layout_margin="10dp"
             android:layout_weight="0.3"
-            android:scaleType="center"/>
+            android:scaleType="center"
+            app:backgroundTint="@color/colorPrimary"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/config_devices_button"
@@ -106,7 +108,8 @@
             android:src="@drawable/ic_devices_white"
             android:layout_margin="10dp"
             android:layout_weight="0.3"
-            android:scaleType="center"/>
+            android:scaleType="center"
+            app:backgroundTint="@color/colorPrimary"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/main_refresh_button"
@@ -116,7 +119,8 @@
             android:src="@drawable/ic_refresh_white"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:scaleType="center"/>
+            android:scaleType="center"
+            app:backgroundTint="@color/colorPrimary"/>
 
     </LinearLayout>
 
