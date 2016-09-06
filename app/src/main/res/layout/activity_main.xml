@@ -14,7 +14,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/main_qr_block"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="340dp"
         android:orientation="vertical"
         android:gravity="center"
         android:padding="15dp" >
@@ -22,8 +22,8 @@
         <ImageView
             android:id="@+id/main_qr_image"
             android:contentDescription="@string/hint_qr_imageView"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             android:layout_margin="50dp"
             android:padding="5dp" />
 
@@ -39,7 +39,7 @@
         android:padding="15dp" >
 
     <TextView
-        android:id="@+id/main_title_label"
+        android:id="@+id/main_status_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/main_title_label"

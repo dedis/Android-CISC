@@ -1,6 +1,7 @@
 package com.epfl.dedis.cisc;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
 
     private TextView mIdTextView;
     private TextView mAddressTextView;
+    private TextView mStatusTextView;
 
     private SharedPreferences mSharedPreferences;
 
@@ -38,6 +40,13 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
 
         mAddressTextView = (TextView) findViewById(R.id.config_address_value);
         assert mAddressTextView != null;
+
+        mStatusTextView = (TextView) findViewById(R.id.config_status_value);
+        assert mStatusTextView != null;
+
+        Intent intent = getIntent();
+        System.out.println(intent.getStringExtra("STATUS"));
+        mStatusTextView.setText(intent.getStringExtra("STATUS"));
 
         populate();
     }

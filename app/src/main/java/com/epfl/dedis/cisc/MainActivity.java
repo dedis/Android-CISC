@@ -6,11 +6,11 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.epfl.dedis.api.ConfigUpdate;
@@ -21,6 +21,7 @@ import com.google.zxing.WriterException;
 public class MainActivity extends AppCompatActivity implements Activity {
 
     private ImageView mQrImage;
+    private TextView mStatusLabel;
 
     private Identity identity;
 
@@ -31,14 +32,15 @@ public class MainActivity extends AppCompatActivity implements Activity {
 
         try {
             mQrImage.setImageBitmap(Utils.encodeQR(identityBase64, (int) px));
-            mQrImage.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorSuccess));
+            mStatusLabel.setText(R.string.suc_connection);
+            System.out.println(mStatusLabel.getText());
         } catch (WriterException e){
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
     public void taskFail(int error) {
-        mQrImage.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorFailure));
+        mStatusLabel.setText(error);
     }
 
     @Override
@@ -50,18 +52,22 @@ public class MainActivity extends AppCompatActivity implements Activity {
         assert mQrImage != null;
         mQrImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, ConfigActivity.class);
-                startActivity(i);
+                Intent intent = new Intent(MainActivity.this, ConfigActivity.class);
+                intent.putExtra(STATUS_INTENT, mStatusLabel.getText());
+                startActivity(intent);
             }
         });
+
+        mStatusLabel = (TextView) findViewById(R.id.main_status_label);
+        assert mStatusLabel != null;
 
         FloatingActionButton mCreateButton = (FloatingActionButton) findViewById(R.id.main_create_button);
         assert mCreateButton != null;
         mCreateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, CreateActivity.class);
-                startActivity(i);
+                Intent intent = new Intent(MainActivity.this, CreateActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -70,8 +76,8 @@ public class MainActivity extends AppCompatActivity implements Activity {
         mJoinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, JoinActivity.class);
-                startActivity(i);
+                Intent intent = new Intent(MainActivity.this, JoinActivity.class);
+                startActivity(intent);
             }
         });
 

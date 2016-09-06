@@ -27,7 +27,7 @@ public class JoinActivity extends AppCompatActivity implements Activity, ZXingSc
 
     private class QRMessage {
         @SerializedName("ID")
-        byte[] id;
+        String id;
 
         @SerializedName("Host")
         String host;
@@ -47,6 +47,7 @@ public class JoinActivity extends AppCompatActivity implements Activity, ZXingSc
             editor.apply();
 
             Intent intent = new Intent(JoinActivity.this, ConfigActivity.class);
+            intent.putExtra(STATUS_INTENT, "Waiting for confirmation to join.");
             startActivity(intent);
         }
     }
@@ -73,7 +74,7 @@ public class JoinActivity extends AppCompatActivity implements Activity, ZXingSc
         String json = rawResult.getText();
         QRMessage qrm = Utils.fromJson(json, QRMessage.class);
 
-        mIdentity = new Identity(new Cothority(qrm.host, qrm.port), qrm.id);
+        mIdentity = new Identity(new Cothority(qrm.host, qrm.port), Utils.decodeBase64(qrm.id));
         new ConfigUpdate(JoinActivity.this, mIdentity);
         finish();
     }
