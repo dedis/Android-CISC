@@ -50,6 +50,7 @@ public class HTTP extends AsyncTask<Void, Void, String> {
     @Override
     public String doInBackground(Void... params) {
         try {
+            System.out.println("OUT: " + _json);
             URL url = new URL("http://" + _cothority.getHost() + ":" + _cothority.getPort() + "/" + _path);
             HttpURLConnection http = (HttpURLConnection) url.openConnection();
             http.setConnectTimeout(TIMEOUT);
@@ -77,6 +78,7 @@ public class HTTP extends AsyncTask<Void, Void, String> {
 
             String response = new String(chars).substring(0, size);
             http.disconnect();
+            System.out.println("IN: " + response);
             return response;
         } catch (IOException e) {
             responseCode = 400;

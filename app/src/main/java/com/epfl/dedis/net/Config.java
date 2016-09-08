@@ -41,7 +41,7 @@ public class Config {
     public Config(int threshold, Map<String, String> device, Map<String, String> data) {
         _threshold = threshold;
         _device = new HashMap<>(device);
-        _data = new HashMap<>(data);
+        _data = new HashMap<>();
     }
 
     public Config(Config that) {
