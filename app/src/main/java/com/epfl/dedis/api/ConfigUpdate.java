@@ -8,6 +8,8 @@ import com.epfl.dedis.net.HTTP;
 import com.epfl.dedis.net.Identity;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
+
 public class ConfigUpdate implements Message {
 
     private class ConfigUpdateMessage {
@@ -41,6 +43,11 @@ public class ConfigUpdate implements Message {
 
     public void callback(String result) {
         config = Utils.fromJson(result, Config.class);
+
+        if (config.getData() == null) {
+            config.setData(new HashMap<String, String>());
+        }
+
         identity.setConfig(config);
         activity.taskJoin();
     }

@@ -9,8 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.epfl.dedis.api.ConfigUpdate;
 import com.epfl.dedis.crypto.Utils;
 import com.epfl.dedis.net.Identity;
+
+import java.util.Map;
+import java.util.Set;
 
 public class ConfigActivity extends AppCompatActivity implements Activity {
 
@@ -19,12 +23,36 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
     private TextView mStatusTextView;
 
     private SharedPreferences mSharedPreferences;
+    private Identity identity;
 
-    public void taskJoin() {}
+    private boolean update;
+
+    public void taskJoin() {
+        if (update) {
+            Set<Map.Entry<String, String>> config = identity.getConfig().getDevice().entrySet();
+            Set<Map.Entry<String, String>> cData = identity.getConfig().getData().entrySet();
+
+            Set<Map.Entry<String, String>> proposed = identity.getProposed().getDevice().entrySet();
+            Set<Map.Entry<String, String>> pData = identity.getProposed().getData().entrySet();
+
+            System.out.println(Utils.toJson(identity.getConfig()));
+            System.out.println(Utils.toJson(identity.getProposed()));
+
+            if (config.equals(proposed) && cData.equals(pData)) {
+                mStatusTextView.setText("Skipchain up to date");
+                identity.setProposed(null);
+                SharedPreferences.Editor editor = mSharedPreferences.edit();
+                editor.putString(IDENTITY, Utils.toJson(identity));
+                editor.apply();
+            }
+        } else {
+            System.out.println("");
+        }
+    }
     public void taskFail(int error) {}
 
     private void populate() {
-        Identity identity = Utils.fromJson(mSharedPreferences.getString(IDENTITY, ""), Identity.class);
+        identity = Utils.fromJson(mSharedPreferences.getString(IDENTITY, ""), Identity.class);
 
         mIdTextView.setText(Utils.encodeBase64(identity.getId()));
         mAddressTextView.setText(identity.getCothority().getHost() + ":" + identity.getCothority().getPort());
@@ -46,6 +74,11 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
         mStatusTextView = (TextView) findViewById(R.id.config_status_value);
         assert mStatusTextView != null;
 
+        Intent intent = getIntent();
+        mStatusTextView.setText(intent.getStringExtra("STATUS"));
+
+        populate();
+
         FloatingActionButton deviceButton = (FloatingActionButton) findViewById(R.id.config_devices_button);
         assert deviceButton != null;
         deviceButton.setOnClickListener(new View.OnClickListener() {
@@ -56,10 +89,14 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
             }
         });
 
-        Intent intent = getIntent();
-        System.out.println(intent.getStringExtra("STATUS"));
-        mStatusTextView.setText(intent.getStringExtra("STATUS"));
-
-        populate();
+        FloatingActionButton refreshButton = (FloatingActionButton) findViewById(R.id.config_refresh_button);
+        assert refreshButton != null;
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new ConfigUpdate(ConfigActivity.this, identity);
+                update = true;
+            }
+        });
     }
 }

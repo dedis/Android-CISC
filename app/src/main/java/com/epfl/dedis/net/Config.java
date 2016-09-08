@@ -94,4 +94,11 @@ public class Config {
     public Map<String, String> getData() {
         return _data;
     }
+
+    /**
+     *
+     */
+    public void setData(Map<String, String> data) {
+        _data = data;
+    }
 }
