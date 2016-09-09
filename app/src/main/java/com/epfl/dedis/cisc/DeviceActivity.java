@@ -136,15 +136,14 @@ public class DeviceActivity extends AppCompatActivity implements Activity {
             children.put(entry.getKey(), singleton);
         }
 
-//        if (!data.isEmpty()) {
-//            for (Map.Entry<String, String> entry : data.entrySet()) {
-//                children.get(entry.getKey()).add(entry.getValue());
-//            }
-//        }
-
+        for (Map.Entry<String, String> entry : data.entrySet()) {
+            for (Map.Entry<String, String> e : devices.entrySet()) {
+                if (entry.getKey().contains(e.getKey())) {
+                    children.get(e.getKey()).add(entry.getValue());
+                }
+            }
+        }
         ExpandableListAdapter ela = new ExpandableListAdapter(this, headers, children);
-
         expandableListView.setAdapter(ela);
-
     }
 }

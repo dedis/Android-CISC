@@ -8,6 +8,8 @@ import com.epfl.dedis.net.HTTP;
 import com.epfl.dedis.net.Identity;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
+
 public class ProposeUpdate implements Message{
 
     private class ProposeUpdateMessage{
@@ -41,6 +43,11 @@ public class ProposeUpdate implements Message{
 
     public void callback(String result) {
         proposed = Utils.fromJson(result, Config.class);
+
+        if (proposed.getData() == null) {
+            proposed.setData(new HashMap<String, String>());
+        }
+
         identity.setProposed(proposed);
         activity.taskJoin();
     }
@@ -51,7 +58,7 @@ public class ProposeUpdate implements Message{
             case 500: activity.taskFail(R.string.err_refused); break;
             case 501: activity.taskFail(R.string.err_refused); break;
             case 502: activity.taskFail(R.string.err_config_update); break;
-            case 503: activity.taskFail(R.string.err_config_update); break;
+            case 503: activity.taskFail(R.string.err_no_proposed); break;
             default: activity.taskFail(R.string.err_refused);
         }
     }

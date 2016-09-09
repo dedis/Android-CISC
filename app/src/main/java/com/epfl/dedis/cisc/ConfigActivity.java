@@ -8,11 +8,16 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.epfl.dedis.api.ConfigUpdate;
+import com.epfl.dedis.api.ProposeUpdate;
+import com.epfl.dedis.api.ProposeVote;
 import com.epfl.dedis.crypto.Utils;
 import com.epfl.dedis.net.Identity;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,33 +34,50 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
 
     public void taskJoin() {
         if (update) {
-            Set<Map.Entry<String, String>> config = identity.getConfig().getDevice().entrySet();
-            Set<Map.Entry<String, String>> cData = identity.getConfig().getData().entrySet();
+            if (identity.getProposed() == null) {
+                mStatusTextView.setText(R.string.info_uptodate);
+            } else {
+                Set<Map.Entry<String, String>> config = new HashSet<>(identity.getConfig().getDevice().entrySet());
+                Set<Map.Entry<String, String>> cData = new HashSet<>(identity.getConfig().getData().entrySet());
 
-            Set<Map.Entry<String, String>> proposed = identity.getProposed().getDevice().entrySet();
-            Set<Map.Entry<String, String>> pData = identity.getProposed().getData().entrySet();
+                Set<Map.Entry<String, String>> proposed = new HashSet<>(identity.getProposed().getDevice().entrySet());
+                Set<Map.Entry<String, String>> pData = new HashSet<>(identity.getProposed().getData().entrySet());
 
-            System.out.println(Utils.toJson(identity.getConfig()));
-            System.out.println(Utils.toJson(identity.getProposed()));
-
-            if (config.equals(proposed) && cData.equals(pData)) {
-                mStatusTextView.setText("Skipchain up to date");
-                identity.setProposed(null);
-                SharedPreferences.Editor editor = mSharedPreferences.edit();
-                editor.putString(IDENTITY, Utils.toJson(identity));
-                editor.apply();
+                if (config.equals(proposed) && cData.equals(pData)) {
+                    mStatusTextView.setText(R.string.info_acceptedchange);
+                    identity.setProposed(null);
+                    SharedPreferences.Editor editor = mSharedPreferences.edit();
+                    editor.putString(IDENTITY, Utils.toJson(identity));
+                    editor.apply();
+                }
             }
         } else {
-            System.out.println("");
+            Set<Map.Entry<String, String>> config = new HashSet<>(identity.getConfig().getDevice().entrySet());
+            Set<Map.Entry<String, String>> proposed = new HashSet<>(identity.getProposed().getDevice().entrySet());
+
+            Set<Map.Entry<String, String>> cData = new HashSet<>(identity.getConfig().getData().entrySet());
+            Set<Map.Entry<String, String>> pData = new HashSet<>(identity.getProposed().getData().entrySet());
+
+            proposed.removeAll(config);
+            pData.removeAll(cData);
+            if (proposed.size() != 0) {
+                mStatusTextView.setText(Arrays.toString(proposed.toArray()));
+            } else {
+                mStatusTextView.setText(Arrays.toString(pData.toArray()));
+            }
         }
     }
-    public void taskFail(int error) {}
+
+    public void taskFail(int error) {
+        mStatusTextView.setText(error);
+    }
 
     private void populate() {
         identity = Utils.fromJson(mSharedPreferences.getString(IDENTITY, ""), Identity.class);
 
         mIdTextView.setText(Utils.encodeBase64(identity.getId()));
-        mAddressTextView.setText(identity.getCothority().getHost() + ":" + identity.getCothority().getPort());
+        String address = identity.getCothority().getHost() + ":" + identity.getCothority().getPort();
+        mAddressTextView.setText(address);
     }
 
     @Override
@@ -73,9 +95,16 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
 
         mStatusTextView = (TextView) findViewById(R.id.config_status_value);
         assert mStatusTextView != null;
+        mStatusTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new ProposeVote(ConfigActivity.this, identity);
+                Toast.makeText(ConfigActivity.this, "Voted", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         Intent intent = getIntent();
-        mStatusTextView.setText(intent.getStringExtra("STATUS"));
+        mStatusTextView.setText(intent.getStringExtra(STATUS_INTENT));
 
         populate();
 
@@ -96,6 +125,16 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
             public void onClick(View view) {
                 new ConfigUpdate(ConfigActivity.this, identity);
                 update = true;
+            }
+        });
+
+        FloatingActionButton fetchButton = (FloatingActionButton) findViewById(R.id.config_fetch_button);
+        assert fetchButton != null;
+        fetchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new ProposeUpdate(ConfigActivity.this, identity);
+                update = false;
             }
         });
     }
