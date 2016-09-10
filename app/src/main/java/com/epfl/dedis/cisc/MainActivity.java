@@ -11,7 +11,6 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.epfl.dedis.api.ConfigUpdate;
 import com.epfl.dedis.crypto.Utils;
@@ -32,10 +31,10 @@ public class MainActivity extends AppCompatActivity implements Activity {
 
         try {
             mQrImage.setImageBitmap(Utils.encodeQR(identityBase64, (int) px));
-            mStatusLabel.setText(R.string.suc_connection);
+            mStatusLabel.setText(R.string.info_connection);
             System.out.println(mStatusLabel.getText());
         } catch (WriterException e){
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            mStatusLabel.setText(e.getMessage());
         }
     }
 
@@ -62,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements Activity {
         assert mStatusLabel != null;
 
         FloatingActionButton mCreateButton = (FloatingActionButton) findViewById(R.id.main_create_button);
-        assert mCreateButton != null;
         mCreateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements Activity {
         });
 
         FloatingActionButton mJoinButton = (FloatingActionButton) findViewById(R.id.main_join_button);
-        assert mJoinButton != null;
         mJoinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements Activity {
         });
 
         FloatingActionButton mRefreshButton = (FloatingActionButton) findViewById(R.id.main_refresh_button);
-        assert mRefreshButton != null;
         mRefreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

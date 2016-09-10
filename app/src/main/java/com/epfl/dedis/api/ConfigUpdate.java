@@ -54,11 +54,13 @@ public class ConfigUpdate implements Message {
 
     public void callbackError(int error) {
         switch (error) {
-            case 400: activity.taskFail(R.string.err_refused); break;
-            case 500: activity.taskFail(R.string.err_refused); break;
-            case 501: activity.taskFail(R.string.err_refused); break;
-            case 502: activity.taskFail(R.string.err_config_update); break;
-            default: activity.taskFail(R.string.err_refused);
+            case 400: activity.taskFail(R.string.err_400); break;
+            case 500: activity.taskFail(R.string.err_500); break;
+            case 501: activity.taskFail(R.string.err_501); break;
+            case 502: activity.taskFail(R.string.err_502); break;
+            case 503: activity.taskFail(R.string.err_503); break;
+            case 504: activity.taskFail(R.string.err_504); break;
+            default: activity.taskFail(R.string.err_unknown);
         }
     }
 

@@ -30,13 +30,14 @@
     <string name="info_uptodate">Skipchain is up to date</string>
     <string name="info_noproposed">No proposed configuration</string>
     <string name="info_acceptedchange">Change accepted</string>
-    <string name="suc_connection">Connected</string>
+    <string name="info_connection">Connected</string>
 
-    <string name="err_refused">Connection refused</string>
-    <string name="err_add_identity">Identity creation failed</string>
-    <string name="err_config_update">Configuration update failed</string>
-    <string name="err_propose_send">Propose Send failed</string>
-    <string name="err_not_found">Identity not found</string>
-    <string name="err_empty_fields">Empty fields</string>
-    <string name="err_no_proposed">Currently no proposed configuration</string>
+    <string name="err_400">Connection refused</string>
+    <string name="err_500">Corrupt request</string>
+    <string name="err_501">Invalid JSON</string>
+    <string name="err_502">Cothority error</string>
+    <string name="err_503">No proposed configuration</string>
+    <string name="err_504">Invalid Base 64 encoding</string>
+    <string name="err_unknown">Unknown error</string>
+    <string name="err_empty">Empty fields</string>
 </resources>

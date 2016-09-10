@@ -69,7 +69,7 @@ public class CreateActivity extends AppCompatActivity implements Activity {
                 String port = mPortEditText.getText().toString();
 
                 if (host.isEmpty() || port.isEmpty()) {
-                    taskFail(R.string.err_empty_fields);
+                    taskFail(R.string.err_empty);
                 } else {
                     createIdentity = new CreateIdentity(CreateActivity.this, Utils.uuid(), new Cothority(host, port));
                 }
