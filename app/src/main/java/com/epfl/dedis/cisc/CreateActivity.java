@@ -19,15 +19,14 @@ public class CreateActivity extends AppCompatActivity implements Activity {
     private EditText mHostEditText;
     private EditText mPortEditText;
 
-    private CreateIdentity createIdentity;
+    private CreateIdentity mCreateIdentity;
 
     public void taskJoin() {
         SharedPreferences.Editor editor = getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
-        editor.putString(IDENTITY, Utils.toJson(createIdentity.getIdentity()));
+        editor.putString(IDENTITY, Utils.toJson(mCreateIdentity.getIdentity()));
         editor.apply();
 
-        Intent i = new Intent(this, ConfigActivity.class);
-        startActivity(i);
+        startActivity(new Intent(this, ConfigActivity.class));
         finish();
     }
 
@@ -52,7 +51,6 @@ public class CreateActivity extends AppCompatActivity implements Activity {
         assert mPortEditText != null;
 
         FloatingActionButton mClearButton = (FloatingActionButton) findViewById(R.id.create_clear_button);
-        assert mClearButton != null;
         mClearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +59,6 @@ public class CreateActivity extends AppCompatActivity implements Activity {
         });
 
         FloatingActionButton mCreateButton = (FloatingActionButton) findViewById(R.id.create_create_button);
-        assert mCreateButton != null;
         mCreateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +68,7 @@ public class CreateActivity extends AppCompatActivity implements Activity {
                 if (host.isEmpty() || port.isEmpty()) {
                     taskFail(R.string.err_empty);
                 } else {
-                    createIdentity = new CreateIdentity(CreateActivity.this, Utils.uuid(), new Cothority(host, port));
+                    mCreateIdentity = new CreateIdentity(CreateActivity.this, Utils.uuid(), new Cothority(host, port));
                 }
             }
         });

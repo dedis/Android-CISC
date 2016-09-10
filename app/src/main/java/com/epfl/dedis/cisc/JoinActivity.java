@@ -20,9 +20,7 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 public class JoinActivity extends AppCompatActivity implements Activity, ZXingScannerView.ResultHandler {
 
     private ZXingScannerView mScannerView;
-
     private Identity mIdentity;
-
     private boolean mProposed;
 
     private class QRMessage {
@@ -46,9 +44,8 @@ public class JoinActivity extends AppCompatActivity implements Activity, ZXingSc
             editor.putString(IDENTITY, Utils.toJson(mIdentity));
             editor.apply();
 
-            Intent intent = new Intent(JoinActivity.this, ConfigActivity.class);
-            intent.putExtra(STATUS_INTENT, "Waiting for confirmation to join.");
-            startActivity(intent);
+            startActivity(new Intent(JoinActivity.this, ConfigActivity.class));
+            finish();
         }
     }
 
@@ -76,7 +73,6 @@ public class JoinActivity extends AppCompatActivity implements Activity, ZXingSc
 
         mIdentity = new Identity(new Cothority(qrm.host, qrm.port), Utils.decodeBase64(qrm.id));
         new ConfigUpdate(JoinActivity.this, mIdentity);
-        finish();
     }
 
     @Override

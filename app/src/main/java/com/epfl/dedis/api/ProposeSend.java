@@ -19,15 +19,15 @@ public class ProposeSend implements Message {
         Config propose;
     }
 
-    private Activity activity;
-    private Config proposed;
+    private Activity mActivity;
+    private Config mProposed;
 
     public ProposeSend(Activity activity, Identity identity) {
         this(activity, identity, false);
     }
 
     public ProposeSend(Activity activity, Identity identity, boolean wait) {
-        this.activity = activity;
+        this.mActivity = activity;
 
         ProposeSendMessage proposeSendMessage = new ProposeSendMessage();
         proposeSendMessage.id = Utils.encodeBase64(identity.getId());
@@ -43,23 +43,23 @@ public class ProposeSend implements Message {
     }
 
     public void callback(String result) {
-        proposed = Utils.fromJson(result, Config.class);
-        activity.taskJoin();
+        mProposed = Utils.fromJson(result, Config.class);
+        mActivity.taskJoin();
     }
 
     public void callbackError(int error) {
         switch (error) {
-            case 400: activity.taskFail(R.string.err_400); break;
-            case 500: activity.taskFail(R.string.err_500); break;
-            case 501: activity.taskFail(R.string.err_501); break;
-            case 502: activity.taskFail(R.string.err_502); break;
-            case 503: activity.taskFail(R.string.err_503); break;
-            case 504: activity.taskFail(R.string.err_504); break;
-            default: activity.taskFail(R.string.err_unknown);
+            case 400: mActivity.taskFail(R.string.err_400); break;
+            case 500: mActivity.taskFail(R.string.err_500); break;
+            case 501: mActivity.taskFail(R.string.err_501); break;
+            case 502: mActivity.taskFail(R.string.err_502); break;
+            case 503: mActivity.taskFail(R.string.err_503); break;
+            case 504: mActivity.taskFail(R.string.err_504); break;
+            default: mActivity.taskFail(R.string.err_unknown);
         }
     }
 
     public Config getProposed() {
-        return proposed;
+        return mProposed;
     }
 }

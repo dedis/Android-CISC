@@ -2,6 +2,8 @@ package com.epfl.dedis.crypto;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 
 import com.google.common.io.BaseEncoding;
 import com.google.gson.Gson;
@@ -16,7 +18,7 @@ import java.util.UUID;
 
 public class Utils {
 
-    public static final Gson GSON = new GsonBuilder()
+    private static final Gson GSON = new GsonBuilder()
             .serializeNulls()
             .disableHtmlEscaping()
             .create();
@@ -54,5 +56,9 @@ public class Utils {
         }
         bitmap.copyPixelsFromBuffer(ShortBuffer.wrap(array));
         return bitmap;
+    }
+
+    public static float dpToPixel(int dp, DisplayMetrics displayMetrics) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, displayMetrics);
     }
 }

@@ -8,7 +8,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.epfl.dedis.api.ConfigUpdate;
 import com.epfl.dedis.api.ProposeUpdate;
@@ -23,31 +22,30 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
 
     private TextView mStatusTextView;
 
-    private Identity identity;
-
-    private boolean update;
+    private Identity mIdentity;
+    private boolean mUpdate;
 
     public void taskJoin() {
-        Map<String, String> configDevice = new HashMap<>(identity.getConfig().getDevice());
-        Map<String, String> configData = new HashMap<>(identity.getConfig().getData());
+        Map<String, String> configDevice = new HashMap<>(mIdentity.getConfig().getDevice());
+        Map<String, String> configData = new HashMap<>(mIdentity.getConfig().getData());
 
-        Map<String, String> proposedDevice = identity.getProposed() == null ?
+        Map<String, String> proposedDevice = mIdentity.getProposed() == null ?
                                                 new HashMap<String, String>() :
-                                                new HashMap<>(identity.getProposed().getDevice());
+                                                new HashMap<>(mIdentity.getProposed().getDevice());
 
-        Map<String, String> proposedData = identity.getProposed() == null ?
+        Map<String, String> proposedData = mIdentity.getProposed() == null ?
                                                 new HashMap<String, String>() :
-                                                new HashMap<>(identity.getProposed().getData());
-        if (update) {
-            if (identity.getProposed() == null) {
+                                                new HashMap<>(mIdentity.getProposed().getData());
+        if (mUpdate) {
+            if (mIdentity.getProposed() == null) {
                 mStatusTextView.setText(R.string.info_uptodate);
             } else {
                 if (configDevice.keySet().equals(proposedDevice.keySet()) && configData.keySet().equals(proposedData.keySet())) {
                     mStatusTextView.setText(R.string.info_acceptedchange);
-                    identity.setProposed(null);
+                    mIdentity.setProposed(null);
 
                     SharedPreferences.Editor editor = getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
-                    editor.putString(IDENTITY, Utils.toJson(identity));
+                    editor.putString(IDENTITY, Utils.toJson(mIdentity));
                     editor.apply();
                 }
             }
@@ -78,8 +76,8 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
         mStatusTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new ProposeVote(ConfigActivity.this, identity);
-                Toast.makeText(ConfigActivity.this, "Voted", Toast.LENGTH_SHORT).show();
+                new ProposeVote(ConfigActivity.this, mIdentity);
+                mStatusTextView.setText(R.string.info_voted);
             }
         });
 
@@ -96,8 +94,8 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new ConfigUpdate(ConfigActivity.this, identity);
-                update = true;
+                new ConfigUpdate(ConfigActivity.this, mIdentity);
+                mUpdate = true;
             }
         });
 
@@ -105,17 +103,15 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
         fetchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new ProposeUpdate(ConfigActivity.this, identity);
-                update = false;
+                new ProposeUpdate(ConfigActivity.this, mIdentity);
+                mUpdate = false;
             }
         });
 
-        Intent intent = getIntent();
-        mStatusTextView.setText(intent.getStringExtra(STATUS_INTENT));
-
         SharedPreferences sharedPreferences = getSharedPreferences(PREF, Context.MODE_PRIVATE);
-        identity = Utils.fromJson(sharedPreferences.getString(IDENTITY, ""), Identity.class);
-        idTextView.setText(Utils.encodeBase64(identity.getId()));
-        addressTextView.setText(identity.getCothority().getHost());
+        mIdentity = Utils.fromJson(sharedPreferences.getString(IDENTITY, ""), Identity.class);
+
+        idTextView.setText(Utils.encodeBase64(mIdentity.getId()));
+        addressTextView.setText(mIdentity.getCothority().getHost());
     }
 }

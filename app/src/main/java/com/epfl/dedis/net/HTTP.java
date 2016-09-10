@@ -23,21 +23,18 @@ public class HTTP extends AsyncTask<Void, Void, String> {
     private static final int TIMEOUT = 2000;
     private static final int BUF_SIZE = 10000;
 
-    private static final String ERR_COTHORITY = "1";
-    private static final String ERR_NETWORK = "2";
+    private Message mMessage;
+    private Cothority mCothority;
+    private String mPath;
+    private String mJson;
 
-    private Message _message;
-    private Cothority _cothority;
-    private String _path;
-    private String _json;
-
-    private int responseCode;
+    private int mResponseCode;
 
     public HTTP(Message message, Cothority cothority, String path, String json) {
-        _message = message;
-        _cothority = cothority;
-        _path = path;
-        _json = json;
+        mMessage = message;
+        mCothority = cothority;
+        mPath = path;
+        mJson = json;
     }
 
     /**
@@ -50,8 +47,8 @@ public class HTTP extends AsyncTask<Void, Void, String> {
     @Override
     public String doInBackground(Void... params) {
         try {
-            System.out.println("OUT: " + _json);
-            URL url = new URL("http://" + _cothority.getHost() + ":" + _cothority.getPort() + "/" + _path);
+            System.out.println("OUT: " + mJson);
+            URL url = new URL("http://" + mCothority.getHost() + ":" + mCothority.getPort() + "/" + mPath);
             HttpURLConnection http = (HttpURLConnection) url.openConnection();
             http.setConnectTimeout(TIMEOUT);
             http.setRequestMethod("POST");
@@ -60,12 +57,12 @@ public class HTTP extends AsyncTask<Void, Void, String> {
 
             OutputStream out = http.getOutputStream();
             OutputStreamWriter writer = new OutputStreamWriter(out);
-            writer.write(_json);
+            writer.write(mJson);
             writer.flush();
             writer.close();
 
-            responseCode = http.getResponseCode();
-            if (responseCode != 200) {
+            mResponseCode = http.getResponseCode();
+            if (mResponseCode != 200) {
                 http.disconnect();
                 return "";
             }
@@ -81,7 +78,7 @@ public class HTTP extends AsyncTask<Void, Void, String> {
             System.out.println("IN: " + response);
             return response;
         } catch (IOException e) {
-            responseCode = 400;
+            mResponseCode = 400;
             return "";
         }
     }
@@ -95,9 +92,9 @@ public class HTTP extends AsyncTask<Void, Void, String> {
     @Override
     public void onPostExecute(String result) {
         if (result.isEmpty()) {
-            _message.callbackError(responseCode);
+            mMessage.callbackError(mResponseCode);
         } else {
-            _message.callback(result);
+            mMessage.callback(result);
         }
     }
 }

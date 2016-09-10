@@ -1,10 +1,6 @@
 package com.epfl.dedis.api;
 
 public interface Message {
-    // Device name
-    String DEVICE = "MOTOROLA";
-
-    // Cothority API paths
     String ADD_IDENTITY = "ai";
     String CONFIG_UPDATE = "cu";
     String PROPOSE_SEND = "ps";
@@ -13,5 +9,4 @@ public interface Message {
 
     void callback(String result);
     void callbackError(int error);
-
 }

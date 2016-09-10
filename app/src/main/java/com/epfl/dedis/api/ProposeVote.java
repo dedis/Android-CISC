@@ -3,7 +3,6 @@ package com.epfl.dedis.api;
 import com.epfl.dedis.cisc.Activity;
 import com.epfl.dedis.cisc.R;
 import com.epfl.dedis.crypto.Utils;
-import com.epfl.dedis.net.Config;
 import com.epfl.dedis.net.HTTP;
 import com.epfl.dedis.net.Identity;
 import com.google.gson.annotations.SerializedName;
@@ -24,17 +23,14 @@ public class ProposeVote implements Message {
         private String signature;
     }
 
-    private Activity activity;
-    private Identity identity;
-    private Config proposed;
+    private Activity mActivity;
 
     public ProposeVote(Activity activity, Identity identity) {
         this(activity, identity, false);
     }
 
     public ProposeVote(Activity activity, Identity identity, boolean wait) {
-        this.activity = activity;
-        this.identity = identity;
+        this.mActivity = activity;
 
         ProposeVoteMessage proposeVoteMessage = new ProposeVoteMessage();
         proposeVoteMessage.id = Utils.encodeBase64(identity.getId());
@@ -57,19 +53,17 @@ public class ProposeVote implements Message {
         }
     }
 
-    public void callback(String result) {
-        System.out.println(result);
-    }
+    public void callback(String result) {}
 
     public void callbackError(int error) {
         switch (error) {
-            case 400: activity.taskFail(R.string.err_400); break;
-            case 500: activity.taskFail(R.string.err_500); break;
-            case 501: activity.taskFail(R.string.err_501); break;
-            case 502: activity.taskFail(R.string.err_502); break;
-            case 503: activity.taskFail(R.string.err_503); break;
-            case 504: activity.taskFail(R.string.err_504); break;
-            default: activity.taskFail(R.string.err_unknown);
+            case 400: mActivity.taskFail(R.string.err_400); break;
+            case 500: mActivity.taskFail(R.string.err_500); break;
+            case 501: mActivity.taskFail(R.string.err_501); break;
+            case 502: mActivity.taskFail(R.string.err_502); break;
+            case 503: mActivity.taskFail(R.string.err_503); break;
+            case 504: mActivity.taskFail(R.string.err_504); break;
+            default: mActivity.taskFail(R.string.err_unknown);
         }
     }
 }

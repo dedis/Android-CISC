@@ -21,27 +21,27 @@ import java.util.TreeMap;
 public class Config {
 
     @SerializedName("Threshold")
-    private int _threshold;
+    private int mThreshold;
 
     @SerializedName("Device")
-    private Map<String, String> _device;
+    private Map<String, String> mDevice;
 
     @SerializedName("Data")
-    private Map<String, String> _data;
+    private Map<String, String> mData;
 
     public Config(int threshold, String name, PublicKey pub){
-        _threshold = threshold;
-        _device = new TreeMap<>();
-        _device.put(name, Ed25519.PubString(pub));
-        _data = new HashMap<>();
-        _data.put(name, null);
+        mThreshold = threshold;
+        mDevice = new TreeMap<>();
+        mDevice.put(name, Ed25519.PubString(pub));
+        mData = new HashMap<>();
+        mData.put(name, null);
     }
 
     // Copy constructor
     public Config(int threshold, Map<String, String> device, Map<String, String> data) {
-        _threshold = threshold;
-        _device = new HashMap<>(device);
-        _data = new HashMap<>();
+        mThreshold = threshold;
+        mDevice = new HashMap<>(device);
+        mData = new HashMap<>(data);
     }
 
     public Config(Config that) {
@@ -49,7 +49,7 @@ public class Config {
     }
 
     public void addData(String owner, String data) {
-        _data.put(owner, data);
+        mData.put(owner, data);
     }
 
     public byte[] hash() throws NoSuchAlgorithmException {
@@ -57,13 +57,13 @@ public class Config {
 
         ByteBuffer buffer = ByteBuffer.allocate(4);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
-        buffer.putInt(_threshold);
+        buffer.putInt(mThreshold);
         sha256.update(buffer.array());
 
-        for (Map.Entry<String, String> entry : _device.entrySet()) {
+        for (Map.Entry<String, String> entry : mDevice.entrySet()) {
             sha256.update(entry.getKey().getBytes());
 
-            String value = _data.get(entry.getKey());
+            String value = mData.get(entry.getKey());
             if (value != null) {
                 sha256.update(value.getBytes());
             }
@@ -78,27 +78,27 @@ public class Config {
      * @return Skipchain voting threshold
      */
     public int getThreshold() {
-        return _threshold;
+        return mThreshold;
     }
 
     /**
      * @return Devices with their corresponding public keys
      */
     public Map<String, String> getDevice() {
-        return _device;
+        return mDevice;
     }
 
     /**
      * @return Devices with their corresponding data
      */
     public Map<String, String> getData() {
-        return _data;
+        return mData;
     }
 
     /**
      *
      */
     public void setData(Map<String, String> data) {
-        _data = data;
+        mData = data;
     }
 }

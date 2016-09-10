@@ -17,17 +17,17 @@ public class ProposeUpdate implements Message{
         String id;
     }
 
-    private Activity activity;
-    private Identity identity;
-    private Config proposed;
+    private Activity mActivity;
+    private Identity mIdentity;
+    private Config mProposed;
 
     public ProposeUpdate(Activity activity, Identity identity) {
         this(activity, identity, false);
     }
 
     public ProposeUpdate(Activity activity, Identity identity, boolean wait) {
-        this.activity = activity;
-        this.identity = identity;
+        this.mActivity = activity;
+        this.mIdentity = identity;
 
         ProposeUpdateMessage configUpdateMessage = new ProposeUpdateMessage();
         configUpdateMessage.id = Utils.encodeBase64(identity.getId());
@@ -42,29 +42,29 @@ public class ProposeUpdate implements Message{
     }
 
     public void callback(String result) {
-        proposed = Utils.fromJson(result, Config.class);
+        mProposed = Utils.fromJson(result, Config.class);
 
-        if (proposed.getData() == null) {
-            proposed.setData(new HashMap<String, String>());
+        if (mProposed.getData() == null) {
+            mProposed.setData(new HashMap<String, String>());
         }
 
-        identity.setProposed(proposed);
-        activity.taskJoin();
+        mIdentity.setProposed(mProposed);
+        mActivity.taskJoin();
     }
 
     public void callbackError(int error) {
         switch (error) {
-            case 400: activity.taskFail(R.string.err_400); break;
-            case 500: activity.taskFail(R.string.err_500); break;
-            case 501: activity.taskFail(R.string.err_501); break;
-            case 502: activity.taskFail(R.string.err_502); break;
-            case 503: activity.taskFail(R.string.err_503); break;
-            case 504: activity.taskFail(R.string.err_504); break;
-            default: activity.taskFail(R.string.err_unknown);
+            case 400: mActivity.taskFail(R.string.err_400); break;
+            case 500: mActivity.taskFail(R.string.err_500); break;
+            case 501: mActivity.taskFail(R.string.err_501); break;
+            case 502: mActivity.taskFail(R.string.err_502); break;
+            case 503: mActivity.taskFail(R.string.err_503); break;
+            case 504: mActivity.taskFail(R.string.err_504); break;
+            default: mActivity.taskFail(R.string.err_unknown);
         }
     }
 
     public Config getProposed() {
-        return proposed;
+        return mProposed;
     }
 }

@@ -18,27 +18,27 @@ import java.security.PublicKey;
  */
 public class Identity {
 
-    private String _name;
-    private byte[] _id;
-    private byte[] _seed;
+    private String mName;
+    private byte[] mId;
+    private byte[] mSeed;
 
-    private Cothority _cothority;
-    private Config _config;
-    private Config _proposed;
+    private Cothority mCothority;
+    private Config mConfig;
+    private Config mProposed;
 
     public Identity(String name, Cothority cothority) {
-        _name = name;
-        _cothority = cothority;
+        mName = name;
+        mCothority = cothority;
 
         KeyPair keyPair = Ed25519.newKeyPair();
-        _seed = ((EdDSAPrivateKey)keyPair.getPrivate()).getSeed();
-        _config = new Config(3, name, keyPair.getPublic());
+        mSeed = ((EdDSAPrivateKey)keyPair.getPrivate()).getSeed();
+        mConfig = new Config(3, name, keyPair.getPublic());
     }
 
     // Debugging constructor
     public Identity(Cothority cothority, byte[] id) {
-        _cothority = cothority;
-        _id = id;
+        mCothority = cothority;
+        mId = id;
     }
 
     /**
@@ -48,12 +48,12 @@ public class Identity {
      * @param name Device owner's identification
      */
     public void newDevice(String name) {
-        _name = name;
-        _proposed = new Config(_config);
+        mName = name;
+        mProposed = new Config(mConfig);
 
         KeyPair keyPair = Ed25519.newKeyPair();
-        _seed = ((EdDSAPrivateKey)keyPair.getPrivate()).getSeed();
-        _proposed.getDevice().put(name, Ed25519.PubString(keyPair.getPublic()));
+        mSeed = ((EdDSAPrivateKey)keyPair.getPrivate()).getSeed();
+        mProposed.getDevice().put(name, Ed25519.PubString(keyPair.getPublic()));
     }
 
     /**
@@ -63,8 +63,8 @@ public class Identity {
      * @param data Associated to the device owner
      */
     public void updateData(String data) {
-        _proposed = new Config(_config);
-        _proposed.getData().put(_name, data);
+        mProposed = new Config(mConfig);
+        mProposed.getData().put(mName, data);
     }
 
     /**
@@ -79,7 +79,7 @@ public class Identity {
      * @return Device owner's private key
      */
     public EdDSAPrivateKey getPrivate() {
-        EdDSAPrivateKeySpec epks = new EdDSAPrivateKeySpec(_seed, Ed25519.getCurveSpec());
+        EdDSAPrivateKeySpec epks = new EdDSAPrivateKeySpec(mSeed, Ed25519.getCurveSpec());
         return new EdDSAPrivateKey(epks);
     }
 
@@ -87,62 +87,62 @@ public class Identity {
      * @return Device owner's name
      */
     public String getName() {
-        return _name;
+        return mName;
     }
 
     /**
      * @return Device's owners EdDSA seed
      */
     public byte[] getSeed() {
-        return _seed;
+        return mSeed;
     }
 
     /**
      * @return Skipchain ID
      */
     public byte[] getId() {
-        return _id;
+        return mId;
     }
 
     /**
      * @return Cothority (Network information)
      */
     public Cothority getCothority() {
-        return _cothority;
+        return mCothority;
     }
 
     /**
      * @return Current Configuration
      */
     public Config getConfig() {
-        return _config;
+        return mConfig;
     }
 
     /**
      * @return Proposed Configuration
      */
     public Config getProposed() {
-        return _proposed;
+        return mProposed;
     }
 
     /**
      * @param id Skipchain identity
      */
     public void setId(byte[] id) {
-        _id = id;
+        mId = id;
     }
 
     /**
      * @param config Configuration
      */
     public void setConfig(Config config) {
-        _config = config;
+        mConfig = config;
     }
 
     /**
      * @param proposed Configuration
      */
     public void setProposed(Config proposed) {
-        _proposed = proposed;
+        mProposed = proposed;
     }
 }

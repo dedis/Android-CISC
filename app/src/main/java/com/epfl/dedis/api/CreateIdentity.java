@@ -40,16 +40,8 @@ public class CreateIdentity implements Message {
     }
 
     public void callback(String result) {
-        switch (result) {
-            case "1": activity.taskFail(R.string.err_add_identity);
-                break;
-            case "2": activity.taskFail(R.string.err_refused);
-                break;
-            default: {
-                identity.setId(Utils.decodeBase64(result));
-                activity.taskJoin();
-            }
-        }
+        identity.setId(Utils.decodeBase64(result));
+        activity.taskJoin();
     }
 
     public void callbackError(int error) {

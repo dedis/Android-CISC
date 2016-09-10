@@ -119,7 +119,6 @@ public class DeviceActivity extends AppCompatActivity implements Activity {
         setContentView(R.layout.activity_device);
 
         ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.device_device_list);
-        assert expandableListView != null;
 
         SharedPreferences sharedPreferences = getSharedPreferences(PREF, Context.MODE_PRIVATE);
         Config config = Utils.fromJson(sharedPreferences.getString(IDENTITY, ""), Identity.class).getConfig();

@@ -31,6 +31,7 @@
     <string name="info_noproposed">No proposed configuration</string>
     <string name="info_acceptedchange">Change accepted</string>
     <string name="info_connection">Connected</string>
+    <string name="info_voted">Voted</string>
 
     <string name="err_400">Connection refused</string>
     <string name="err_500">Corrupt request</string>
