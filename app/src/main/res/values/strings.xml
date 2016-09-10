@@ -5,6 +5,7 @@
     <string name="join_name">CISC - Join</string>
     <string name="scanner_name">CISC - Scan</string>
     <string name="device_name">CISC - Devices</string>
+    <string name="data_name">CISC - Data</string>
 
     <string name="main_title_label">DEDIS @EPFL</string>
 
@@ -21,6 +22,9 @@
     <string name="config_address_label">Address</string>
     <string name="config_status_label">Status</string>
 
+    <string name="data_old_label">Old</string>
+    <string name="data_new_label">New</string>
+
     <string name="hint_host_editText">Hostname</string>
     <string name="hint_port_editText">Port</string>
     <string name="hint_data_editText">Data (SSH-key etc.)</string>
@@ -32,6 +36,7 @@
     <string name="info_acceptedchange">Change accepted</string>
     <string name="info_connection">Connected</string>
     <string name="info_voted">Voted</string>
+    <string name="info_nodata">No data</string>
 
     <string name="err_400">Connection refused</string>
     <string name="err_500">Corrupt request</string>

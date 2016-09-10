@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/config_activity"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:weightSum="1"
+    android:padding="10dp"
+    android:background="#ffffff">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/data_old_block"
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/data_old_label"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:textSize="15sp"
+            android:text="@string/data_old_label"
+            android:textColor="@color/colorPrimary"/>
+
+        <TextView
+            android:id="@+id/data_old_value"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/data_new_block"
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/data_new_label"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textSize="15sp"
+            android:text="@string/data_new_label"
+            android:textColor="@color/colorPrimary"/>
+
+        <TextView
+            android:id="@+id/data_new_value"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/data_button_block"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="5dp">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/data_new_button"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_gravity="bottom"
+            android:src="@drawable/ic_add_white"
+            android:layout_margin="10dp"
+            android:layout_weight="0.3"
+            android:scaleType="center"
+            app:backgroundTint="@color/colorPrimary"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/data_propose_button"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_gravity="bottom"
+            android:src="@drawable/ic_propose_white"
+            android:layout_margin="10dp"
+            android:layout_weight="0.3"
+            android:scaleType="center"
+            app:backgroundTint="@color/colorPrimary"/>
+        </LinearLayout>
+</LinearLayout>

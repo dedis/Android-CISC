@@ -21,6 +21,7 @@ public class Identity {
     private String mName;
     private byte[] mId;
     private byte[] mSeed;
+    private byte[] mRSASecret;
 
     private Cothority mCothority;
     private Config mConfig;
@@ -105,6 +106,13 @@ public class Identity {
     }
 
     /**
+     * @return RSA private key (SSH)
+     */
+    public byte[] getRSASecret() {
+        return mRSASecret;
+    }
+
+    /**
      * @return Cothority (Network information)
      */
     public Cothority getCothority() {
@@ -130,6 +138,13 @@ public class Identity {
      */
     public void setId(byte[] id) {
         mId = id;
+    }
+
+    /**
+     * @param rsaSecret SSH private key
+     */
+    public void setRSASecret(byte[] rsaSecret) {
+        mRSASecret = rsaSecret;
     }
 
     /**

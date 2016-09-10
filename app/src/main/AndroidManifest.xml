@@ -39,6 +39,10 @@
             android:name=".DeviceActivity"
             android:label="@string/device_name">
         </activity>
+        <activity
+            android:name=".DataActivity"
+            android:label="@string/data_name">
+        </activity>
     </application>
 
 </manifest>

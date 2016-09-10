@@ -81,6 +81,15 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
             }
         });
 
+        FloatingActionButton changeButton = (FloatingActionButton) findViewById(R.id.config_change_button);
+        changeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ConfigActivity.this, DataActivity.class);
+                startActivity(intent);
+            }
+        });
+
         FloatingActionButton deviceButton = (FloatingActionButton) findViewById(R.id.config_devices_button);
         deviceButton.setOnClickListener(new View.OnClickListener() {
             @Override
