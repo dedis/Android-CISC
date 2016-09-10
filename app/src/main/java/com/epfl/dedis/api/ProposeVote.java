@@ -12,15 +12,14 @@ import net.i2p.crypto.eddsa.EdDSAEngine;
 public class ProposeVote implements Message {
 
     private class ProposeVoteMessage {
-
         @SerializedName("ID")
-        private String id;
+        String id;
 
         @SerializedName("Signer")
-        private String signer;
+        String signer;
 
         @SerializedName("Signature")
-        private String signature;
+        String signature;
     }
 
     private Activity mActivity;
