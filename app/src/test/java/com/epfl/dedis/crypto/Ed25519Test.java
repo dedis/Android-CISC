@@ -10,6 +10,7 @@ import java.security.PublicKey;
 
 import static org.junit.Assert.assertEquals;
 
+// TODO: Add more Ed25519 tests
 @RunWith(JUnit4.class)
 public class Ed25519Test {
 

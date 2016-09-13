@@ -39,6 +39,7 @@ public class DataActivity extends AppCompatActivity implements Activity {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
+    // TODO: RSA (SSH) key pair generation is slow
     public void generateRSAKeyPair() {
         try {
             KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");

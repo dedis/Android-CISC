@@ -14,6 +14,7 @@ import com.epfl.dedis.api.CreateIdentity;
 import com.epfl.dedis.crypto.Utils;
 import com.epfl.dedis.net.Cothority;
 
+// TODO: Currently deprecated; maybe reimplement Skipchain creation
 public class CreateActivity extends AppCompatActivity implements Activity {
 
     private EditText mHostEditText;

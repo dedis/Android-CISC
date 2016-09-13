@@ -11,6 +11,7 @@ import net.i2p.crypto.eddsa.EdDSAEngine;
 
 public class ProposeVote implements Message {
 
+    // TODO: Check if private inner classes need private fields and constructor
     private class ProposeVoteMessage {
         @SerializedName("ID")
         String id;

@@ -52,6 +52,7 @@ public class Config {
         mData.put(owner, data);
     }
 
+    // TODO: Check if hash is really correct
     public byte[] hash() throws NoSuchAlgorithmException {
         MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
 

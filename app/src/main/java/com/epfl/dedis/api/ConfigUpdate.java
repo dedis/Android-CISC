@@ -52,6 +52,7 @@ public class ConfigUpdate implements Message {
         mActivity.taskJoin();
     }
 
+    // TODO: More or more detailed error messages; also for other Actitivies
     public void callbackError(int error) {
         switch (error) {
             case 400: mActivity.taskFail(R.string.err_400); break;

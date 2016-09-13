@@ -25,6 +25,7 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
     private Identity mIdentity;
     private boolean mUpdate;
 
+    // TODO: IMPORTANT! Find simpler way to detect changes in Config; Currently very messy
     public void taskJoin() {
         Map<String, String> configDevice = new HashMap<>(mIdentity.getConfig().getDevice());
         Map<String, String> configData = new HashMap<>(mIdentity.getConfig().getData());
@@ -36,6 +37,7 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
         Map<String, String> proposedData = mIdentity.getProposed() == null ?
                                                 new HashMap<String, String>() :
                                                 new HashMap<>(mIdentity.getProposed().getData());
+        // TODO: More robust state machine; also in other Activities that have to deal with several requests
         if (mUpdate) {
             if (mIdentity.getProposed() == null) {
                 mStatusTextView.setText(R.string.info_uptodate);

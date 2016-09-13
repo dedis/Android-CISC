@@ -34,6 +34,7 @@ public class JoinActivity extends AppCompatActivity implements Activity, ZXingSc
         String port;
     }
 
+    // TODO: Remove UI blocking after successful scan
     public void taskJoin() {
         if (!mProposed) {
             mIdentity.newDevice(Utils.uuid());

@@ -5,6 +5,8 @@ import com.epfl.dedis.net.Cothority;
 
 import org.junit.BeforeClass;
 
+// TODO: MORE TESTS!!!
+// TODO: API-tests only work with neg-c hack; github.com/qantik/neg-c
 public abstract class APITest {
 
     protected static final String HOST = "localhost";

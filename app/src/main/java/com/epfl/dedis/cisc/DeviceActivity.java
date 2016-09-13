@@ -26,6 +26,7 @@ public class DeviceActivity extends AppCompatActivity implements Activity {
     public void taskJoin() {}
     public void taskFail(int error) {}
 
+    // TODO: Find nicer way for expandable list?
     private class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         private Context context;
@@ -135,6 +136,7 @@ public class DeviceActivity extends AppCompatActivity implements Activity {
             children.put(entry.getKey(), singleton);
         }
 
+        // TODO: Cothority doesn't create data entry with equal key
         for (Map.Entry<String, String> entry : data.entrySet()) {
             for (Map.Entry<String, String> e : devices.entrySet()) {
                 if (entry.getKey().contains(e.getKey())) {
