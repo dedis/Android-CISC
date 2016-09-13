@@ -8,7 +8,7 @@ import com.epfl.dedis.net.HTTP;
 import com.epfl.dedis.net.Identity;
 import com.google.gson.annotations.SerializedName;
 
-public class ProposeSend implements Message {
+public class ProposeSend implements Request {
 
     private class ProposeSendMessage {
 

@@ -1,6 +1,6 @@
 package com.epfl.dedis.api;
 
-public interface Message {
+public interface Request {
     String ADD_IDENTITY = "ai";
     String CONFIG_UPDATE = "cu";
     String PROPOSE_SEND = "ps";

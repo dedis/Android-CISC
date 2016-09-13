@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.HashMap;
 
-public class ProposeUpdate implements Message{
+public class ProposeUpdate implements Request {
 
     private class ProposeUpdateMessage{
         @SerializedName("ID")

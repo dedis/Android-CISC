@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.HashMap;
 
-public class ConfigUpdate implements Message {
+public class ConfigUpdate implements Request {
 
     private class ConfigUpdateMessage {
         @SerializedName("ID")

@@ -2,7 +2,7 @@ package com.epfl.dedis.net;
 
 import android.os.AsyncTask;
 
-import com.epfl.dedis.api.Message;
+import com.epfl.dedis.api.Request;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,15 +23,15 @@ public class HTTP extends AsyncTask<Void, Void, String> {
     private static final int TIMEOUT = 2000;
     private static final int BUF_SIZE = 10000;
 
-    private Message mMessage;
+    private Request mRequest;
     private Cothority mCothority;
     private String mPath;
     private String mJson;
 
     private int mResponseCode;
 
-    public HTTP(Message message, Cothority cothority, String path, String json) {
-        mMessage = message;
+    public HTTP(Request request, Cothority cothority, String path, String json) {
+        mRequest = request;
         mCothority = cothority;
         mPath = path;
         mJson = json;
@@ -92,9 +92,9 @@ public class HTTP extends AsyncTask<Void, Void, String> {
     @Override
     public void onPostExecute(String result) {
         if (result.isEmpty()) {
-            mMessage.callbackError(mResponseCode);
+            mRequest.callbackError(mResponseCode);
         } else {
-            mMessage.callback(result);
+            mRequest.callback(result);
         }
     }
 }

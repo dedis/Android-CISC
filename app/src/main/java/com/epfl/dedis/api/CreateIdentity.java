@@ -9,7 +9,7 @@ import com.epfl.dedis.net.HTTP;
 import com.epfl.dedis.net.Identity;
 import com.google.gson.annotations.SerializedName;
 
-public class CreateIdentity implements Message {
+public class CreateIdentity implements Request {
 
     private class CreateIdentityMessage {
         @SerializedName("Config")
