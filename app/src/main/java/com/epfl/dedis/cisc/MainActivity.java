@@ -55,15 +55,6 @@ public class MainActivity extends AppCompatActivity implements Activity {
             }
         });
 
-        FloatingActionButton mCreateButton = (FloatingActionButton) findViewById(R.id.main_create_button);
-        mCreateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CreateActivity.class);
-                startActivity(intent);
-            }
-        });
-
         FloatingActionButton mJoinButton = (FloatingActionButton) findViewById(R.id.main_join_button);
         mJoinButton.setOnClickListener(new View.OnClickListener() {
             @Override

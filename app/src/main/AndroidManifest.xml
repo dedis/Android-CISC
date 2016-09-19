@@ -21,11 +21,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CreateActivity"
-            android:label="@string/create_name"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity
             android:name=".ConfigActivity"
             android:label="@string/config_name"
             android:screenOrientation="portrait">
