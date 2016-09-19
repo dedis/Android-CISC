@@ -29,6 +29,7 @@ public class ConfigUpdate implements Request {
         this.mActivity = activity;
         this.mIdentity = identity;
 
+        // TODO: Maybe use constructor instead of direct assignment
         ConfigUpdateMessage configUpdateMessage = new ConfigUpdateMessage();
         configUpdateMessage.id = Utils.encodeBase64(identity.getId());
 
@@ -53,6 +54,7 @@ public class ConfigUpdate implements Request {
     }
 
     // TODO: More or more detailed error messages; also for other Actitivies
+    // TODO: Check if HTTP-error codes are suitable
     public void callbackError(int error) {
         switch (error) {
             case 400: mActivity.taskFail(R.string.err_400); break;
