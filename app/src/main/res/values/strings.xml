@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">CISC - Cisc Identity SkipChain</string>
-    <string name="create_name">CISC - Create</string>
     <string name="config_name">CISC - Configuration</string>
-    <string name="join_name">CISC - Join</string>
     <string name="scanner_name">CISC - Scan</string>
     <string name="device_name">CISC - Devices</string>
     <string name="data_name">CISC - Data</string>
@@ -13,23 +11,12 @@
     <string name="create_port_hint">Port</string>
     <string name="create_data_hint">Data (SSH-Key etc.)</string>
 
-    <string name="join_identity_hint">Skipchain Identity (ID)</string>
-    <string name="join_host_hint">Hostname</string>
-    <string name="join_port_hint">Port</string>
-    <string name="join_data_hint">Data (SSH-Key etc.)</string>
-
     <string name="config_identity_label">Identity</string>
     <string name="config_address_label">Address</string>
     <string name="config_status_label">Status</string>
 
     <string name="data_old_label">Old</string>
     <string name="data_new_label">New</string>
-
-    <string name="hint_host_editText">Hostname</string>
-    <string name="hint_port_editText">Port</string>
-    <string name="hint_data_editText">Data (SSH-key etc.)</string>
-    <string name="hint_id_editText">Skipchain Identity (ID)</string>
-    <string name="hint_qr_imageView">QR-Code</string>
 
     <string name="info_uptodate">Skipchain is up to date</string>
     <string name="info_noproposed">No proposed configuration</string>
@@ -45,5 +32,4 @@
     <string name="err_503">No proposed configuration</string>
     <string name="err_504">Invalid Base 64 encoding</string>
     <string name="err_unknown">Unknown error</string>
-    <string name="err_empty">Empty fields</string>
 </resources>
