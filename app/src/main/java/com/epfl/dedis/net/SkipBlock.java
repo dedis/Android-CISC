@@ -11,10 +11,10 @@ public class SkipBlock {
     private String mId;
 
     @SerializedName("Sig")
-    private String sig;
+    private String mSig;
 
     @SerializedName("Msg")
-    private String msg;
+    private String mMsg;
 
     public SkipBlockFix getFix() {
         return mFix;
@@ -22,5 +22,13 @@ public class SkipBlock {
 
     public String getId() {
         return mId;
+    }
+
+    public String getSig() {
+        return mSig;
+    }
+
+    public String getMsg() {
+        return mMsg;
     }
 }

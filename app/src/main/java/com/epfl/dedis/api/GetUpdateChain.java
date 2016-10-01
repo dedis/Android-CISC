@@ -2,16 +2,20 @@ package com.epfl.dedis.api;
 
 import com.epfl.dedis.cisc.Activity;
 import com.epfl.dedis.cisc.R;
+import com.epfl.dedis.crypto.Ed25519;
 import com.epfl.dedis.crypto.Utils;
 import com.epfl.dedis.net.HTTP;
 import com.epfl.dedis.net.Identity;
 import com.epfl.dedis.net.UpdateChain;
 import com.google.gson.annotations.SerializedName;
 
+import net.i2p.crypto.eddsa.EdDSAEngine;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.util.Arrays;
 
 public class GetUpdateChain implements Request {
@@ -88,7 +92,6 @@ public class GetUpdateChain implements Request {
 
         System.out.println("OLD HASH: " + Arrays.toString(Utils.decodeBase64(uc.getChain()[0].getId())));
         try {
-            //hash(uc);
             byte[] a = hash(uc);
             System.out.println(Arrays.toString(a));
             if (Arrays.equals(Utils.decodeBase64(uc.getChain()[0].getId()), a))
@@ -96,6 +99,25 @@ public class GetUpdateChain implements Request {
                 System.out.println("HASH IS EQUAL!");
             }
         } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        byte[] aggregate = Utils.decodeBase64(uc.getChain()[0].getFix().mAggregate);
+        PublicKey pb = Ed25519.BytesToPub(aggregate);
+
+        EdDSAEngine engine = new EdDSAEngine();
+
+        try {
+
+            byte[] signature = Utils.decodeBase64(uc.getChain()[0].getSig());
+            System.out.println(signature.length);
+            byte[] message = Utils.decodeBase64(uc.getChain()[0].getMsg());
+
+            engine.initVerify(pb);
+
+            byte[] iii = Arrays.copyOfRange(signature, 0, 64);
+            System.out.println(engine.verifyOneShot(message, iii));
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
