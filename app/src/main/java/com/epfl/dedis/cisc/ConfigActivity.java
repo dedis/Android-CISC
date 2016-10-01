@@ -45,12 +45,11 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
                 if (configDevice.keySet().equals(proposedDevice.keySet()) && configData.keySet().equals(proposedData.keySet())) {
                     mStatusTextView.setText(R.string.info_acceptedchange);
                     mIdentity.setProposed(null);
-
-                    SharedPreferences.Editor editor = getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
-                    editor.putString(IDENTITY, Utils.toJson(mIdentity));
-                    editor.apply();
                 }
             }
+            SharedPreferences.Editor editor = getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
+            editor.putString(IDENTITY, Utils.toJson(mIdentity));
+            editor.apply();
         } else {
             proposedDevice.keySet().removeAll(configDevice.keySet());
             proposedData.keySet().removeAll(configData.keySet());

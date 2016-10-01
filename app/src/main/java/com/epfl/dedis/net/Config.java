@@ -1,6 +1,7 @@
 package com.epfl.dedis.net;
 
 import com.epfl.dedis.crypto.Ed25519;
+import com.epfl.dedis.crypto.Utils;
 import com.google.gson.annotations.SerializedName;
 
 import java.nio.ByteBuffer;
@@ -8,7 +9,10 @@ import java.nio.ByteOrder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -31,7 +35,7 @@ public class Config {
 
     public Config(int threshold, String name, PublicKey pub){
         mThreshold = threshold;
-        mDevice = new TreeMap<>();
+        mDevice = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         mDevice.put(name, Ed25519.PubString(pub));
         mData = new HashMap<>();
         mData.put(name, null);
@@ -61,14 +65,16 @@ public class Config {
         buffer.putInt(mThreshold);
         sha256.update(buffer.array());
 
-        for (Map.Entry<String, String> entry : mDevice.entrySet()) {
-            sha256.update(entry.getKey().getBytes());
+        List<String> sorted = new ArrayList<>(mDevice.keySet());
+        Collections.sort(sorted);
+        for (String key : sorted) {
+            sha256.update(key.getBytes());
 
-            String value = mData.get(entry.getKey());
+            String value = mData.get(key);
             if (value != null) {
                 sha256.update(value.getBytes());
             }
-            PublicKey pub = Ed25519.StringToPub(entry.getValue());
+            PublicKey pub = Ed25519.StringToPub(mDevice.get(key));
             sha256.update(Ed25519.PubBytes(pub));
         }
 
@@ -101,5 +107,10 @@ public class Config {
      */
     public void setData(Map<String, String> data) {
         mData = data;
+    }
+
+    @Override
+    public String toString() {
+        return Utils.toJson(this);
     }
 }
