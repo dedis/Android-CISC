@@ -20,6 +20,7 @@ public class Identity {
 
     private String mName;
     private byte[] mId;
+    private String mStringId;
     private byte[] mSeed;
     private byte[] mRSASecret;
 
@@ -159,5 +160,13 @@ public class Identity {
      */
     public void setProposed(Config proposed) {
         mProposed = proposed;
+    }
+
+    public void setStringId(String stringId) {
+        mStringId = stringId;
+    }
+
+    public String getStringId() {
+        return mStringId;
     }
 }
