@@ -10,4 +10,13 @@ public class UpdateChain {
     public SkipBlock[] getChain() {
         return mChain;
     }
+
+    public boolean verifySkipChain() {
+        for (SkipBlock sb : mChain) {
+            if (!sb.verifyBlock()) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

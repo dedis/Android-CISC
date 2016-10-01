@@ -43,7 +43,7 @@ public class DataActivity extends AppCompatActivity implements Activity {
     public void generateRSAKeyPair() {
         try {
             KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-            keyGen.initialize(2048);
+            keyGen.initialize(256);
 
             String pub = Utils.encodeBase64(keyGen.genKeyPair().getPublic().getEncoded());
             mIdentity.updateData(pub);

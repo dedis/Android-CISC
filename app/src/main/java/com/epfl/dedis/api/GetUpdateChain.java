@@ -37,7 +37,8 @@ public class GetUpdateChain implements Request {
         mIdentity = identity;
 
         GetUpdateChainMessage getUpdateChainMessage = new GetUpdateChainMessage();
-        getUpdateChainMessage.latestId = identity.getStringId();
+        //getUpdateChainMessage.latestId = identity.getStringId();
+        getUpdateChainMessage.latestId = Utils.encodeBase64(mIdentity.getId());
 
         HTTP http = new HTTP(this, identity.getCothority(), GET_UPDATE_CHAIN, Utils.toJson(getUpdateChainMessage));
         if (wait) {
@@ -89,37 +90,38 @@ public class GetUpdateChain implements Request {
 
     public void callback(String result) {
         UpdateChain uc = Utils.fromJson(result, UpdateChain.class);
+        System.out.println(uc.verifySkipChain());
 
-        System.out.println("OLD HASH: " + Arrays.toString(Utils.decodeBase64(uc.getChain()[0].getId())));
-        try {
-            byte[] a = hash(uc);
-            System.out.println(Arrays.toString(a));
-            if (Arrays.equals(Utils.decodeBase64(uc.getChain()[0].getId()), a))
-            {
-                System.out.println("HASH IS EQUAL!");
-            }
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-        byte[] aggregate = Utils.decodeBase64(uc.getChain()[0].getFix().mAggregate);
-        PublicKey pb = Ed25519.BytesToPub(aggregate);
-
-        EdDSAEngine engine = new EdDSAEngine();
-
-        try {
-
-            byte[] signature = Utils.decodeBase64(uc.getChain()[0].getSig());
-            System.out.println(signature.length);
-            byte[] message = Utils.decodeBase64(uc.getChain()[0].getMsg());
-
-            engine.initVerify(pb);
-
-            byte[] iii = Arrays.copyOfRange(signature, 0, 64);
-            System.out.println(engine.verifyOneShot(message, iii));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        System.out.println("OLD HASH: " + Arrays.toString(Utils.decodeBase64(uc.getChain()[0].getId())));
+//        try {
+//            byte[] a = hash(uc);
+//            System.out.println(Arrays.toString(a));
+//            if (Arrays.equals(Utils.decodeBase64(uc.getChain()[0].getId()), a))
+//            {
+//                System.out.println("HASH IS EQUAL!");
+//            }
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        }
+//
+//        byte[] aggregate = Utils.decodeBase64(uc.getChain()[0].getFix().mAggregate);
+//        PublicKey pb = Ed25519.BytesToPub(aggregate);
+//
+//        EdDSAEngine engine = new EdDSAEngine();
+//
+//        try {
+//
+//            byte[] signature = Utils.decodeBase64(uc.getChain()[0].getSig());
+//            System.out.println(signature.length);
+//            byte[] message = Utils.decodeBase64(uc.getChain()[0].getMsg());
+//
+//            engine.initVerify(pb);
+//
+//            byte[] iii = Arrays.copyOfRange(signature, 0, 64);
+//            System.out.println(engine.verifyOneShot(message, iii));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     // TODO: More or more detailed error messages; also for other Actitivies

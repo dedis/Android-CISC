@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.epfl.dedis.api.ConfigUpdate;
+import com.epfl.dedis.api.GetUpdateChain;
 import com.epfl.dedis.crypto.Utils;
 import com.epfl.dedis.net.Identity;
 import com.google.zxing.WriterException;
@@ -73,6 +74,19 @@ public class MainActivity extends AppCompatActivity implements Activity {
                 if (!json.isEmpty()) {
                     mIdentity = Utils.fromJson(json, Identity.class);
                     new ConfigUpdate(MainActivity.this, mIdentity);
+                }
+            }
+        });
+
+        FloatingActionButton mInfoButton = (FloatingActionButton) findViewById(R.id.main_info_button);
+        mInfoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences pref = getSharedPreferences(PREF, Context.MODE_PRIVATE);
+                String json = pref.getString(IDENTITY, "");
+                if (!json.isEmpty()) {
+                    mIdentity = Utils.fromJson(json, Identity.class);
+                    new GetUpdateChain(MainActivity.this, mIdentity);
                 }
             }
         });
