@@ -4,12 +4,23 @@ import com.google.gson.annotations.SerializedName;
 
 public class SkipBlock {
 
-    @SerializedName("Fix")
-    private SkipBlockFix mFix;
+    @SerializedName("SkipBlockFix")
+    public SkipBlockFix mFix;
 
     @SerializedName("Hash")
-    private byte[] mId;
+    private String mId;
 
-    @SerializedName("BlockSig")
-    private String mBftSig;
+    @SerializedName("Sig")
+    private String sig;
+
+    @SerializedName("Msg")
+    private String msg;
+
+    public SkipBlockFix getFix() {
+        return mFix;
+    }
+
+    public String getId() {
+        return mId;
+    }
 }

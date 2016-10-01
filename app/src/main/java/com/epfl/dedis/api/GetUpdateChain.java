@@ -3,12 +3,16 @@ package com.epfl.dedis.api;
 import com.epfl.dedis.cisc.Activity;
 import com.epfl.dedis.cisc.R;
 import com.epfl.dedis.crypto.Utils;
-import com.epfl.dedis.net.Config;
 import com.epfl.dedis.net.HTTP;
 import com.epfl.dedis.net.Identity;
+import com.epfl.dedis.net.UpdateChain;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.HashMap;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 public class GetUpdateChain implements Request {
 
@@ -40,8 +44,60 @@ public class GetUpdateChain implements Request {
         }
     }
 
+    public byte[] hash(UpdateChain uc) throws NoSuchAlgorithmException {
+        MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
+
+        ByteBuffer buffer = ByteBuffer.allocate(8);
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+        buffer.putInt(uc.getChain()[0].getFix().mIndex);
+        sha256.update(buffer.array());
+
+        buffer = ByteBuffer.allocate(8);
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+        buffer.putInt(uc.getChain()[0].getFix().mHeight);
+        sha256.update(buffer.array());
+
+        buffer = ByteBuffer.allocate(8);
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+        buffer.putInt(uc.getChain()[0].getFix().mMaximumHeight);
+        sha256.update(buffer.array());
+
+        buffer = ByteBuffer.allocate(8);
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+        buffer.putInt(uc.getChain()[0].getFix().mBaseHeight);
+        sha256.update(buffer.array());
+
+        for (String s : uc.getChain()[0].getFix().mBackLinkIds) {
+            sha256.update(Utils.decodeBase64(s));
+        }
+
+        sha256.update(Utils.decodeBase64(uc.getChain()[0].getFix().mVerifierId));
+        sha256.update(Utils.decodeBase64(uc.getChain()[0].getFix().mParentBlockId));
+        sha256.update(Utils.decodeBase64(uc.getChain()[0].getFix().mAggregate));
+        sha256.update(Utils.decodeBase64(uc.getChain()[0].getFix().mAggregateResp));
+        sha256.update(Utils.decodeBase64(uc.getChain()[0].getFix().mData));
+
+        byte[] hash = sha256.digest();
+        System.out.println("NEW HASH: " + Arrays.toString(hash));
+
+        return hash;
+    }
+
     public void callback(String result) {
-        System.out.println(result);
+        UpdateChain uc = Utils.fromJson(result, UpdateChain.class);
+
+        System.out.println("OLD HASH: " + Arrays.toString(Utils.decodeBase64(uc.getChain()[0].getId())));
+        try {
+            //hash(uc);
+            byte[] a = hash(uc);
+            System.out.println(Arrays.toString(a));
+            if (Arrays.equals(Utils.decodeBase64(uc.getChain()[0].getId()), a))
+            {
+                System.out.println("HASH IS EQUAL!");
+            }
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 
     // TODO: More or more detailed error messages; also for other Actitivies

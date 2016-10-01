@@ -6,4 +6,8 @@ public class UpdateChain {
 
     @SerializedName("Update")
     private SkipBlock[] mChain;
+
+    public SkipBlock[] getChain() {
+        return mChain;
+    }
 }

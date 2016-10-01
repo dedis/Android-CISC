@@ -26,7 +26,7 @@ public class GetUpdateChainTest {
     @Test
     public void keyPairIsCorrectlyConvertedToString() {
 
-        String id = "6bdslSwj10AaC0IEx17LRFv3pdVjgNP5hZSVobub+8A=";
+        String id = "Yce8abgRANx8DQtctQ1YOAEjgDFP+PFtgZVAuuCogyE=";
         String host = "10.151.15.192";
         String port = "2003";
 
