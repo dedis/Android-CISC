@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">@color/material_grey_800</color>
-    <color name="colorSuccess">#7fff7d</color>
-    <color name="colorFailure">#f16363</color>
 </resources>

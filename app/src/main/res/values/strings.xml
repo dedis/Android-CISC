@@ -7,10 +7,6 @@
 
     <string name="main_title_label">DEDIS @EPFL</string>
 
-    <string name="create_host_hint">Hostname</string>
-    <string name="create_port_hint">Port</string>
-    <string name="create_data_hint">Data (SSH-Key etc.)</string>
-
     <string name="config_identity_label">Identity</string>
     <string name="config_address_label">Address</string>
     <string name="config_status_label">Status</string>
@@ -19,11 +15,12 @@
     <string name="data_new_label">New</string>
 
     <string name="info_uptodate">Skipchain is up to date</string>
-    <string name="info_noproposed">No proposed configuration</string>
     <string name="info_acceptedchange">Change accepted</string>
     <string name="info_connection">Connected</string>
     <string name="info_voted">Voted</string>
     <string name="info_nodata">No data</string>
+
+    <string name="qr_image_hint">QR-Code</string>
 
     <string name="err_400">Connection refused</string>
     <string name="err_500">Corrupt request</string>

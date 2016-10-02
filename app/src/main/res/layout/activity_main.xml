@@ -21,7 +21,7 @@
 
         <ImageView
             android:id="@+id/main_qr_image"
-            android:contentDescription="@string/hint_qr_imageView"
+            android:contentDescription="@string/qr_image_hint"
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:layout_margin="50dp"
