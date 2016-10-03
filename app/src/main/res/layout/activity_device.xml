@@ -4,8 +4,7 @@
     android:id="@+id/config_activity"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="#ffffff">
+    android:orientation="vertical">
 
     <ListView
         android:id="@+id/device_device_list"
