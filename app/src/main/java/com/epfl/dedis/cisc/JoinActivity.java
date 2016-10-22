@@ -17,6 +17,11 @@ import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
+import com.epfl.dedis.cisc.ConfigActivity.State.*;
+
+import static com.epfl.dedis.cisc.ConfigActivity.State.PROP;
+
+
 public class JoinActivity extends AppCompatActivity implements Activity, ZXingScannerView.ResultHandler {
 
     private ZXingScannerView mScannerView;
@@ -76,7 +81,7 @@ public class JoinActivity extends AppCompatActivity implements Activity, ZXingSc
         String json = rawResult.getText();
         QRMessage qrm = Utils.fromJson(json, QRMessage.class);
 
-        mIdentity = new Identity(new Cothority(qrm.host, qrm.port), Utils.decodeBase64(qrm.id));
+        mIdentity = new Identity(new Cothority(qrm.host, qrm.port), Utils.decodeBase64(qrm.id), PROP);
         new ConfigUpdate(JoinActivity.this, mIdentity);
     }
 

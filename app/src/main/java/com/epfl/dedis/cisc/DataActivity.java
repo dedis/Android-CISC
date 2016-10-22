@@ -18,6 +18,8 @@ import com.epfl.dedis.net.Identity;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 
+import static com.epfl.dedis.cisc.ConfigActivity.State.PROP;
+
 public class DataActivity extends AppCompatActivity implements Activity {
 
     private TextView mNewTextView;
@@ -29,22 +31,33 @@ public class DataActivity extends AppCompatActivity implements Activity {
         if (!mProposed) {
             new ProposeVote(this, mIdentity);
             mProposed = true;
-            System.out.println(mProposed);
         } else {
+//            mIdentity.setState(PRE_PROP);
+//
+//            SharedPreferences.Editor editor = getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
+//            editor.putString(IDENTITY, Utils.toJson(mIdentity));
+//            editor.apply();
+//
+//            Intent intent = new Intent(new Intent(this, ConfigActivity.class));
+//            startActivity(intent);
+//            finish();
+        }
+    }
+
+    public void taskFail(int error) {
+        if (error == 505) {
+            mIdentity.setState(PROP);
+
+            SharedPreferences.Editor editor = getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
+            editor.putString(IDENTITY, Utils.toJson(mIdentity));
+            editor.apply();
+
             Intent intent = new Intent(new Intent(this, ConfigActivity.class));
-            intent.putExtra("pro", false);
-            intent.putExtra("wait", "Wait for proposal approval.");
             startActivity(intent);
             finish();
         }
     }
 
-    public void taskFail(int error) {
-        System.out.println("ASDFASFD");
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
-    }
-
-    // TODO: RSA (SSH) key pair generation is slow
     public void generateRSAKeyPair() {
         try {
             KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
@@ -54,6 +67,8 @@ public class DataActivity extends AppCompatActivity implements Activity {
             mIdentity.updateData(pub);
             mIdentity.setRSASecret(keyGen.genKeyPair().getPublic().getEncoded());
             mNewTextView.setText(pub);
+
+
         } catch (NoSuchAlgorithmException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }

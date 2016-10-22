@@ -15,65 +15,56 @@ import com.epfl.dedis.api.ProposeVote;
 import com.epfl.dedis.crypto.Utils;
 import com.epfl.dedis.net.Identity;
 
-import java.util.HashMap;
-import java.util.Map;
+import static com.epfl.dedis.cisc.ConfigActivity.State.IDLE;
+import static com.epfl.dedis.cisc.ConfigActivity.State.POST_VOTE;
+import static com.epfl.dedis.cisc.ConfigActivity.State.PRE_VOTE;
+import static com.epfl.dedis.cisc.ConfigActivity.State.PROP;
 
 public class ConfigActivity extends AppCompatActivity implements Activity {
 
     private TextView mStatusTextView;
 
     private Identity mIdentity;
-    private boolean mUpdate;
-    private boolean mProposed;
-    private boolean mVote;
 
-    private enum States {
-      IDLE, PRE_VOTE, POST_VOTE_SUCC, POST_VOTE_WAIT
-    };
+    private State mState;
 
-    // TODO: IMPORTANT! Find simpler way to detect changes in Config; Currently very messy
+    public enum State {
+        IDLE, PRE_VOTE, POST_VOTE, PROP
+    }
+
     public void taskJoin() {
-        Map<String, String> configDevice = new HashMap<>(mIdentity.getConfig().getDevice());
-        Map<String, String> configData = new HashMap<>(mIdentity.getConfig().getData());
-
-        Map<String, String> proposedDevice = mIdentity.getProposed() == null ?
-                                                new HashMap<String, String>() :
-                                                new HashMap<>(mIdentity.getProposed().getDevice());
-
-        Map<String, String> proposedData = mIdentity.getProposed() == null ?
-                                                new HashMap<String, String>() :
-                                                new HashMap<>(mIdentity.getProposed().getData());
-        // TODO: More robust state machine; also in other Activities that have to deal with several requests
-        if (mUpdate) {
-            if (proposedDevice.isEmpty()) {
-                mStatusTextView.setText(R.string.info_uptodate);
-                mProposed = true;
-            }
-            if (configDevice.keySet().equals(proposedDevice.keySet()) && configData.keySet().equals(proposedData.keySet())) {
-                mStatusTextView.setText(R.string.info_acceptedchange);
-                mIdentity.setProposed(null);
-                mProposed = true;
-            }
-
-            SharedPreferences.Editor editor = getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
-            editor.putString(IDENTITY, Utils.toJson(mIdentity));
-            editor.apply();
-        } else if (mProposed){
-            proposedDevice.keySet().removeAll(configDevice.keySet());
-            proposedData.keySet().removeAll(configData.keySet());
-            if (proposedDevice.size() != 0) {
-                mStatusTextView.setText(proposedDevice.toString());
+        String proposal = mIdentity.getProposalString();
+        System.out.println(mState + " --- " + proposal);
+        if (mState == IDLE) {
+            if (proposal == null) {
+                mStatusTextView.setText("Skipchain up to date.");
             } else {
-                mStatusTextView.setText(proposedData.toString());
+                mStatusTextView.setText(proposal);
+                mState = PRE_VOTE;
             }
-            mVote = true;
-        } else {
-
+        } else if (mState == PROP && proposal == null) {
+            mStatusTextView.setText("Change accepted.");
+            mState = IDLE;
+        } else if (mState == PRE_VOTE) {
+            mStatusTextView.setText("Vote emmited.");
+            mState = POST_VOTE;
+        } else if (mState == POST_VOTE && proposal == null) {
+            mStatusTextView.setText("Threshold reached.");
+            mState = IDLE;
         }
+
+        mIdentity.setState(mState);
+        SharedPreferences.Editor editor = getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
+        editor.putString(IDENTITY, Utils.toJson(mIdentity));
+        editor.apply();
     }
 
     public void taskFail(int error) {
-        mStatusTextView.setText(error);
+        if (error == 505) {
+            mStatusTextView.setText("Threshold not reached.");
+        } else if (error == 503) {
+            mStatusTextView.setText("Skipchain up to date.");
+        }
     }
 
     @Override
@@ -88,11 +79,8 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
         mStatusTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mVote) {
+                if (mState == PRE_VOTE) {
                     new ProposeVote(ConfigActivity.this, mIdentity);
-                    mStatusTextView.setText(R.string.info_voted);
-                    mVote = false;
-                    mProposed = false;
                 }
             }
         });
@@ -120,31 +108,31 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new ConfigUpdate(ConfigActivity.this, mIdentity);
-                mUpdate = true;
-            }
-        });
-
-        FloatingActionButton fetchButton = (FloatingActionButton) findViewById(R.id.config_fetch_button);
-        fetchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mProposed) {
+                if (mState == IDLE) {
+                    System.out.println("ADFASFD");
                     new ProposeUpdate(ConfigActivity.this, mIdentity);
-                    mUpdate = false;
+                } else if (mState == PROP || mState == POST_VOTE) {
+                    new ConfigUpdate(ConfigActivity.this, mIdentity);
                 }
             }
         });
 
+//        FloatingActionButton fetchButton = (FloatingActionButton) findViewById(R.id.config_fetch_button);
+//        fetchButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (mProposed) {
+//                    new ProposeUpdate(ConfigActivity.this, mIdentity);
+//                    mUpdate = false;
+//                }
+//            }
+//        });
+
         SharedPreferences sharedPreferences = getSharedPreferences(PREF, Context.MODE_PRIVATE);
         mIdentity = Utils.fromJson(sharedPreferences.getString(IDENTITY, ""), Identity.class);
+        mState = mIdentity.getState();
 
         idTextView.setText(Utils.encodeBase64(mIdentity.getId()));
         addressTextView.setText(mIdentity.getCothority().getHost());
-
-        if (getIntent().hasExtra("wait"))
-            mStatusTextView.setText(getIntent().getStringExtra("wait"));
-        mProposed = getIntent().getBooleanExtra("pro", true);
-        mVote = getIntent().getBooleanExtra("vote", false);
     }
 }

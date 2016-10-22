@@ -1,6 +1,8 @@
 package com.epfl.dedis.net;
 
+import com.epfl.dedis.cisc.ConfigActivity;
 import com.epfl.dedis.crypto.Ed25519;
+import com.google.common.collect.Iterables;
 
 import net.i2p.crypto.eddsa.EdDSAPrivateKey;
 import net.i2p.crypto.eddsa.EdDSAPublicKey;
@@ -9,6 +11,8 @@ import net.i2p.crypto.eddsa.spec.EdDSAPublicKeySpec;
 
 import java.security.KeyPair;
 import java.security.PublicKey;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The Identity bundles the all the information about a Skipchain
@@ -27,6 +31,7 @@ public class Identity {
     private Cothority mCothority;
     private Config mConfig;
     private Config mProposed;
+    private ConfigActivity.State mState;
 
     public Identity(String name, Cothority cothority) {
         mName = name;
@@ -38,9 +43,10 @@ public class Identity {
     }
 
     // Debugging constructor
-    public Identity(Cothority cothority, byte[] id) {
+    public Identity(Cothority cothority, byte[] id, ConfigActivity.State state) {
         mCothority = cothority;
         mId = id;
+        mState = state;
     }
 
     /**
@@ -169,4 +175,42 @@ public class Identity {
     public String getStringId() {
         return mStringId;
     }
-}
+
+    public ConfigActivity.State getState() {
+        return mState;
+    }
+
+    public void setState(ConfigActivity.State state) {
+        mState = state;
+    }
+
+    public String getProposalString() {
+        if (mProposed != null) {
+            Map<String, String> configDevice = new HashMap<>(mConfig.getDevice());
+            Map<String, String> configData = new HashMap<>(mConfig.getData());
+            Map<String, String> proposedDevice = new HashMap<>(mProposed.getDevice());
+            Map<String, String> proposedData = new HashMap<>(mProposed.getData());
+
+            proposedDevice.entrySet().removeAll(configDevice.entrySet());
+            proposedData.entrySet().removeAll(configData.entrySet());
+
+            Map.Entry<String, String> device;
+            Map.Entry<String, String> data;
+            if (!proposedDevice.entrySet().isEmpty()) {
+                device = Iterables.getOnlyElement(proposedDevice.entrySet());
+                return "New proposal: " + device.getKey() + device.getValue();
+            } else if (!proposedData.entrySet().isEmpty()) {
+                data = Iterables.getOnlyElement(proposedData.entrySet());
+                return "New proposal: " + data.getKey() + data.getValue();
+            } else {
+                return null;
+            }
+            //Map.Entry<String, String> data = Iterables.getOnlyElement(proposedData.entrySet());
+
+
+
+        } else {
+            return null;
+        }
+    }
+ }

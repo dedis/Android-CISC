@@ -53,12 +53,16 @@ public class ProposeUpdate implements Request {
     }
 
     public void callbackError(int error) {
+        if (error == 503) {
+            mIdentity.setProposed(null);
+            mActivity.taskFail(503);
+        }
         switch (error) {
             case 400: mActivity.taskFail(R.string.err_400); break;
             case 500: mActivity.taskFail(R.string.err_500); break;
             case 501: mActivity.taskFail(R.string.err_501); break;
             case 502: mActivity.taskFail(R.string.err_502); break;
-            case 503: mActivity.taskFail(R.string.err_503); break;
+            //case 503: mActivity.taskFail(R.string.err_503); break;
             case 504: mActivity.taskFail(R.string.err_504); break;
             default: mActivity.taskFail(R.string.err_unknown);
         }
