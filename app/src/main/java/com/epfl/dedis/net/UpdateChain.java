@@ -11,12 +11,9 @@ public class UpdateChain {
         return mChain;
     }
 
-    public boolean verifySkipChain() {
-        System.out.println(mChain.length);
+    public boolean verifySkipChain(String skipchainID) {
         for (SkipBlock sb : mChain) {
-            System.out.println(sb.getId());
-            System.out.println(sb.getFix().getBack());
-            if (!sb.verifyBlock()) {
+            if (!sb.verifyBlock() && !(skipchainID.equals(sb.getFix().getBack()))) {
                 return false;
             }
         }
