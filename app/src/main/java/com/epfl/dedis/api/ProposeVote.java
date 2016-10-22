@@ -53,7 +53,9 @@ public class ProposeVote implements Request {
         }
     }
 
-    public void callback(String result) {}
+    public void callback(String result) {
+        mActivity.taskJoin();
+    }
 
     public void callbackError(int error) {
         switch (error) {

@@ -45,7 +45,11 @@ public class JoinActivity extends AppCompatActivity implements Activity, ZXingSc
             editor.putString(IDENTITY, Utils.toJson(mIdentity));
             editor.apply();
 
-            startActivity(new Intent(JoinActivity.this, ConfigActivity.class));
+            Intent intent = new Intent(JoinActivity.this, ConfigActivity.class);
+            intent.putExtra("wait", "Wait for joining approval.");
+            intent.putExtra("pro", false);
+
+            startActivity(intent);
             finish();
         }
     }

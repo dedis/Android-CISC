@@ -24,6 +24,12 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
 
     private Identity mIdentity;
     private boolean mUpdate;
+    private boolean mProposed;
+    private boolean mVote;
+
+    private enum States {
+      IDLE, PRE_VOTE, POST_VOTE_SUCC, POST_VOTE_WAIT
+    };
 
     // TODO: IMPORTANT! Find simpler way to detect changes in Config; Currently very messy
     public void taskJoin() {
@@ -39,18 +45,20 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
                                                 new HashMap<>(mIdentity.getProposed().getData());
         // TODO: More robust state machine; also in other Activities that have to deal with several requests
         if (mUpdate) {
-            if (mIdentity.getProposed() == null) {
+            if (proposedDevice.isEmpty()) {
                 mStatusTextView.setText(R.string.info_uptodate);
-            } else {
-                if (configDevice.keySet().equals(proposedDevice.keySet()) && configData.keySet().equals(proposedData.keySet())) {
-                    mStatusTextView.setText(R.string.info_acceptedchange);
-                    mIdentity.setProposed(null);
-                }
+                mProposed = true;
             }
+            if (configDevice.keySet().equals(proposedDevice.keySet()) && configData.keySet().equals(proposedData.keySet())) {
+                mStatusTextView.setText(R.string.info_acceptedchange);
+                mIdentity.setProposed(null);
+                mProposed = true;
+            }
+
             SharedPreferences.Editor editor = getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
             editor.putString(IDENTITY, Utils.toJson(mIdentity));
             editor.apply();
-        } else {
+        } else if (mProposed){
             proposedDevice.keySet().removeAll(configDevice.keySet());
             proposedData.keySet().removeAll(configData.keySet());
             if (proposedDevice.size() != 0) {
@@ -58,6 +66,9 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
             } else {
                 mStatusTextView.setText(proposedData.toString());
             }
+            mVote = true;
+        } else {
+
         }
     }
 
@@ -77,8 +88,12 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
         mStatusTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new ProposeVote(ConfigActivity.this, mIdentity);
-                mStatusTextView.setText(R.string.info_voted);
+                if (mVote) {
+                    new ProposeVote(ConfigActivity.this, mIdentity);
+                    mStatusTextView.setText(R.string.info_voted);
+                    mVote = false;
+                    mProposed = false;
+                }
             }
         });
 
@@ -88,6 +103,7 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(ConfigActivity.this, DataActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -113,8 +129,10 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
         fetchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new ProposeUpdate(ConfigActivity.this, mIdentity);
-                mUpdate = false;
+                if (mProposed) {
+                    new ProposeUpdate(ConfigActivity.this, mIdentity);
+                    mUpdate = false;
+                }
             }
         });
 
@@ -123,5 +141,10 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
 
         idTextView.setText(Utils.encodeBase64(mIdentity.getId()));
         addressTextView.setText(mIdentity.getCothority().getHost());
+
+        if (getIntent().hasExtra("wait"))
+            mStatusTextView.setText(getIntent().getStringExtra("wait"));
+        mProposed = getIntent().getBooleanExtra("pro", true);
+        mVote = getIntent().getBooleanExtra("vote", false);
     }
 }

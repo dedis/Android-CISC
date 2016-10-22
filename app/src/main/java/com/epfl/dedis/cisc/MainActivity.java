@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
             mQrImageView.setImageBitmap(Utils.encodeQR(identityBase64, (int) px));
             mStatusLabel.setText(R.string.info_connection);
         } catch (WriterException e){
-            mStatusLabel.setText(e.getMessage());
+            mStatusLabel.setText("Not connected.");
         }
     }
 
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
         setContentView(R.layout.activity_main);
 
         mStatusLabel = (TextView) findViewById(R.id.main_status_label);
-        assert mStatusLabel != null;
+        mStatusLabel.setText("Not connected");
 
         mQrImageView = (ImageView) findViewById(R.id.main_qr_image);
         assert mQrImageView != null;

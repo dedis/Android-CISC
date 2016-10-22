@@ -29,13 +29,18 @@ public class DataActivity extends AppCompatActivity implements Activity {
         if (!mProposed) {
             new ProposeVote(this, mIdentity);
             mProposed = true;
+            System.out.println(mProposed);
         } else {
-            startActivity(new Intent(this, ConfigActivity.class));
+            Intent intent = new Intent(new Intent(this, ConfigActivity.class));
+            intent.putExtra("pro", false);
+            intent.putExtra("wait", "Wait for proposal approval.");
+            startActivity(intent);
             finish();
         }
     }
 
     public void taskFail(int error) {
+        System.out.println("ASDFASFD");
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 

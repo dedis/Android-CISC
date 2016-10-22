@@ -34,4 +34,9 @@ public class SkipBlockFix {
     @SerializedName("Data")
     public String mData;
 
+    public String getBack() {
+        System.out.println("-->" + mBackLinkIds.length);
+        return mBackLinkIds[0];
+    }
+
 }

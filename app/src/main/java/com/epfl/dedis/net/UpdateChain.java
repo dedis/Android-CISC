@@ -12,7 +12,10 @@ public class UpdateChain {
     }
 
     public boolean verifySkipChain() {
+        System.out.println(mChain.length);
         for (SkipBlock sb : mChain) {
+            System.out.println(sb.getId());
+            System.out.println(sb.getFix().getBack());
             if (!sb.verifyBlock()) {
                 return false;
             }
