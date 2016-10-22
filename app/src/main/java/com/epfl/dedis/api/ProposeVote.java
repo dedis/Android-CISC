@@ -65,7 +65,6 @@ public class ProposeVote implements Request {
             case 502: mActivity.taskFail(R.string.err_502); break;
             case 503: mActivity.taskFail(R.string.err_503); break;
             case 504: mActivity.taskFail(R.string.err_504); break;
-            case 505: mActivity.taskFail(505);
             default: mActivity.taskFail(R.string.err_unknown);
         }
     }

@@ -35,12 +35,21 @@ public class DeviceActivity extends AppCompatActivity implements Activity {
         Config config = Utils.fromJson(sharedPreferences.getString(IDENTITY, ""), Identity.class).getConfig();
 
         Map<String, String> devices = config.getDevice();
+        Map<String, String> ssh = config.getData();
         List<Map<String, String>> data = new ArrayList<>();
 
-        for (Map.Entry<String, String> entry : devices.entrySet()) {
+        for (Map.Entry<String, String> d : devices.entrySet()) {
             Map<String, String> datum = new HashMap<>(2);
-            datum.put("name", entry.getKey());
-            datum.put("data", entry.getValue());
+
+            String sshKey = "none";
+            for (Map.Entry<String, String> s : ssh.entrySet()) {
+                if (s.getKey().contains(d.getKey())) {
+                    sshKey = d.getValue();
+                }
+            }
+
+            datum.put("name", d.getKey());
+            datum.put("data", "PubKey: " + d.getValue() + "\nSSH: " + sshKey);
             data.add(datum);
         }
 

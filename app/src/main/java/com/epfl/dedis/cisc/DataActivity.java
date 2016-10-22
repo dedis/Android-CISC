@@ -18,35 +18,27 @@ import com.epfl.dedis.net.Identity;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 
-import static com.epfl.dedis.cisc.ConfigActivity.State.PROP;
+import static com.epfl.dedis.cisc.DataActivity.DataState.PROP;
+import static com.epfl.dedis.cisc.DataActivity.DataState.VOTE;
+
 
 public class DataActivity extends AppCompatActivity implements Activity {
 
     private TextView mNewTextView;
 
     private Identity mIdentity;
-    private boolean mProposed;
+    private DataState mDataState;
 
-    public void taskJoin() {
-        if (!mProposed) {
-            new ProposeVote(this, mIdentity);
-            mProposed = true;
-        } else {
-//            mIdentity.setState(PRE_PROP);
-//
-//            SharedPreferences.Editor editor = getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
-//            editor.putString(IDENTITY, Utils.toJson(mIdentity));
-//            editor.apply();
-//
-//            Intent intent = new Intent(new Intent(this, ConfigActivity.class));
-//            startActivity(intent);
-//            finish();
-        }
+    public enum DataState {
+        PROP, VOTE
     }
 
-    public void taskFail(int error) {
-        if (error == 505) {
-            mIdentity.setState(PROP);
+    public void taskJoin() {
+        if (mDataState == PROP) {
+            new ProposeVote(this, mIdentity);
+            mDataState = VOTE;
+        } else if (mDataState == VOTE){
+            mIdentity.setConfigState(ConfigActivity.ConfigState.PROP);
 
             SharedPreferences.Editor editor = getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
             editor.putString(IDENTITY, Utils.toJson(mIdentity));
@@ -58,6 +50,10 @@ public class DataActivity extends AppCompatActivity implements Activity {
         }
     }
 
+    public void taskFail(int error) {
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
     public void generateRSAKeyPair() {
         try {
             KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
@@ -67,8 +63,6 @@ public class DataActivity extends AppCompatActivity implements Activity {
             mIdentity.updateData(pub);
             mIdentity.setRSASecret(keyGen.genKeyPair().getPublic().getEncoded());
             mNewTextView.setText(pub);
-
-
         } catch (NoSuchAlgorithmException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -108,5 +102,7 @@ public class DataActivity extends AppCompatActivity implements Activity {
                 new ProposeSend(DataActivity.this, mIdentity);
             }
         });
+
+        mDataState = PROP;
     }
 }

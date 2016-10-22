@@ -17,16 +17,14 @@ import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-import com.epfl.dedis.cisc.ConfigActivity.State.*;
-
-import static com.epfl.dedis.cisc.ConfigActivity.State.PROP;
-
+import static com.epfl.dedis.cisc.JoinActivity.JoinState.CONF;
+import static com.epfl.dedis.cisc.JoinActivity.JoinState.PROP;
 
 public class JoinActivity extends AppCompatActivity implements Activity, ZXingScannerView.ResultHandler {
 
     private ZXingScannerView mScannerView;
     private Identity mIdentity;
-    private boolean mProposed;
+    private JoinState mJoinState;
 
     private class QRMessage {
         @SerializedName("ID")
@@ -39,21 +37,21 @@ public class JoinActivity extends AppCompatActivity implements Activity, ZXingSc
         String port;
     }
 
-    // TODO: Remove UI blocking after successful scan
+    public enum JoinState {
+        CONF, PROP
+    }
+
     public void taskJoin() {
-        if (!mProposed) {
+        if (mJoinState == CONF) {
             mIdentity.newDevice(Utils.uuid());
             new ProposeSend(this, mIdentity);
-            mProposed = true;
-        } else {
+            mJoinState = PROP;
+        } else if (mJoinState == PROP) {
             SharedPreferences.Editor editor = getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
             editor.putString(IDENTITY, Utils.toJson(mIdentity));
             editor.apply();
 
             Intent intent = new Intent(JoinActivity.this, ConfigActivity.class);
-            intent.putExtra("wait", "Wait for joining approval.");
-            intent.putExtra("pro", false);
-
             startActivity(intent);
             finish();
         }
@@ -81,7 +79,7 @@ public class JoinActivity extends AppCompatActivity implements Activity, ZXingSc
         String json = rawResult.getText();
         QRMessage qrm = Utils.fromJson(json, QRMessage.class);
 
-        mIdentity = new Identity(new Cothority(qrm.host, qrm.port), Utils.decodeBase64(qrm.id), PROP);
+        mIdentity = new Identity(new Cothority(qrm.host, qrm.port), Utils.decodeBase64(qrm.id), ConfigActivity.ConfigState.PROP);
         new ConfigUpdate(JoinActivity.this, mIdentity);
     }
 
@@ -90,5 +88,7 @@ public class JoinActivity extends AppCompatActivity implements Activity, ZXingSc
         super.onCreate(savedInstanceState);
         mScannerView = new ZXingScannerView(this);
         setContentView(mScannerView);
+
+        mJoinState = CONF;
     }
 }

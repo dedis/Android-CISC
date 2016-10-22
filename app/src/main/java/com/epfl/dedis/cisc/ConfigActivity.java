@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.epfl.dedis.api.ConfigUpdate;
 import com.epfl.dedis.api.ProposeUpdate;
@@ -15,10 +16,10 @@ import com.epfl.dedis.api.ProposeVote;
 import com.epfl.dedis.crypto.Utils;
 import com.epfl.dedis.net.Identity;
 
-import static com.epfl.dedis.cisc.ConfigActivity.State.IDLE;
-import static com.epfl.dedis.cisc.ConfigActivity.State.POST_VOTE;
-import static com.epfl.dedis.cisc.ConfigActivity.State.PRE_VOTE;
-import static com.epfl.dedis.cisc.ConfigActivity.State.PROP;
+import static com.epfl.dedis.cisc.ConfigActivity.ConfigState.IDLE;
+import static com.epfl.dedis.cisc.ConfigActivity.ConfigState.POST_VOTE;
+import static com.epfl.dedis.cisc.ConfigActivity.ConfigState.PRE_VOTE;
+import static com.epfl.dedis.cisc.ConfigActivity.ConfigState.PROP;
 
 public class ConfigActivity extends AppCompatActivity implements Activity {
 
@@ -26,45 +27,45 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
 
     private Identity mIdentity;
 
-    private State mState;
+    private ConfigState mConfigState;
 
-    public enum State {
+    public enum ConfigState {
         IDLE, PRE_VOTE, POST_VOTE, PROP
     }
 
     public void taskJoin() {
+        System.out.println(mConfigState);
         String proposal = mIdentity.getProposalString();
-        System.out.println(mState + " --- " + proposal);
-        if (mState == IDLE) {
+        if (mConfigState == IDLE) {
             if (proposal == null) {
                 mStatusTextView.setText("Skipchain up to date.");
             } else {
                 mStatusTextView.setText(proposal);
-                mState = PRE_VOTE;
+                mConfigState = PRE_VOTE;
             }
-        } else if (mState == PROP && proposal == null) {
+        } else if (mConfigState == PROP && proposal == null) {
             mStatusTextView.setText("Change accepted.");
-            mState = IDLE;
-        } else if (mState == PRE_VOTE) {
+            mConfigState = IDLE;
+        } else if (mConfigState == PRE_VOTE) {
             mStatusTextView.setText("Vote emmited.");
-            mState = POST_VOTE;
-        } else if (mState == POST_VOTE && proposal == null) {
-            mStatusTextView.setText("Threshold reached.");
-            mState = IDLE;
+            mConfigState = POST_VOTE;
+        } else if (mConfigState == POST_VOTE) {
+            if (proposal == null) {
+                mStatusTextView.setText("Threshold reached.");
+                mConfigState = IDLE;
+            } else {
+                mStatusTextView.setText("Threshold not reached.");
+            }
         }
 
-        mIdentity.setState(mState);
+        mIdentity.setConfigState(mConfigState);
         SharedPreferences.Editor editor = getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
         editor.putString(IDENTITY, Utils.toJson(mIdentity));
         editor.apply();
     }
 
     public void taskFail(int error) {
-        if (error == 505) {
-            mStatusTextView.setText("Threshold not reached.");
-        } else if (error == 503) {
-            mStatusTextView.setText("Skipchain up to date.");
-        }
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -79,7 +80,7 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
         mStatusTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mState == PRE_VOTE) {
+                if (mConfigState == PRE_VOTE) {
                     new ProposeVote(ConfigActivity.this, mIdentity);
                 }
             }
@@ -108,10 +109,9 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mState == IDLE) {
-                    System.out.println("ADFASFD");
+                if (mConfigState == IDLE) {
                     new ProposeUpdate(ConfigActivity.this, mIdentity);
-                } else if (mState == PROP || mState == POST_VOTE) {
+                } else if (mConfigState == PROP || mConfigState == POST_VOTE) {
                     new ConfigUpdate(ConfigActivity.this, mIdentity);
                 }
             }
@@ -130,9 +130,16 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
 
         SharedPreferences sharedPreferences = getSharedPreferences(PREF, Context.MODE_PRIVATE);
         mIdentity = Utils.fromJson(sharedPreferences.getString(IDENTITY, ""), Identity.class);
-        mState = mIdentity.getState();
+        mConfigState = mIdentity.getConfigState();
+
+        if (mConfigState == IDLE) {
+            mStatusTextView.setText("Skipchain up to date.");
+        } else if (mConfigState == PROP) {
+            mStatusTextView.setText("Threshold not reached.");
+        }
 
         idTextView.setText(Utils.encodeBase64(mIdentity.getId()));
         addressTextView.setText(mIdentity.getCothority().getHost());
+
     }
 }

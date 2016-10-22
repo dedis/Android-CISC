@@ -31,7 +31,7 @@ public class Identity {
     private Cothority mCothority;
     private Config mConfig;
     private Config mProposed;
-    private ConfigActivity.State mState;
+    private ConfigActivity.ConfigState mConfigState;
 
     public Identity(String name, Cothority cothority) {
         mName = name;
@@ -43,10 +43,10 @@ public class Identity {
     }
 
     // Debugging constructor
-    public Identity(Cothority cothority, byte[] id, ConfigActivity.State state) {
+    public Identity(Cothority cothority, byte[] id, ConfigActivity.ConfigState configState) {
         mCothority = cothority;
         mId = id;
-        mState = state;
+        mConfigState = configState;
     }
 
     /**
@@ -176,12 +176,12 @@ public class Identity {
         return mStringId;
     }
 
-    public ConfigActivity.State getState() {
-        return mState;
+    public ConfigActivity.ConfigState getConfigState() {
+        return mConfigState;
     }
 
-    public void setState(ConfigActivity.State state) {
-        mState = state;
+    public void setConfigState(ConfigActivity.ConfigState configState) {
+        mConfigState = configState;
     }
 
     public String getProposalString() {
@@ -198,16 +198,15 @@ public class Identity {
             Map.Entry<String, String> data;
             if (!proposedDevice.entrySet().isEmpty()) {
                 device = Iterables.getOnlyElement(proposedDevice.entrySet());
-                return "New proposal: " + device.getKey() + device.getValue();
+                return "New proposal:\n\n" + "Name: " + device.getKey().substring(0, 15) +
+                        "\nPubKey: " + device.getValue().substring(0, 15);
             } else if (!proposedData.entrySet().isEmpty()) {
                 data = Iterables.getOnlyElement(proposedData.entrySet());
-                return "New proposal: " + data.getKey() + data.getValue();
+                return "New proposal:\n\n" + "Name: " + data.getKey().substring(0, 15) +
+                        "\nSSH: " + data.getValue().substring(0, 15);
             } else {
                 return null;
             }
-            //Map.Entry<String, String> data = Iterables.getOnlyElement(proposedData.entrySet());
-
-
 
         } else {
             return null;
