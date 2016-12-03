@@ -117,17 +117,6 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
             }
         });
 
-//        FloatingActionButton fetchButton = (FloatingActionButton) findViewById(R.id.config_fetch_button);
-//        fetchButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (mProposed) {
-//                    new ProposeUpdate(ConfigActivity.this, mIdentity);
-//                    mUpdate = false;
-//                }
-//            }
-//        });
-
         SharedPreferences sharedPreferences = getSharedPreferences(PREF, Context.MODE_PRIVATE);
         mIdentity = Utils.fromJson(sharedPreferences.getString(IDENTITY, ""), Identity.class);
         mConfigState = mIdentity.getConfigState();

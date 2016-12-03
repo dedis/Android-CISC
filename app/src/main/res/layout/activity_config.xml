@@ -115,18 +115,7 @@
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_gravity="bottom"
-            android:src="@drawable/ic_refresh_white"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:scaleType="center"
-            app:backgroundTint="@color/colorPrimary"/>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/config_fetch_button"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:layout_gravity="bottom"
-            android:src="@drawable/ic_fetch_white"
+            android:src="@drawable/ic_update_white"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:scaleType="center"
