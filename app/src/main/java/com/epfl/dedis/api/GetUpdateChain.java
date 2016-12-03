@@ -41,8 +41,15 @@ public class GetUpdateChain implements Request {
 
     public void callback(String result) {
         UpdateChain uc = Utils.fromJson(result, UpdateChain.class);
+        boolean verified = uc.verifySkipChain(Utils.encodeBase64(mIdentity.getId()));
+        if (verified) {
+            mActivity.taskJoin();
+        } else {
+            mActivity.taskFail(R.string.app_name);
+        }
         System.out.println(Utils.encodeBase64(mIdentity.getId()));
         System.out.println(uc.verifySkipChain(Utils.encodeBase64(mIdentity.getId())));
+        //mActivity.taskJoin();
     }
 
     // TODO: More or more detailed error messages; also for other Actitivies

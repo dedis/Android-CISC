@@ -9,12 +9,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.epfl.dedis.api.ConfigUpdate;
 import com.epfl.dedis.api.GetUpdateChain;
 import com.epfl.dedis.crypto.Utils;
 import com.epfl.dedis.net.Identity;
 import com.google.zxing.WriterException;
+
+import static com.epfl.dedis.cisc.MainActivity.MainState.CONNECTION;
+import static com.epfl.dedis.cisc.MainActivity.MainState.VERIFICATION;
 
 public class MainActivity extends AppCompatActivity implements Activity {
 
@@ -23,15 +27,25 @@ public class MainActivity extends AppCompatActivity implements Activity {
 
     private Identity mIdentity;
 
-    public void taskJoin() {
-        float px = Utils.dpToPixel(mQrImageView.getWidth(), getResources().getDisplayMetrics());
-        String identityBase64 = Utils.encodeBase64(mIdentity.getId());
+    private MainState mMainState;
 
-        try {
-            mQrImageView.setImageBitmap(Utils.encodeQR(identityBase64, (int) px));
-            mStatusLabel.setText(R.string.info_connection);
-        } catch (WriterException e){
-            mStatusLabel.setText("Not connected.");
+    public enum MainState {
+        CONNECTION, VERIFICATION
+    }
+
+    public void taskJoin() {
+        if (mMainState == CONNECTION) {
+            float px = Utils.dpToPixel(mQrImageView.getWidth(), getResources().getDisplayMetrics());
+            String identityBase64 = Utils.encodeBase64(mIdentity.getId());
+
+            try {
+                mQrImageView.setImageBitmap(Utils.encodeQR(identityBase64, (int) px));
+                mStatusLabel.setText(R.string.info_connection);
+            } catch (WriterException e) {
+                mStatusLabel.setText("Not connected.");
+            }
+        } else if (mMainState == VERIFICATION) {
+            Toast.makeText(this, "Verification successful", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -72,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
                 SharedPreferences pref = getSharedPreferences(PREF, Context.MODE_PRIVATE);
                 String json = pref.getString(IDENTITY, "");
                 if (!json.isEmpty()) {
+                    mMainState = CONNECTION;
                     mIdentity = Utils.fromJson(json, Identity.class);
                     new ConfigUpdate(MainActivity.this, mIdentity);
                 }
@@ -85,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
                 SharedPreferences pref = getSharedPreferences(PREF, Context.MODE_PRIVATE);
                 String json = pref.getString(IDENTITY, "");
                 if (!json.isEmpty()) {
+                    mMainState = VERIFICATION;
                     mIdentity = Utils.fromJson(json, Identity.class);
                     new GetUpdateChain(MainActivity.this, mIdentity);
                 }
