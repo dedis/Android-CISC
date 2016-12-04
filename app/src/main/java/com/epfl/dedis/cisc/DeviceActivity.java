@@ -44,7 +44,7 @@ public class DeviceActivity extends AppCompatActivity implements Activity {
             String sshKey = "none";
             for (Map.Entry<String, String> s : ssh.entrySet()) {
                 if (s.getKey().contains(d.getKey())) {
-                    sshKey = d.getValue();
+                    sshKey = s.getValue();
                 }
             }
 
