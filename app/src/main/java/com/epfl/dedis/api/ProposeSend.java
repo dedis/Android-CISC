@@ -41,6 +41,7 @@ public class ProposeSend implements Request {
         }
     }
 
+    @SuppressWarnings("unused")
     public void callback(String result) {
         mActivity.taskJoin();
     }

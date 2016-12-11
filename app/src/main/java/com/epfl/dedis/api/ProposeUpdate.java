@@ -41,16 +41,20 @@ public class ProposeUpdate implements Request {
     }
 
     public void callback(String result) {
-        if (result.equals("empty")) {
-            mIdentity.setProposed(null);
-        } else {
-            Config proposed = Utils.fromJson(result, Config.class);
-            if (proposed.getData() == null) {
-                proposed.setData(new HashMap<String, String>());
+        try {
+            if (result.equals("empty")) {
+                mIdentity.setProposed(null);
+            } else {
+                Config proposed = Utils.fromJson(result, Config.class);
+                if (proposed.getData() == null) {
+                    proposed.setData(new HashMap<String, String>());
+                }
+                mIdentity.setProposed(proposed);
             }
-            mIdentity.setProposed(proposed);
+            mActivity.taskJoin();
+        } catch (Exception e) {
+            mActivity.taskFail(R.string.info_corruptedjson);
         }
-        mActivity.taskJoin();
     }
 
     public void callbackError(int error) {

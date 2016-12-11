@@ -48,7 +48,7 @@ public class GetUpdateChain implements Request {
                 mActivity.taskFail(R.string.app_name);
             }
         } catch (Exception e) {
-            mActivity.taskFail(R.string.info_noverification);
+            mActivity.taskFail(R.string.info_corruptedjson);
         }
     }
 

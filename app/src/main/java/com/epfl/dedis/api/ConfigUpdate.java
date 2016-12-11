@@ -41,14 +41,16 @@ public class ConfigUpdate implements Request {
     }
 
     public void callback(String result) {
-        Config config = Utils.fromJson(result, Config.class);
-
-        if (config.getData() == null) {
-            config.setData(new HashMap<String, String>());
+        try {
+            Config config = Utils.fromJson(result, Config.class);
+            if (config.getData() == null) {
+                config.setData(new HashMap<String, String>());
+            }
+            mIdentity.setConfig(config);
+            mActivity.taskJoin();
+        } catch (Exception e) {
+            mActivity.taskFail(R.string.info_corruptedjson);
         }
-
-        mIdentity.setConfig(config);
-        mActivity.taskJoin();
     }
 
     public void callbackError(int error) {
