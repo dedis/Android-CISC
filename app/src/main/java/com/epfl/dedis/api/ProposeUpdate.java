@@ -19,7 +19,6 @@ public class ProposeUpdate implements Request {
 
     private Activity mActivity;
     private Identity mIdentity;
-    private Config mProposed;
 
     public ProposeUpdate(Activity activity, Identity identity) {
         this(activity, identity, false);
@@ -45,11 +44,11 @@ public class ProposeUpdate implements Request {
         if (result.equals("empty")) {
             mIdentity.setProposed(null);
         } else {
-            mProposed = Utils.fromJson(result, Config.class);
-            if (mProposed.getData() == null) {
-                mProposed.setData(new HashMap<String, String>());
+            Config proposed = Utils.fromJson(result, Config.class);
+            if (proposed.getData() == null) {
+                proposed.setData(new HashMap<String, String>());
             }
-            mIdentity.setProposed(mProposed);
+            mIdentity.setProposed(proposed);
         }
         mActivity.taskJoin();
     }

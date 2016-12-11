@@ -19,7 +19,6 @@ public class ConfigUpdate implements Request {
 
     private Activity mActivity;
     private Identity mIdentity;
-    private Config mConfig;
 
     public ConfigUpdate(Activity activity, Identity identity) {
         this(activity, identity, false);
@@ -42,13 +41,13 @@ public class ConfigUpdate implements Request {
     }
 
     public void callback(String result) {
-        mConfig = Utils.fromJson(result, Config.class);
+        Config config = Utils.fromJson(result, Config.class);
 
-        if (mConfig.getData() == null) {
-            mConfig.setData(new HashMap<String, String>());
+        if (config.getData() == null) {
+            config.setData(new HashMap<String, String>());
         }
 
-        mIdentity.setConfig(mConfig);
+        mIdentity.setConfig(config);
         mActivity.taskJoin();
     }
 
@@ -62,9 +61,5 @@ public class ConfigUpdate implements Request {
             case 504: mActivity.taskFail(R.string.err_504); break;
             default: mActivity.taskFail(R.string.err_unknown);
         }
-    }
-
-    public Config getConfig() {
-        return mConfig;
     }
 }

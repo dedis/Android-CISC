@@ -20,7 +20,6 @@ public class ProposeSend implements Request {
     }
 
     private Activity mActivity;
-    private Config mProposed;
 
     public ProposeSend(Activity activity, Identity identity) {
         this(activity, identity, false);
@@ -43,7 +42,6 @@ public class ProposeSend implements Request {
     }
 
     public void callback(String result) {
-        mProposed = Utils.fromJson(result, Config.class);
         mActivity.taskJoin();
     }
 
@@ -57,9 +55,5 @@ public class ProposeSend implements Request {
             case 504: mActivity.taskFail(R.string.err_504); break;
             default: mActivity.taskFail(R.string.err_unknown);
         }
-    }
-
-    public Config getProposed() {
-        return mProposed;
     }
 }

@@ -5,11 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class UpdateChain {
 
     @SerializedName("Update")
-    private SkipBlock[] mChain;
-
-    public SkipBlock[] getChain() {
-        return mChain;
-    }
+    SkipBlock[] mChain;
 
     public boolean verifySkipChain(String skipchainID) {
         for (SkipBlock sb : mChain) {

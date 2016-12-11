@@ -172,10 +172,6 @@ public class Identity {
         mStringId = stringId;
     }
 
-    public String getStringId() {
-        return mStringId;
-    }
-
     public ConfigActivity.ConfigState getConfigState() {
         return mConfigState;
     }

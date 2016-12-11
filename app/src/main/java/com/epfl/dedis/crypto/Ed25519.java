@@ -45,7 +45,7 @@ public class Ed25519 {
         return BaseEncoding.base64().encode(Ed25519.PubBytes(pub));
     }
 
-    public static String PrivateString(PrivateKey priv){
+    private static String PrivateString(PrivateKey priv){
         return BaseEncoding.base64().encode(Ed25519.PrivateBytes(priv));
     }
 
@@ -53,7 +53,7 @@ public class Ed25519 {
         return Ed25519.BytesToPub(BaseEncoding.base64().decode(pub));
     }
 
-    public static PrivateKey StringToPrivate(String priv){
+    private static PrivateKey StringToPrivate(String priv){
         return Ed25519.BytesToPrivate(BaseEncoding.base64().decode(priv));
     }
 
@@ -61,7 +61,7 @@ public class Ed25519 {
         return ((EdDSAPublicKey)pub).getAbyte();
     }
 
-    public static byte[] PrivateBytes(PrivateKey priv){
+    private static byte[] PrivateBytes(PrivateKey priv){
         return ((EdDSAPrivateKey)priv).getSeed();
     }
 
@@ -70,7 +70,7 @@ public class Ed25519 {
         return new EdDSAPublicKey(pubSpec);
     }
 
-    public static PrivateKey BytesToPrivate(byte[] seed){
+    private static PrivateKey BytesToPrivate(byte[] seed){
         EdDSAPrivateKeySpec privSpec = new EdDSAPrivateKeySpec(seed, Ed25519.getCurveSpec());
         return new EdDSAPrivateKey(privSpec);
     }

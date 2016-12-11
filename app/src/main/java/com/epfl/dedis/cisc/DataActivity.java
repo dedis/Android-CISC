@@ -21,7 +21,6 @@ import java.security.NoSuchAlgorithmException;
 import static com.epfl.dedis.cisc.DataActivity.DataState.PROP;
 import static com.epfl.dedis.cisc.DataActivity.DataState.VOTE;
 
-
 public class DataActivity extends AppCompatActivity implements Activity {
 
     private TextView mNewTextView;

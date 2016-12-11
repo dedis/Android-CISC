@@ -5,38 +5,36 @@ import com.google.gson.annotations.SerializedName;
 public class SkipBlockFix {
 
     @SerializedName("Index")
-    public int mIndex;
+    int mIndex;
 
     @SerializedName("Height")
-    public int mHeight;
+    int mHeight;
 
     @SerializedName("MaximumHeight")
-    public int mMaximumHeight;
+    int mMaximumHeight;
 
     @SerializedName("BaseHeight")
-    public int mBaseHeight;
+    int mBaseHeight;
 
     @SerializedName("BackLinkIds")
-    public String[] mBackLinkIds;
+    String[] mBackLinkIds;
 
     @SerializedName("VerifierID")
-    public String mVerifierId;
+    String mVerifierId;
 
     @SerializedName("ParentBlockID")
-    public String mParentBlockId;
+    String mParentBlockId;
 
     @SerializedName("Aggregate")
-    public String mAggregate;
+    String mAggregate;
 
     @SerializedName("AggregateResp")
-    public String mAggregateResp;
+    String mAggregateResp;
 
     @SerializedName("Data")
-    public String mData;
+    String mData;
 
     public String getBack() {
-        System.out.println("-->" + mBackLinkIds.length);
         return mBackLinkIds[0];
     }
-
 }

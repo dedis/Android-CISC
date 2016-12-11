@@ -16,16 +16,16 @@ import java.util.Arrays;
 public class SkipBlock {
 
     @SerializedName("SkipBlockFix")
-    public SkipBlockFix mFix;
+    SkipBlockFix mFix;
 
     @SerializedName("Hash")
-    private String mId;
+    String mId;
 
     @SerializedName("Sig")
-    private String mSig;
+    String mSig;
 
     @SerializedName("Msg")
-    private String mMsg;
+    String mMsg;
 
     public SkipBlockFix getFix() {
         return mFix;
@@ -33,14 +33,6 @@ public class SkipBlock {
 
     public String getId() {
         return mId;
-    }
-
-    public String getSig() {
-        return mSig;
-    }
-
-    public String getMsg() {
-        return mMsg;
     }
 
     public boolean verifyBlock() {
@@ -82,8 +74,6 @@ public class SkipBlock {
             sha256.update(Utils.decodeBase64(mFix.mData));
 
             byte[] hash = sha256.digest();
-            System.out.println("NEW HASH: " + Arrays.toString(hash));
-
             return Arrays.equals(hash, Utils.decodeBase64(mId));
 
         } catch (NoSuchAlgorithmException e) {
@@ -99,9 +89,7 @@ public class SkipBlock {
         EdDSAEngine engine = new EdDSAEngine();
 
         try {
-
             byte[] signature = Utils.decodeBase64(mSig);
-            System.out.println(signature.length);
             byte[] message = Utils.decodeBase64(mMsg);
 
             engine.initVerify(pb);

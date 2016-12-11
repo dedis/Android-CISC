@@ -15,7 +15,7 @@ public class GetUpdateChain implements Request {
 
     private class GetUpdateChainMessage {
         @SerializedName("LatestID")
-        private String latestId;
+        String latestId;
     }
 
     public GetUpdateChain(Activity activity, Identity identity) {
@@ -27,7 +27,6 @@ public class GetUpdateChain implements Request {
         mIdentity = identity;
 
         GetUpdateChainMessage getUpdateChainMessage = new GetUpdateChainMessage();
-        //getUpdateChainMessage.latestId = identity.getStringId();
         getUpdateChainMessage.latestId = Utils.encodeBase64(mIdentity.getId());
 
         HTTP http = new HTTP(this, identity.getCothority(), GET_UPDATE_CHAIN, Utils.toJson(getUpdateChainMessage));
@@ -40,16 +39,17 @@ public class GetUpdateChain implements Request {
     }
 
     public void callback(String result) {
-        UpdateChain uc = Utils.fromJson(result, UpdateChain.class);
-        boolean verified = uc.verifySkipChain(Utils.encodeBase64(mIdentity.getId()));
-        if (verified) {
-            mActivity.taskJoin();
-        } else {
-            mActivity.taskFail(R.string.app_name);
+        try {
+            UpdateChain uc = Utils.fromJson(result, UpdateChain.class);
+            boolean verified = uc.verifySkipChain(Utils.encodeBase64(mIdentity.getId()));
+            if (verified) {
+                mActivity.taskJoin();
+            } else {
+                mActivity.taskFail(R.string.app_name);
+            }
+        } catch (Exception e) {
+            mActivity.taskFail(R.string.info_noverification);
         }
-        System.out.println(Utils.encodeBase64(mIdentity.getId()));
-        System.out.println(uc.verifySkipChain(Utils.encodeBase64(mIdentity.getId())));
-        //mActivity.taskJoin();
     }
 
     public void callbackError(int error) {
@@ -63,5 +63,4 @@ public class GetUpdateChain implements Request {
             default: mActivity.taskFail(R.string.err_unknown);
         }
     }
-
 }
