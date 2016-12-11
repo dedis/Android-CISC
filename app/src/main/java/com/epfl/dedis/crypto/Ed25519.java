@@ -14,7 +14,6 @@ import java.security.PublicKey;
 
 import com.google.common.io.BaseEncoding;
 
-// TODO: Nice comments for Ed25519 functions, for better understanding
 public class Ed25519 {
 
     private PublicKey pub;

@@ -52,8 +52,6 @@ public class GetUpdateChain implements Request {
         //mActivity.taskJoin();
     }
 
-    // TODO: More or more detailed error messages; also for other Actitivies
-    // TODO: Check if HTTP-error codes are suitable
     public void callbackError(int error) {
         switch (error) {
             case 400: mActivity.taskFail(R.string.err_400); break;

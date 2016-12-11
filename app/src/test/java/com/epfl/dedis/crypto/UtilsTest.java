@@ -6,7 +6,6 @@ import org.junit.runners.JUnit4;
 
 import static org.junit.Assert.assertNotEquals;
 
-// TODO: Add more Utils tests
 @RunWith(JUnit4.class)
 public class UtilsTest {
 
