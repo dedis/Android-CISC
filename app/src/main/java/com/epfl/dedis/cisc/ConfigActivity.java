@@ -122,6 +122,8 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
 
         if (mConfigState == IDLE) {
             mStatusTextView.setText(R.string.info_uptodate);
+        } else if (mConfigState == PRE_VOTE) {
+            mStatusTextView.setText(mIdentity.getProposalString());
         } else if (mConfigState == PROP) {
             mStatusTextView.setText(R.string.info_thresholdnotreached);
         } else if (mConfigState == POST_VOTE) {

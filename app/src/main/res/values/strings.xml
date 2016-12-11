@@ -23,6 +23,7 @@
     <string name="info_thresholdnotreached">Threshold not reached</string>
     <string name="info_verification">Skipchain verified</string>
     <string name="info_noverification">Skipchain verification failed</string>
+    <string name="info_proposalsent">Proposal sent</string>
     <string name="info_nodata">No data</string>
 
     <string name="qr_image_hint">QR-Code</string>

@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
     }
 
     public void taskFail(int error) {
-        mStatusLabel.setText(error);
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
     @Override

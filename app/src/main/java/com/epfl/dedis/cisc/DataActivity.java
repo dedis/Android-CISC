@@ -43,6 +43,8 @@ public class DataActivity extends AppCompatActivity implements Activity {
             editor.putString(IDENTITY, Utils.toJson(mIdentity));
             editor.apply();
 
+            Toast.makeText(this, R.string.info_proposalsent, Toast.LENGTH_SHORT).show();
+
             Intent intent = new Intent(new Intent(this, ConfigActivity.class));
             startActivity(intent);
             finish();
