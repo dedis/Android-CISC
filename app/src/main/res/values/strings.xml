@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CISC - Cisc Identity SkipChain</string>
+    <string name="app_name">CISC</string>
     <string name="config_name">CISC - Configuration</string>
     <string name="scanner_name">CISC - Scan</string>
     <string name="device_name">CISC - Devices</string>
