@@ -42,10 +42,10 @@ public class MainActivity extends AppCompatActivity implements Activity {
                 mQrImageView.setImageBitmap(Utils.encodeQR(identityBase64, (int) px));
                 mStatusLabel.setText(R.string.info_connection);
             } catch (WriterException e) {
-                mStatusLabel.setText("Not connected.");
+                mStatusLabel.setText(R.string.info_noconnection);
             }
         } else if (mMainState == VERIFICATION) {
-            Toast.makeText(this, "Verification successful", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.info_verification, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
         setContentView(R.layout.activity_main);
 
         mStatusLabel = (TextView) findViewById(R.id.main_status_label);
-        mStatusLabel.setText("Not connected");
+        mStatusLabel.setText(R.string.info_noconnection);
 
         mQrImageView = (ImageView) findViewById(R.id.main_qr_image);
         assert mQrImageView != null;

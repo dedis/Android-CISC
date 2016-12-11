@@ -17,7 +17,12 @@
     <string name="info_uptodate">Skipchain is up to date</string>
     <string name="info_acceptedchange">Change accepted</string>
     <string name="info_connection">Connected</string>
-    <string name="info_voted">Voted</string>
+    <string name="info_noconnection">Not connected</string>
+    <string name="info_voted">Vote emitted</string>
+    <string name="info_thresholdreached">Threshold reached</string>
+    <string name="info_thresholdnotreached">Threshold not reached</string>
+    <string name="info_verification">Skipchain verified</string>
+    <string name="info_noverification">Skipchain verification failed</string>
     <string name="info_nodata">No data</string>
 
     <string name="qr_image_hint">QR-Code</string>

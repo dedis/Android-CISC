@@ -34,27 +34,26 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
     }
 
     public void taskJoin() {
-        System.out.println(mConfigState);
         String proposal = mIdentity.getProposalString();
         if (mConfigState == IDLE) {
             if (proposal == null) {
-                mStatusTextView.setText("Skipchain up to date.");
+                mStatusTextView.setText(R.string.info_uptodate);
             } else {
                 mStatusTextView.setText(proposal);
                 mConfigState = PRE_VOTE;
             }
         } else if (mConfigState == PROP && proposal == null) {
-            mStatusTextView.setText("Change accepted.");
+            mStatusTextView.setText(R.string.info_acceptedchange);
             mConfigState = IDLE;
         } else if (mConfigState == PRE_VOTE) {
-            mStatusTextView.setText("Vote emmited.");
+            mStatusTextView.setText(R.string.info_voted);
             mConfigState = POST_VOTE;
         } else if (mConfigState == POST_VOTE) {
             if (proposal == null) {
-                mStatusTextView.setText("Threshold reached.");
+                mStatusTextView.setText(R.string.info_thresholdreached);
                 mConfigState = IDLE;
             } else {
-                mStatusTextView.setText("Threshold not reached.");
+                mStatusTextView.setText(R.string.info_thresholdnotreached);
             }
         }
 
@@ -122,13 +121,14 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
         mConfigState = mIdentity.getConfigState();
 
         if (mConfigState == IDLE) {
-            mStatusTextView.setText("Skipchain up to date.");
+            mStatusTextView.setText(R.string.info_uptodate);
         } else if (mConfigState == PROP) {
-            mStatusTextView.setText("Threshold not reached.");
+            mStatusTextView.setText(R.string.info_thresholdnotreached);
+        } else if (mConfigState == POST_VOTE) {
+            mStatusTextView.setText(R.string.info_voted);
         }
 
         idTextView.setText(Utils.encodeBase64(mIdentity.getId()));
         addressTextView.setText(mIdentity.getCothority().getHost());
-
     }
 }

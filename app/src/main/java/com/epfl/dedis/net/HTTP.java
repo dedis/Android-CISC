@@ -75,7 +75,6 @@ public class HTTP extends AsyncTask<Void, Void, String> {
 
             String response = new String(chars).substring(0, size);
             http.disconnect();
-            System.out.println("IN: " + response);
             return response;
         } catch (IOException e) {
             mResponseCode = 400;
