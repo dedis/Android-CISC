@@ -12,6 +12,7 @@ local.properties
 .idea/codeStyleSettings.xml
 .idea/statistic.xml
 .idea/libraries
+.idea/markdown-navigator
 
 # Mac directory files
 .DS_Store
