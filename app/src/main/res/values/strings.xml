@@ -26,6 +26,9 @@
     <string name="info_proposalsent">Proposal sent</string>
     <string name="info_nodata">No data</string>
     <string name="info_corruptedjson">Compromised JSON</string>
+    <string name="info_scannerready">QR-Code scanner is ready</string>
+    <string name="info_scannernotready">QR-Code scanner disabled</string>
+    <string name="info_enablecamera">Need camera permission to start QR scanner</string>
 
     <string name="qr_image_hint">QR-Code</string>
 
