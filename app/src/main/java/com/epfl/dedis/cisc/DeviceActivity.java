@@ -18,8 +18,8 @@ import java.util.Map;
 
 public class DeviceActivity extends AppCompatActivity implements Activity {
 
-    private static final String[] FROM = new String[]{"name", "data"};
-    private static final int[] TO = new int[]{android.R.id.text1, android.R.id.text2};
+    private static final String[] FROM = {"name", "data"};
+    private static final int[] TO = {android.R.id.text1, android.R.id.text2};
 
     public void taskJoin() {}
     public void taskFail(int error) {}

@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.epfl.dedis.api.ConfigUpdate;
 import com.epfl.dedis.api.GetUpdateChain;
+import com.epfl.dedis.crypto.QRStamp;
 import com.epfl.dedis.crypto.Utils;
 import com.epfl.dedis.net.Identity;
 import com.google.zxing.WriterException;
@@ -41,10 +42,14 @@ public class MainActivity extends AppCompatActivity implements Activity {
     public void taskJoin() {
         if (mMainState == CONNECTION) {
             float px = Utils.dpToPixel(mQrImageView.getWidth(), getResources().getDisplayMetrics());
+
             String identityBase64 = Utils.encodeBase64(mIdentity.getId());
+            String host = mIdentity.getCothority().getHost();
+            String port = mIdentity.getCothority().getPort();
+            String jsonStamp = Utils.toJson(new QRStamp(identityBase64, host, port));
 
             try {
-                mQrImageView.setImageBitmap(Utils.encodeQR(identityBase64, (int) px));
+                mQrImageView.setImageBitmap(Utils.encodeQR(jsonStamp, (int)px));
                 mStatusLabel.setText(R.string.info_connection);
             } catch (WriterException e) {
                 mStatusLabel.setText(R.string.info_noconnection);
@@ -127,7 +132,9 @@ public class MainActivity extends AppCompatActivity implements Activity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[], @NonNull int[] grantResults) {
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults)
+    {
         switch (requestCode) {
             case PERMISSION_CAMERA: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

@@ -23,10 +23,10 @@ public class HTTP extends AsyncTask<Void, Void, String> {
     private static final int TIMEOUT = 2000;
     private static final int BUF_SIZE = 10000;
 
-    private Request mRequest;
-    private Cothority mCothority;
-    private String mPath;
-    private String mJson;
+    private final Request mRequest;
+    private final Cothority mCothority;
+    private final String mPath;
+    private final String mJson;
 
     private int mResponseCode;
 

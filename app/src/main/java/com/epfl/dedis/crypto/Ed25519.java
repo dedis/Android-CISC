@@ -1,11 +1,9 @@
 package com.epfl.dedis.crypto;
 
-import net.i2p.crypto.eddsa.EdDSAPrivateKey;
 import net.i2p.crypto.eddsa.EdDSAPublicKey;
 import net.i2p.crypto.eddsa.KeyPairGenerator;
 import net.i2p.crypto.eddsa.spec.EdDSANamedCurveSpec;
 import net.i2p.crypto.eddsa.spec.EdDSANamedCurveTable;
-import net.i2p.crypto.eddsa.spec.EdDSAPrivateKeySpec;
 import net.i2p.crypto.eddsa.spec.EdDSAPublicKeySpec;
 
 import java.security.KeyPair;
@@ -45,33 +43,16 @@ public class Ed25519 {
         return BaseEncoding.base64().encode(Ed25519.PubBytes(pub));
     }
 
-    private static String PrivateString(PrivateKey priv){
-        return BaseEncoding.base64().encode(Ed25519.PrivateBytes(priv));
-    }
-
     public static PublicKey StringToPub(String pub){
         return Ed25519.BytesToPub(BaseEncoding.base64().decode(pub));
-    }
-
-    private static PrivateKey StringToPrivate(String priv){
-        return Ed25519.BytesToPrivate(BaseEncoding.base64().decode(priv));
     }
 
     public static byte[] PubBytes(PublicKey pub){
         return ((EdDSAPublicKey)pub).getAbyte();
     }
 
-    private static byte[] PrivateBytes(PrivateKey priv){
-        return ((EdDSAPrivateKey)priv).getSeed();
-    }
-
     public static PublicKey BytesToPub(byte[] pub){
         EdDSAPublicKeySpec pubSpec = new EdDSAPublicKeySpec(pub, Ed25519.getCurveSpec());
         return new EdDSAPublicKey(pubSpec);
-    }
-
-    private static PrivateKey BytesToPrivate(byte[] seed){
-        EdDSAPrivateKeySpec privSpec = new EdDSAPrivateKeySpec(seed, Ed25519.getCurveSpec());
-        return new EdDSAPrivateKey(privSpec);
     }
 }

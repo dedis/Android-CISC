@@ -1,6 +1,7 @@
 package com.epfl.dedis.net;
 
 public class Cothority {
+
     private String mHost;
     private String mPort;
 

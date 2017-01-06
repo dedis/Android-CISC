@@ -12,6 +12,7 @@ import com.epfl.dedis.api.ProposeSend;
 import com.epfl.dedis.crypto.Utils;
 import com.epfl.dedis.net.Cothority;
 import com.epfl.dedis.net.Identity;
+import com.epfl.dedis.crypto.QRStamp;
 import com.google.gson.annotations.SerializedName;
 import com.google.zxing.Result;
 
@@ -77,9 +78,10 @@ public class JoinActivity extends AppCompatActivity implements Activity, ZXingSc
     @Override
     public void handleResult(Result rawResult) {
         String json = rawResult.getText();
-        QRMessage qrm = Utils.fromJson(json, QRMessage.class);
+        QRStamp qrs = Utils.fromJson(json, QRStamp.class);
+        Cothority cothority = new Cothority(qrs.getHost(), qrs.getPort());
 
-        mIdentity = new Identity(new Cothority(qrm.host, qrm.port), Utils.decodeBase64(qrm.id), ConfigActivity.ConfigState.PROP);
+        mIdentity = new Identity(cothority, Utils.decodeBase64(qrs.getId()), ConfigActivity.ConfigState.PROP);
         new ConfigUpdate(JoinActivity.this, mIdentity);
     }
 

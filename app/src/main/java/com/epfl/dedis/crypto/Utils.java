@@ -1,7 +1,6 @@
 package com.epfl.dedis.crypto;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
@@ -9,16 +8,22 @@ import com.google.common.io.BaseEncoding;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
 
-import java.nio.ShortBuffer;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class Utils {
 
+    private static final int WHITE = 0xFFFFFFFF;
+    private static final int BLACK = 0xFF000000;
+
     private static final Gson GSON = new GsonBuilder()
+            .registerTypeAdapter(QRStamp.class, new QRStampSerializer())
             .serializeNulls()
             .disableHtmlEscaping()
             .create();
@@ -44,17 +49,23 @@ public class Utils {
     }
 
     public static Bitmap encodeQR(String message, int px) throws WriterException {
-        QRCodeWriter writer = new QRCodeWriter();
-        BitMatrix matrix = writer.encode(message, BarcodeFormat.QR_CODE, px, px);
+        MultiFormatWriter writer = new MultiFormatWriter();
+        Map<EncodeHintType, Object> hintMap = new EnumMap<>(EncodeHintType.class);
+        hintMap.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+        BitMatrix matrix = writer.encode(message, BarcodeFormat.QR_CODE, px, px, hintMap);
 
-        Bitmap bitmap = Bitmap.createBitmap(px, px, Bitmap.Config.RGB_565);
-        short[] array = new short[px * px];
-        for (int x = 0; x < px; x++) {
-            for (int y = 0; y < px; y++) {
-                array[x * px + y] = matrix.get(x, y) ? (short)Color.BLACK : (short)Color.WHITE;
+        int width = matrix.getWidth();
+        int height = matrix.getHeight();
+
+        int[] array = new int[width * height];
+        for (int y = 0; y < height; y++) {
+            int offset = y * width;
+            for (int x = 0; x < width; x++) {
+                array[offset + x] = matrix.get(x, y) ? BLACK : WHITE;
             }
         }
-        bitmap.copyPixelsFromBuffer(ShortBuffer.wrap(array));
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        bitmap.setPixels(array, 0, width, 0, 0, width, height);
         return bitmap;
     }
 
