@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName;
 public class QRStamp {
 
     @SerializedName("ID")
-    String mId;
+    final String mId;
 
     @SerializedName("Host")
-    String mHost;
+    final String mHost;
 
     @SerializedName("Port")
-    String mPort;
+    final String mPort;
 
     public QRStamp(String id, String host, String port) {
         this.mId = id;

@@ -14,8 +14,8 @@ import com.google.common.io.BaseEncoding;
 
 public class Ed25519 {
 
-    private PublicKey pub;
-    private PrivateKey priv;
+    private final PublicKey pub;
+    private final PrivateKey priv;
 
     public Ed25519() {
         KeyPair keyPair = new KeyPairGenerator().generateKeyPair();

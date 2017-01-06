@@ -120,16 +120,6 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
         mIdentity = Utils.fromJson(sharedPreferences.getString(IDENTITY, ""), Identity.class);
         mConfigState = mIdentity.getConfigState();
 
-//        if (mConfigState == IDLE) {
-//            mStatusTextView.setText(R.string.info_uptodate);
-//        } else if (mConfigState == PRE_VOTE) {
-//            mStatusTextView.setText(mIdentity.getProposalString());
-//        } else if (mConfigState == PROP) {
-//            mStatusTextView.setText(R.string.info_thresholdnotreached);
-//        } else if (mConfigState == POST_VOTE) {
-//            mStatusTextView.setText(R.string.info_voted);
-//        }
-
         switch (mConfigState) {
             case IDLE: mStatusTextView.setText(R.string.info_uptodate);
                 break;

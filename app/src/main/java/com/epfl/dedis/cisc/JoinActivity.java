@@ -27,17 +27,6 @@ public class JoinActivity extends AppCompatActivity implements Activity, ZXingSc
     private Identity mIdentity;
     private JoinState mJoinState;
 
-    private class QRMessage {
-        @SerializedName("ID")
-        String id;
-
-        @SerializedName("Host")
-        String host;
-
-        @SerializedName("Port")
-        String port;
-    }
-
     public enum JoinState {
         CONF, PROP
     }

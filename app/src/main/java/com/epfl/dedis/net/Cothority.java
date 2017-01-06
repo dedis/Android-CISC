@@ -2,8 +2,8 @@ package com.epfl.dedis.net;
 
 public class Cothority {
 
-    private String mHost;
-    private String mPort;
+    private final String mHost;
+    private final String mPort;
 
     public Cothority(String host, String port){
         mHost = host;
