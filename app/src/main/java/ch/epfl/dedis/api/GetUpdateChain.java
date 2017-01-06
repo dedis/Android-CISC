@@ -41,7 +41,7 @@ public class GetUpdateChain implements Request {
     public void callback(String result) {
         try {
             UpdateChain uc = Utils.fromJson(result, UpdateChain.class);
-            boolean verified = uc.verifySkipChain(Utils.encodeBase64(mIdentity.getId()));
+            boolean verified = uc.verifySkipChain();
             if (verified) {
                 mActivity.taskJoin();
             } else {
