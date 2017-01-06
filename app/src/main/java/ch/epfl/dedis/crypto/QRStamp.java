@@ -1,4 +1,4 @@
-package com.epfl.dedis.crypto;
+package ch.epfl.dedis.crypto;
 
 import com.google.gson.annotations.SerializedName;
 

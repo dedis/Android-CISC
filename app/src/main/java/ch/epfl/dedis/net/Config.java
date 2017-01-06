@@ -1,7 +1,7 @@
-package com.epfl.dedis.net;
+package ch.epfl.dedis.net;
 
-import com.epfl.dedis.crypto.Ed25519;
-import com.epfl.dedis.crypto.Utils;
+import ch.epfl.dedis.crypto.Ed25519;
+import ch.epfl.dedis.crypto.Utils;
 import com.google.gson.annotations.SerializedName;
 
 import java.nio.ByteBuffer;

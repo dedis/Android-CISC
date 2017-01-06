@@ -7,7 +7,7 @@ android {
         unitTests.returnDefaultValues = true
     }
     defaultConfig {
-        applicationId "com.epfl.dedis.cisc"
+        applicationId "ch.epfl.dedis.cisc"
         minSdkVersion 10
         targetSdkVersion 24
         versionCode 1

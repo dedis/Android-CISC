@@ -1,4 +1,4 @@
-package com.epfl.dedis.crypto;
+package ch.epfl.dedis.crypto;
 
 import net.i2p.crypto.eddsa.EdDSAPublicKey;
 import net.i2p.crypto.eddsa.KeyPairGenerator;

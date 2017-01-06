@@ -1,4 +1,4 @@
-package com.epfl.dedis.net;
+package ch.epfl.dedis.net;
 
 public class Cothority {
 

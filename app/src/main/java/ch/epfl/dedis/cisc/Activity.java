@@ -1,4 +1,4 @@
-package com.epfl.dedis.cisc;
+package ch.epfl.dedis.cisc;
 
 public interface Activity {
     String PREF = "PREFERENCES";

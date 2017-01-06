@@ -1,4 +1,4 @@
-package com.epfl.dedis.cisc;
+package ch.epfl.dedis.cisc;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,16 +10,16 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.epfl.dedis.api.ProposeSend;
-import com.epfl.dedis.api.ProposeVote;
-import com.epfl.dedis.crypto.Utils;
-import com.epfl.dedis.net.Identity;
+import ch.epfl.dedis.api.ProposeSend;
+import ch.epfl.dedis.api.ProposeVote;
+import ch.epfl.dedis.crypto.Utils;
+import ch.epfl.dedis.net.Identity;
 
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 
-import static com.epfl.dedis.cisc.DataActivity.DataState.PROP;
-import static com.epfl.dedis.cisc.DataActivity.DataState.VOTE;
+import static ch.epfl.dedis.cisc.DataActivity.DataState.PROP;
+import static ch.epfl.dedis.cisc.DataActivity.DataState.VOTE;
 
 public class DataActivity extends AppCompatActivity implements Activity {
 

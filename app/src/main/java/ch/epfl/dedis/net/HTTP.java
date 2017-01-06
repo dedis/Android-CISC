@@ -1,8 +1,8 @@
-package com.epfl.dedis.net;
+package ch.epfl.dedis.net;
 
 import android.os.AsyncTask;
 
-import com.epfl.dedis.api.Request;
+import ch.epfl.dedis.api.Request;
 
 import java.io.BufferedReader;
 import java.io.IOException;

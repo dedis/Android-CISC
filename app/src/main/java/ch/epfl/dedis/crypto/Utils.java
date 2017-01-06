@@ -1,4 +1,4 @@
-package com.epfl.dedis.crypto;
+package ch.epfl.dedis.crypto;
 
 import android.graphics.Bitmap;
 import android.util.DisplayMetrics;

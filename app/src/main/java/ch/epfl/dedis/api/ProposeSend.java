@@ -1,11 +1,11 @@
-package com.epfl.dedis.api;
+package ch.epfl.dedis.api;
 
-import com.epfl.dedis.cisc.Activity;
-import com.epfl.dedis.cisc.R;
-import com.epfl.dedis.crypto.Utils;
-import com.epfl.dedis.net.Config;
-import com.epfl.dedis.net.HTTP;
-import com.epfl.dedis.net.Identity;
+import ch.epfl.dedis.cisc.Activity;
+import ch.epfl.dedis.cisc.R;
+import ch.epfl.dedis.crypto.Utils;
+import ch.epfl.dedis.net.Config;
+import ch.epfl.dedis.net.HTTP;
+import ch.epfl.dedis.net.Identity;
 import com.google.gson.annotations.SerializedName;
 
 public class ProposeSend implements Request {

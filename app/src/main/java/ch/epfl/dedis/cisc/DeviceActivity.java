@@ -1,4 +1,4 @@
-package com.epfl.dedis.cisc;
+package ch.epfl.dedis.cisc;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,9 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.epfl.dedis.crypto.Utils;
-import com.epfl.dedis.net.Config;
-import com.epfl.dedis.net.Identity;
+import ch.epfl.dedis.crypto.Utils;
+import ch.epfl.dedis.net.Config;
+import ch.epfl.dedis.net.Identity;
 
 import java.util.ArrayList;
 import java.util.HashMap;

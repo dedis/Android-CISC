@@ -1,7 +1,7 @@
-package com.epfl.dedis.net;
+package ch.epfl.dedis.net;
 
-import com.epfl.dedis.cisc.ConfigActivity;
-import com.epfl.dedis.crypto.Ed25519;
+import ch.epfl.dedis.cisc.ConfigActivity;
+import ch.epfl.dedis.crypto.Ed25519;
 import com.google.common.collect.Iterables;
 
 import net.i2p.crypto.eddsa.EdDSAPrivateKey;

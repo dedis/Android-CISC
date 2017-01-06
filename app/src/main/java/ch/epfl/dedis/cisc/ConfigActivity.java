@@ -1,4 +1,4 @@
-package com.epfl.dedis.cisc;
+package ch.epfl.dedis.cisc;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,16 +10,16 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.epfl.dedis.api.ConfigUpdate;
-import com.epfl.dedis.api.ProposeUpdate;
-import com.epfl.dedis.api.ProposeVote;
-import com.epfl.dedis.crypto.Utils;
-import com.epfl.dedis.net.Identity;
+import ch.epfl.dedis.api.ConfigUpdate;
+import ch.epfl.dedis.api.ProposeUpdate;
+import ch.epfl.dedis.api.ProposeVote;
+import ch.epfl.dedis.crypto.Utils;
+import ch.epfl.dedis.net.Identity;
 
-import static com.epfl.dedis.cisc.ConfigActivity.ConfigState.IDLE;
-import static com.epfl.dedis.cisc.ConfigActivity.ConfigState.POST_VOTE;
-import static com.epfl.dedis.cisc.ConfigActivity.ConfigState.PRE_VOTE;
-import static com.epfl.dedis.cisc.ConfigActivity.ConfigState.PROP;
+import static ch.epfl.dedis.cisc.ConfigActivity.ConfigState.IDLE;
+import static ch.epfl.dedis.cisc.ConfigActivity.ConfigState.POST_VOTE;
+import static ch.epfl.dedis.cisc.ConfigActivity.ConfigState.PRE_VOTE;
+import static ch.epfl.dedis.cisc.ConfigActivity.ConfigState.PROP;
 
 public class ConfigActivity extends AppCompatActivity implements Activity {
 

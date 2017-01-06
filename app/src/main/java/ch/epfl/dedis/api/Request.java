@@ -1,4 +1,4 @@
-package com.epfl.dedis.api;
+package ch.epfl.dedis.api;
 
 public interface Request {
     String CONFIG_UPDATE = "cu";

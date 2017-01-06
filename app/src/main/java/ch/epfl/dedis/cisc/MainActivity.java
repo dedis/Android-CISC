@@ -1,4 +1,4 @@
-package com.epfl.dedis.cisc;
+package ch.epfl.dedis.cisc;
 
 import android.Manifest;
 import android.content.Context;
@@ -16,15 +16,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.epfl.dedis.api.ConfigUpdate;
-import com.epfl.dedis.api.GetUpdateChain;
-import com.epfl.dedis.crypto.QRStamp;
-import com.epfl.dedis.crypto.Utils;
-import com.epfl.dedis.net.Identity;
+import ch.epfl.dedis.api.ConfigUpdate;
+import ch.epfl.dedis.api.GetUpdateChain;
+import ch.epfl.dedis.crypto.QRStamp;
+import ch.epfl.dedis.crypto.Utils;
+import ch.epfl.dedis.net.Identity;
 import com.google.zxing.WriterException;
 
-import static com.epfl.dedis.cisc.MainActivity.MainState.CONNECTION;
-import static com.epfl.dedis.cisc.MainActivity.MainState.VERIFICATION;
+import static ch.epfl.dedis.cisc.MainActivity.MainState.CONNECTION;
+import static ch.epfl.dedis.cisc.MainActivity.MainState.VERIFICATION;
 
 public class MainActivity extends AppCompatActivity implements Activity {
 
