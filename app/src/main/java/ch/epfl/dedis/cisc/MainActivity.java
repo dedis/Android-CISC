@@ -27,6 +27,14 @@ import com.google.zxing.WriterException;
 import static ch.epfl.dedis.cisc.MainActivity.MainState.CONNECTION;
 import static ch.epfl.dedis.cisc.MainActivity.MainState.VERIFICATION;
 
+/**
+ * Entry point of the application. This Activity displays the QR-code
+ * that can be used to join an existing Skipchain. Furthermore via the
+ * MainActivity the connection can be probed by sending a ConfigUpdate.
+ * More importantly, the Skipchain verification is perfomed here.
+ *
+ * @author Andrea Caforio
+ */
 public class MainActivity extends AppCompatActivity implements Activity {
 
     private static final String TAG = "cisc.MainActivity";
@@ -35,13 +43,12 @@ public class MainActivity extends AppCompatActivity implements Activity {
     private TextView mStatusLabel;
 
     private Identity mIdentity;
-
     private MainState mMainState;
 
-    public enum MainState {
-        CONNECTION, VERIFICATION
-    }
-
+    /**
+     * State transitions corresponding to operation that has been
+     * performed.
+     */
     public void taskJoin() {
         Log.d(TAG, "Task join: " + mMainState.name());
         if (mMainState == CONNECTION) {
@@ -53,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
             String jsonStamp = Utils.toJson(new QRStamp(identityBase64, host, port));
 
             try {
+                // Only display QR-code when connection is alive.
                 mQrImageView.setImageBitmap(Utils.encodeQR(jsonStamp, (int)px));
                 mStatusLabel.setText(R.string.info_connection);
             } catch (WriterException e) {
@@ -74,11 +82,11 @@ public class MainActivity extends AppCompatActivity implements Activity {
 
         Log.d(TAG, "onCreate called.");
 
+        // Request camera permission if needed.
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) !=
-                PackageManager.PERMISSION_GRANTED) {
-
+                PackageManager.PERMISSION_GRANTED)
+        {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_CAMERA);
-
         }
 
         mStatusLabel = (TextView) findViewById(R.id.main_status_label);
@@ -97,8 +105,10 @@ public class MainActivity extends AppCompatActivity implements Activity {
         mJoinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Only start camera if permission has been granted.
                 if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) !=
-                        PackageManager.PERMISSION_GRANTED) {
+                        PackageManager.PERMISSION_GRANTED)
+                {
                     Toast.makeText(MainActivity.this, R.string.info_enablecamera, Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(MainActivity.this, JoinActivity.class);
@@ -136,6 +146,13 @@ public class MainActivity extends AppCompatActivity implements Activity {
         });
     }
 
+    /**
+     * Handle result of the permission requests.
+     *
+     * @param requestCode indicator of permission type
+     * @param permissions names of requested permissions
+     * @param grantResults indicator if requested permission was granted
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[],
@@ -150,5 +167,15 @@ public class MainActivity extends AppCompatActivity implements Activity {
                 }
             }
         }
+    }
+
+    /**
+     * Keywords for the marking the current state of the MainActivity.
+     *
+     * CONNECTION:      State after sending a ConfigUpdate
+     * VERIFICATION:    State after performing a GetUpdateChain for verification
+     */
+    public enum MainState {
+        CONNECTION, VERIFICATION
     }
 }

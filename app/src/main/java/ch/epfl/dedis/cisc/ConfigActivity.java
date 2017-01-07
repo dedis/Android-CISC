@@ -22,6 +22,13 @@ import static ch.epfl.dedis.cisc.ConfigActivity.ConfigState.POST_VOTE;
 import static ch.epfl.dedis.cisc.ConfigActivity.ConfigState.PRE_VOTE;
 import static ch.epfl.dedis.cisc.ConfigActivity.ConfigState.PROP;
 
+/**
+ * This Activity marks the core of the application. Here a user manages
+ * his data, votes on proposed configurations and checks the current state
+ * of an Identity.
+ *
+ * @author Andrea Caforio
+ */
 public class ConfigActivity extends AppCompatActivity implements Activity {
 
     private static final String TAG = "cisc.ConfigActivity";
@@ -29,13 +36,12 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
     private TextView mStatusTextView;
 
     private Identity mIdentity;
-
     private ConfigState mConfigState;
 
-    public enum ConfigState {
-        IDLE, PRE_VOTE, POST_VOTE, PROP
-    }
-
+    /**
+     * State transitions according to the current operation that
+     * has been performed.
+     */
     public void taskJoin() {
         Log.d(TAG, "Task join: " + mConfigState.name());
         String proposal = mIdentity.getProposalString();
@@ -61,6 +67,7 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
             }
         }
 
+        // Store new state in Identity and shared preferences.
         mIdentity.setConfigState(mConfigState);
         SharedPreferences.Editor editor = getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
         editor.putString(IDENTITY, Utils.toJson(mIdentity));
@@ -85,6 +92,7 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
         mStatusTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Only vote when proposal is pending.
                 if (mConfigState == PRE_VOTE) {
                     new ProposeVote(ConfigActivity.this, mIdentity);
                 }
@@ -126,6 +134,7 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
         mIdentity = Utils.fromJson(sharedPreferences.getString(IDENTITY, ""), Identity.class);
         mConfigState = mIdentity.getConfigState();
 
+        // Set correct state message fetched from Identity block.
         switch (mConfigState) {
             case IDLE: mStatusTextView.setText(R.string.info_uptodate);
                 break;
@@ -140,5 +149,17 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
 
         idTextView.setText(Utils.encodeBase64(mIdentity.getId()));
         addressTextView.setText(mIdentity.getCothority().getHost());
+    }
+
+    /**
+     * Keywords for the marking the current state of the ConfigActivity.
+     *
+     * IDLE:        Skipchain is up to date, no pending proposals.
+     * PRE_VOTE:    Proposal is detected in the IDLE state.
+     * POST_VOTE:   After voting on a proposal in the PRE_VOTE state.
+     * PROP:        Used from Join- and DataActivity after a new proposal.
+     */
+    public enum ConfigState {
+        IDLE, PRE_VOTE, POST_VOTE, PROP
     }
 }

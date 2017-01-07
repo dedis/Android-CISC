@@ -66,6 +66,7 @@ public class HTTP extends AsyncTask<Void, Void, String> {
 
             mResponseCode = http.getResponseCode();
             if (mResponseCode != 200) {
+                Log.e(TAG, http.getResponseCode() + " " + http.getResponseMessage());
                 http.disconnect();
                 return "";
             }

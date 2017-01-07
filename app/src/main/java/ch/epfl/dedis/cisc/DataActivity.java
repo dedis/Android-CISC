@@ -22,6 +22,13 @@ import java.security.NoSuchAlgorithmException;
 import static ch.epfl.dedis.cisc.DataActivity.DataState.PROP;
 import static ch.epfl.dedis.cisc.DataActivity.DataState.VOTE;
 
+/**
+ * The DataActivity is used to add or update data for the device.
+ * After sending a successful proposal the Activity also performs
+ * the vote on it before switching back to the ConfigActivity.
+ *
+ * @author Andrea Caforio
+ */
 public class DataActivity extends AppCompatActivity implements Activity {
 
     private static final String TAG = "cisc.DataActivity";
@@ -31,18 +38,18 @@ public class DataActivity extends AppCompatActivity implements Activity {
     private Identity mIdentity;
     private DataState mDataState;
 
-    public enum DataState {
-        PROP, VOTE
-    }
-
+    /**
+     * State transitions according to operation that has been
+     * performed.
+     */
     public void taskJoin() {
         Log.d(TAG, "Task join: " + mDataState.name());
         if (mDataState == PROP) {
             new ProposeVote(this, mIdentity);
             mDataState = VOTE;
         } else if (mDataState == VOTE){
+            // After voting set ConfigState to PROP for ConfigActivity.
             mIdentity.setConfigState(ConfigActivity.ConfigState.PROP);
-
             SharedPreferences.Editor editor = getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
             editor.putString(IDENTITY, Utils.toJson(mIdentity));
             editor.apply();
@@ -59,8 +66,12 @@ public class DataActivity extends AppCompatActivity implements Activity {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Update or add new RSA key pair to the Identity.
+     */
     public void generateRSAKeyPair() {
         try {
+            // Only 256-bit keys supported for stable efficiency.
             KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
             keyGen.initialize(256);
 
@@ -111,5 +122,15 @@ public class DataActivity extends AppCompatActivity implements Activity {
         });
 
         mDataState = PROP;
+    }
+
+    /**
+     * Keywords for the marking the current state of the DataActivity.
+     *
+     * PROP:    State after initializing the Activity.
+     * VOTE:    Reached after emitting a ProposeSend.
+     */
+    public enum DataState {
+        PROP, VOTE
     }
 }

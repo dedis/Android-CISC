@@ -21,6 +21,14 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import static ch.epfl.dedis.cisc.JoinActivity.JoinState.CONF;
 import static ch.epfl.dedis.cisc.JoinActivity.JoinState.PROP;
 
+/**
+ * The JoinActivity deploys the QR-scanner used to register the Identity hash,
+ * the host address and port to be able to join an existing Skipchain.
+ * A join procedure does not require a vote unlike updating the Config.
+ * After a successful proposition the ConfigActivity is started.
+ *
+ * @author Andrea Caforio
+ */
 public class JoinActivity extends AppCompatActivity implements Activity, ZXingScannerView.ResultHandler {
 
     private static final String TAG = "cisc.JoinActivity";
@@ -29,10 +37,10 @@ public class JoinActivity extends AppCompatActivity implements Activity, ZXingSc
     private Identity mIdentity;
     private JoinState mJoinState;
 
-    public enum JoinState {
-        CONF, PROP
-    }
-
+    /**
+     * State transitions corresponding to operation that has been
+     * performed.
+     */
     public void taskJoin() {
         Log.d(TAG, "Task join: " + mJoinState.name());
         if (mJoinState == CONF) {
@@ -69,6 +77,12 @@ public class JoinActivity extends AppCompatActivity implements Activity, ZXingSc
         mScannerView.stopCamera();
     }
 
+    /**
+     * Parsing the raw data from the QR-scanning into a Identity
+     * object.
+     *
+     * @param rawResult from scanner
+     */
     @Override
     public void handleResult(Result rawResult) {
         String json = rawResult.getText();
@@ -76,6 +90,7 @@ public class JoinActivity extends AppCompatActivity implements Activity, ZXingSc
         QRStamp qrs = Utils.fromJson(json, QRStamp.class);
         Cothority cothority = new Cothority(qrs.getHost(), qrs.getPort());
 
+        // Set PROP state in identity for ConfigActivity.
         mIdentity = new Identity(cothority, Utils.decodeBase64(qrs.getId()), ConfigActivity.ConfigState.PROP);
         new ConfigUpdate(JoinActivity.this, mIdentity);
     }
@@ -89,5 +104,15 @@ public class JoinActivity extends AppCompatActivity implements Activity, ZXingSc
         setContentView(mScannerView);
 
         mJoinState = CONF;
+    }
+
+    /**
+     * Keywords for the marking the current state of the JoinActivity.
+     *
+     * CONF:    Initial state after initialization.
+     * PROP:    Entered after sending the ProposeSend.
+     */
+    public enum JoinState {
+        CONF, PROP
     }
 }

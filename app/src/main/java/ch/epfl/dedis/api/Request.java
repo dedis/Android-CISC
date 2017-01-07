@@ -10,7 +10,7 @@ package ch.epfl.dedis.api;
 public interface Request {
 
     /**
-     * A succesful HTTP interaction is marked hereby.
+     * A successful HTTP interaction is marked hereby.
      *
      * @param result response String from the Cothority
      */

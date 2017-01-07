@@ -17,6 +17,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The DeviceActivity is nothing more than a simple list view displaying
+ * all devices in the Skipchain with their corresponding public keys
+ * and data.
+ *
+ * @author Andrea Caforio
+ */
 public class DeviceActivity extends AppCompatActivity implements Activity {
 
     private static final String TAG = "cisc.DeviceActivity";
@@ -24,6 +31,7 @@ public class DeviceActivity extends AppCompatActivity implements Activity {
     private static final String[] FROM = {"name", "data"};
     private static final int[] TO = {android.R.id.text1, android.R.id.text2};
 
+    // No network calls from this Activity.
     public void taskJoin() {}
     public void taskFail(int error) {}
 
@@ -46,6 +54,7 @@ public class DeviceActivity extends AppCompatActivity implements Activity {
         for (Map.Entry<String, String> d : devices.entrySet()) {
             Map<String, String> datum = new HashMap<>(2);
 
+            // Set data field to "none" if device has no data.
             String sshKey = "none";
             for (Map.Entry<String, String> s : ssh.entrySet()) {
                 if (s.getKey().contains(d.getKey())) {
