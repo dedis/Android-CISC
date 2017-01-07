@@ -12,6 +12,8 @@ import java.util.HashMap;
 
 public class ProposeUpdate implements Request {
 
+    private static final String PATH = "pu";
+
     private class ProposeUpdateMessage{
         @SerializedName("ID")
         String id;
@@ -31,7 +33,7 @@ public class ProposeUpdate implements Request {
         ProposeUpdateMessage configUpdateMessage = new ProposeUpdateMessage();
         configUpdateMessage.id = Utils.encodeBase64(identity.getId());
 
-        HTTP http = new HTTP(this, identity.getCothority(), PROPOSE_UPDATE, Utils.toJson(configUpdateMessage));
+        HTTP http = new HTTP(this, identity.getCothority(), PATH, Utils.toJson(configUpdateMessage));
         if (wait) {
             String result = http.doInBackground();
             http.onPostExecute(result);

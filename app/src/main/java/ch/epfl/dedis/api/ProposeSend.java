@@ -10,6 +10,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class ProposeSend implements Request {
 
+    private static final String PATH = "ps";
+
     private class ProposeSendMessage {
 
         @SerializedName("ID")
@@ -32,7 +34,7 @@ public class ProposeSend implements Request {
         proposeSendMessage.id = Utils.encodeBase64(identity.getId());
         proposeSendMessage.propose = identity.getProposed();
 
-        HTTP http = new HTTP(this, identity.getCothority(), PROPOSE_SEND, Utils.toJson(proposeSendMessage));
+        HTTP http = new HTTP(this, identity.getCothority(), PATH, Utils.toJson(proposeSendMessage));
         if (wait) {
             String result = http.doInBackground();
             http.onPostExecute(result);

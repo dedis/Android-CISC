@@ -11,6 +11,8 @@ import net.i2p.crypto.eddsa.EdDSAEngine;
 
 public class ProposeVote implements Request {
 
+    private static final String PATH = "pv";
+
     private class ProposeVoteMessage {
         @SerializedName("ID")
         String id;
@@ -43,7 +45,7 @@ public class ProposeVote implements Request {
             e.printStackTrace();
         }
 
-        HTTP http = new HTTP(this, identity.getCothority(), PROPOSE_VOTE, Utils.toJson(proposeVoteMessage));
+        HTTP http = new HTTP(this, identity.getCothority(), PATH, Utils.toJson(proposeVoteMessage));
         if (wait) {
             String result = http.doInBackground();
             http.onPostExecute(result);

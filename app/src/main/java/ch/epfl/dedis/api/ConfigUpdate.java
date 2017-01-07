@@ -12,6 +12,8 @@ import java.util.HashMap;
 
 public class ConfigUpdate implements Request {
 
+    private static final String PATH = "cu";
+
     private class ConfigUpdateMessage {
         @SerializedName("ID")
         String id;
@@ -31,7 +33,7 @@ public class ConfigUpdate implements Request {
         ConfigUpdateMessage configUpdateMessage = new ConfigUpdateMessage();
         configUpdateMessage.id = Utils.encodeBase64(identity.getId());
 
-        HTTP http = new HTTP(this, identity.getCothority(), CONFIG_UPDATE, Utils.toJson(configUpdateMessage));
+        HTTP http = new HTTP(this, identity.getCothority(), PATH, Utils.toJson(configUpdateMessage));
         if (wait) {
             String result = http.doInBackground();
             http.onPostExecute(result);

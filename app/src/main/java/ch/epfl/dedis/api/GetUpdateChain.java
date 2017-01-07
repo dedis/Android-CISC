@@ -10,6 +10,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class GetUpdateChain implements Request {
 
+    private static final String PATH = "guc";
+
     private final Activity mActivity;
     private final Identity mIdentity;
 
@@ -29,7 +31,7 @@ public class GetUpdateChain implements Request {
         GetUpdateChainMessage getUpdateChainMessage = new GetUpdateChainMessage();
         getUpdateChainMessage.latestId = Utils.encodeBase64(mIdentity.getId());
 
-        HTTP http = new HTTP(this, identity.getCothority(), GET_UPDATE_CHAIN, Utils.toJson(getUpdateChainMessage));
+        HTTP http = new HTTP(this, identity.getCothority(), PATH, Utils.toJson(getUpdateChainMessage));
         if (wait) {
             String result = http.doInBackground();
             http.onPostExecute(result);
