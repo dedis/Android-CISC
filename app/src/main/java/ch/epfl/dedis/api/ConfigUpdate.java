@@ -49,7 +49,6 @@ public class ConfigUpdate implements Request {
             mIdentity.setConfig(config);
             mActivity.taskJoin();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             mActivity.taskFail(R.string.info_corruptedjson);
         }
     }

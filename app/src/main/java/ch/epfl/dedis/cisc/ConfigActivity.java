@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +24,8 @@ import static ch.epfl.dedis.cisc.ConfigActivity.ConfigState.PROP;
 
 public class ConfigActivity extends AppCompatActivity implements Activity {
 
+    private static final String TAG = "cisc.ConfigActivity";
+
     private TextView mStatusTextView;
 
     private Identity mIdentity;
@@ -34,6 +37,7 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
     }
 
     public void taskJoin() {
+        Log.d(TAG, "Task join: " + mConfigState.name());
         String proposal = mIdentity.getProposalString();
         if (mConfigState == IDLE) {
             if (proposal == null) {
@@ -71,6 +75,8 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
+
+        Log.d(TAG, "onCreate called.");
 
         TextView idTextView = (TextView) findViewById(R.id.config_identity_value);
         TextView addressTextView = (TextView) findViewById(R.id.config_address_value);

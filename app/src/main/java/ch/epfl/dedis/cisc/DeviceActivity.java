@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -18,6 +19,8 @@ import java.util.Map;
 
 public class DeviceActivity extends AppCompatActivity implements Activity {
 
+    private static final String TAG = "cisc.DeviceActivity";
+
     private static final String[] FROM = {"name", "data"};
     private static final int[] TO = {android.R.id.text1, android.R.id.text2};
 
@@ -28,6 +31,8 @@ public class DeviceActivity extends AppCompatActivity implements Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device);
+
+        Log.d(TAG, "onCreate called.");
 
         ListView listView = (ListView) findViewById(R.id.device_device_list);
 

@@ -1,13 +1,18 @@
 package ch.epfl.dedis.net;
 
+import android.util.Log;
+
 import com.google.gson.annotations.SerializedName;
 
 public class UpdateChain {
+
+    private static final String TAG = "net.UpdateChain";
 
     @SerializedName("Update")
     SkipBlock[] mChain;
 
     public boolean verifySkipChain() {
+        Log.d(TAG, "Verify skipchain");
 
         // Separate first block which does not have a back link.
         if (!mChain[0].verifyBlock()) {

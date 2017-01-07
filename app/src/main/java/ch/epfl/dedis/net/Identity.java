@@ -1,5 +1,7 @@
 package ch.epfl.dedis.net;
 
+import android.util.Log;
+
 import ch.epfl.dedis.cisc.ConfigActivity;
 import ch.epfl.dedis.crypto.Ed25519;
 import com.google.common.collect.Iterables;
@@ -21,6 +23,8 @@ import java.util.Map;
  * are made.
  */
 public class Identity {
+
+    private static final String TAG = "net.Identity";
 
     private String mName;
     private byte[] mId;
@@ -56,6 +60,7 @@ public class Identity {
      * @param name Device owner's identification
      */
     public void newDevice(String name) {
+        Log.d(TAG, "Add device " + name);
         mName = name;
         mProposed = new Config(mConfig);
 
@@ -71,6 +76,7 @@ public class Identity {
      * @param data Associated to the device owner
      */
     public void updateData(String data) {
+        Log.d(TAG, "Update data " + data);
         mProposed = new Config(mConfig);
         mProposed.getData().put(mName, data);
     }
@@ -99,24 +105,10 @@ public class Identity {
     }
 
     /**
-     * @return Device's owners EdDSA seed
-     */
-    public byte[] getSeed() {
-        return mSeed;
-    }
-
-    /**
      * @return Skipchain ID
      */
     public byte[] getId() {
         return mId;
-    }
-
-    /**
-     * @return RSA private key (SSH)
-     */
-    public byte[] getRSASecret() {
-        return mRSASecret;
     }
 
     /**
@@ -166,10 +158,6 @@ public class Identity {
      */
     public void setProposed(Config proposed) {
         mProposed = proposed;
-    }
-
-    public void setStringId(String stringId) {
-        mStringId = stringId;
     }
 
     public ConfigActivity.ConfigState getConfigState() {

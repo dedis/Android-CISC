@@ -1,6 +1,7 @@
 package ch.epfl.dedis.net;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import ch.epfl.dedis.api.Request;
 
@@ -19,6 +20,8 @@ import java.net.URL;
  * main thread.
  */
 public class HTTP extends AsyncTask<Void, Void, String> {
+
+    private static final String TAG = "net.HTTP";
 
     private static final int TIMEOUT = 2000;
     private static final int BUF_SIZE = 10000;
@@ -47,7 +50,7 @@ public class HTTP extends AsyncTask<Void, Void, String> {
     @Override
     public String doInBackground(Void... params) {
         try {
-            System.out.println("OUT: " + mJson);
+            Log.d(TAG, "Send " + mPath + ": " + mJson);
             URL url = new URL("http://" + mCothority.getHost() + ":" + mCothority.getPort() + "/" + mPath);
             HttpURLConnection http = (HttpURLConnection) url.openConnection();
             http.setConnectTimeout(TIMEOUT);
@@ -74,6 +77,7 @@ public class HTTP extends AsyncTask<Void, Void, String> {
             int size = br.read(chars);
 
             String response = new String(chars).substring(0, size);
+            Log.d(TAG, "Received: " + response);
             http.disconnect();
             return response;
         } catch (IOException e) {

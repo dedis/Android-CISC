@@ -2,6 +2,7 @@ package ch.epfl.dedis.crypto;
 
 import android.graphics.Bitmap;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 
 import com.google.common.io.BaseEncoding;
@@ -19,6 +20,8 @@ import java.util.UUID;
 
 public class Utils {
 
+    private static final String TAG = "crypto.Utils";
+
     private static final int WHITE = 0xFFFFFFFF;
     private static final int BLACK = 0xFF000000;
 
@@ -29,6 +32,7 @@ public class Utils {
             .create();
     
     public static String uuid() {
+        Log.d(TAG, "Generate UUID.");
         return UUID.randomUUID().toString();
     }
 
@@ -49,6 +53,7 @@ public class Utils {
     }
 
     public static Bitmap encodeQR(String message, int px) throws WriterException {
+        Log.d(TAG, "Encode: " + message);
         MultiFormatWriter writer = new MultiFormatWriter();
         Map<EncodeHintType, Object> hintMap = new EnumMap<>(EncodeHintType.class);
         hintMap.put(EncodeHintType.CHARACTER_SET, "UTF-8");

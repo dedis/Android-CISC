@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,6 +29,8 @@ import static ch.epfl.dedis.cisc.MainActivity.MainState.VERIFICATION;
 
 public class MainActivity extends AppCompatActivity implements Activity {
 
+    private static final String TAG = "cisc.MainActivity";
+
     private ImageView mQrImageView;
     private TextView mStatusLabel;
 
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements Activity {
     }
 
     public void taskJoin() {
+        Log.d(TAG, "Task join: " + mMainState.name());
         if (mMainState == CONNECTION) {
             float px = Utils.dpToPixel(mQrImageView.getWidth(), getResources().getDisplayMetrics());
 
@@ -67,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Log.d(TAG, "onCreate called.");
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) !=
                 PackageManager.PERMISSION_GRANTED) {

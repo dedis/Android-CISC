@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +24,8 @@ import static ch.epfl.dedis.cisc.DataActivity.DataState.VOTE;
 
 public class DataActivity extends AppCompatActivity implements Activity {
 
+    private static final String TAG = "cisc.DataActivity";
+
     private TextView mNewTextView;
 
     private Identity mIdentity;
@@ -33,6 +36,7 @@ public class DataActivity extends AppCompatActivity implements Activity {
     }
 
     public void taskJoin() {
+        Log.d(TAG, "Task join: " + mDataState.name());
         if (mDataState == PROP) {
             new ProposeVote(this, mIdentity);
             mDataState = VOTE;
@@ -73,6 +77,8 @@ public class DataActivity extends AppCompatActivity implements Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data);
+
+        Log.d(TAG, "onCreate called.");
 
         SharedPreferences sharedPreferences = getSharedPreferences(PREF, Context.MODE_PRIVATE);
         mIdentity = Utils.fromJson(sharedPreferences.getString(IDENTITY, ""), Identity.class);

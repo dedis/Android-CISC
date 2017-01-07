@@ -1,5 +1,7 @@
 package ch.epfl.dedis.net;
 
+import android.util.Log;
+
 import ch.epfl.dedis.crypto.Ed25519;
 import ch.epfl.dedis.crypto.Utils;
 import com.google.gson.annotations.SerializedName;
@@ -14,6 +16,8 @@ import java.security.PublicKey;
 import java.util.Arrays;
 
 public class SkipBlock {
+
+    private static final String TAG = "net.SkipBlock";
 
     @SerializedName("SkipBlockFix")
     SkipBlockFix mFix;
@@ -40,6 +44,7 @@ public class SkipBlock {
     }
 
     public boolean verifyHash() {
+        Log.d(TAG, "Verify hash.");
         try {
             MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
 
@@ -83,6 +88,7 @@ public class SkipBlock {
     }
 
     public boolean verifySignature() {
+        Log.d(TAG, "Verify signature.");
         byte[] aggregate = Utils.decodeBase64(mFix.mAggregate);
         PublicKey pb = Ed25519.BytesToPub(aggregate);
 

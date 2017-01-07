@@ -1,5 +1,7 @@
 package ch.epfl.dedis.net;
 
+import android.util.Log;
+
 import ch.epfl.dedis.crypto.Ed25519;
 import ch.epfl.dedis.crypto.Utils;
 import com.google.gson.annotations.SerializedName;
@@ -23,6 +25,8 @@ import java.util.TreeMap;
  * communication with a Cothority is needed.
  */
 public class Config {
+
+    private static final String TAG = "net.Config";
 
     @SerializedName("Threshold")
     private int mThreshold;
@@ -52,10 +56,6 @@ public class Config {
         this(that.getThreshold(), that.getDevice(), that.getData());
     }
 
-    public void addData(String owner, String data) {
-        mData.put(owner, data);
-    }
-
     public byte[] hash() throws NoSuchAlgorithmException {
         MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
 
@@ -76,7 +76,7 @@ public class Config {
             PublicKey pub = Ed25519.StringToPub(mDevice.get(key));
             sha256.update(Ed25519.PubBytes(pub));
         }
-
+        Log.d(TAG, "Calculated hash.");
         return sha256.digest();
     }
 
