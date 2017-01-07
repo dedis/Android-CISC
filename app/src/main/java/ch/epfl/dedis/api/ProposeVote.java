@@ -9,20 +9,15 @@ import com.google.gson.annotations.SerializedName;
 
 import net.i2p.crypto.eddsa.EdDSAEngine;
 
+/**
+ * Voting on a proposal signifies the emission of a
+ * ProposeVoteMessage JSON to the Cothority.
+ *
+ * @author Andrea Caforio
+ */
 public class ProposeVote implements Request {
 
     private static final String PATH = "pv";
-
-    private class ProposeVoteMessage {
-        @SerializedName("ID")
-        String id;
-
-        @SerializedName("Signer")
-        String signer;
-
-        @SerializedName("Signature")
-        String signature;
-    }
 
     private final Activity mActivity;
 
@@ -38,6 +33,7 @@ public class ProposeVote implements Request {
         proposeVoteMessage.signer = identity.getName();
 
         try {
+            // Sign proposed configuration.
             EdDSAEngine engine = new EdDSAEngine();
             engine.initSign(identity.getPrivate());
             proposeVoteMessage.signature = Utils.encodeBase64(engine.signOneShot(identity.getProposed().hash()));
@@ -54,6 +50,13 @@ public class ProposeVote implements Request {
         }
     }
 
+    /**
+     * A successful vote is marked by receving a non-empty string
+     * from the Cothority which is then ignored by the callback procedure.
+     *
+     * @param result response String from the Cothority
+     */
+    @SuppressWarnings("unused")
     public void callback(String result) {
         mActivity.taskJoin();
     }
@@ -68,5 +71,23 @@ public class ProposeVote implements Request {
             case 504: mActivity.taskFail(R.string.err_504); break;
             default: mActivity.taskFail(R.string.err_unknown);
         }
+    }
+
+    /**
+     * A voting message consists of the identity hash of the Skipchain,
+     * the name of the signing device and the EdDSA signature of the proposed
+     * configuration with the private key of the device.
+     *
+     * @author Andrea Caforio
+     */
+    private class ProposeVoteMessage {
+        @SerializedName("ID")
+        String id;
+
+        @SerializedName("Signer")
+        String signer;
+
+        @SerializedName("Signature")
+        String signature;
     }
 }

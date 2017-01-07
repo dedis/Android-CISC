@@ -10,14 +10,15 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.HashMap;
 
+/**
+ * Request a potential proposed configuration from the Cothority by
+ * sending a ProposeUpdateMessage JSON.
+ *
+ * @author Andrea Caforio
+ */
 public class ProposeUpdate implements Request {
 
     private static final String PATH = "pu";
-
-    private class ProposeUpdateMessage{
-        @SerializedName("ID")
-        String id;
-    }
 
     private final Activity mActivity;
     private final Identity mIdentity;
@@ -42,12 +43,20 @@ public class ProposeUpdate implements Request {
         }
     }
 
+    /**
+     * If currently no proposal is pending the Cothority will respond with
+     * the "empty" string otherwise the response string is contains a Config
+     * JSON that is then set in the Identity object.
+     *
+     * @param result response String from the Cothority
+     */
     public void callback(String result) {
         try {
             if (result.equals("empty")) {
                 mIdentity.setProposed(null);
             } else {
                 Config proposed = Utils.fromJson(result, Config.class);
+                // Allocate new data map if proposal doesn't contain any.
                 if (proposed.getData() == null) {
                     proposed.setData(new HashMap<String, String>());
                 }
@@ -68,5 +77,16 @@ public class ProposeUpdate implements Request {
             case 504: mActivity.taskFail(R.string.err_504); break;
             default: mActivity.taskFail(R.string.err_unknown);
         }
+    }
+
+    /**
+     * Requesting a proposal solely consists of emitting the identity hash
+     * of the Cothority.
+     *
+     * @author Andrea Caforio
+     */
+    private class ProposeUpdateMessage{
+        @SerializedName("ID")
+        String id;
     }
 }

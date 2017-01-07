@@ -8,18 +8,15 @@ import ch.epfl.dedis.net.HTTP;
 import ch.epfl.dedis.net.Identity;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Emit an update configuration to the Cothority by sending
+ * a ProposeSendMessage JSON.
+ *
+ * @author Andrea Caforio
+ */
 public class ProposeSend implements Request {
 
     private static final String PATH = "ps";
-
-    private class ProposeSendMessage {
-
-        @SerializedName("ID")
-        String id;
-
-        @SerializedName("Propose")
-        Config propose;
-    }
 
     private final Activity mActivity;
 
@@ -43,6 +40,12 @@ public class ProposeSend implements Request {
         }
     }
 
+    /**
+     * A sucessful interaction is normally marked by receving back the
+     * sent configuration, which in this case is ignored.
+     *
+     * @param result response String from the Cothority
+     */
     @SuppressWarnings("unused")
     public void callback(String result) {
         mActivity.taskJoin();
@@ -58,5 +61,20 @@ public class ProposeSend implements Request {
             case 504: mActivity.taskFail(R.string.err_504); break;
             default: mActivity.taskFail(R.string.err_unknown);
         }
+    }
+
+    /**
+     * Proposing a new configuration consists of sending the updated
+     * Config object along the identitiy hash of the Skipchain.
+     *
+     * @author Andrea Caforio
+     */
+    private class ProposeSendMessage {
+
+        @SerializedName("ID")
+        String id;
+
+        @SerializedName("Propose")
+        Config propose;
     }
 }

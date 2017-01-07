@@ -8,17 +8,18 @@ import ch.epfl.dedis.net.Identity;
 import ch.epfl.dedis.net.UpdateChain;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * In order to verify the integrity of an entire Skipchain it has
+ * to be requested from Cothority by sending a GetUpdateChain JSON.
+ *
+ * @author Andrea Caforio
+ */
 public class GetUpdateChain implements Request {
 
     private static final String PATH = "guc";
 
     private final Activity mActivity;
     private final Identity mIdentity;
-
-    private class GetUpdateChainMessage {
-        @SerializedName("LatestID")
-        String latestId;
-    }
 
     public GetUpdateChain(Activity activity, Identity identity) {
         this(activity, identity, false);
@@ -40,6 +41,12 @@ public class GetUpdateChain implements Request {
         }
     }
 
+    /**
+     * When successfully received Skipchain is parsed into an UpdateChain
+     * object which then is used in the three-step verification procedure.
+     *
+     * @param result response String from the Cothority
+     */
     public void callback(String result) {
         try {
             UpdateChain uc = Utils.fromJson(result, UpdateChain.class);
@@ -64,5 +71,16 @@ public class GetUpdateChain implements Request {
             case 504: mActivity.taskFail(R.string.err_504); break;
             default: mActivity.taskFail(R.string.err_unknown);
         }
+    }
+
+    /**
+     * A complete Skipchain is received by solely sending its genesis
+     * identity hash.
+     *
+     * @author Andrea Caforio
+     */
+    private class GetUpdateChainMessage {
+        @SerializedName("LatestID")
+        String latestId;
     }
 }

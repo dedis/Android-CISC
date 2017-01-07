@@ -10,14 +10,15 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.HashMap;
 
+/**
+ * Request the current configuration from the Cothority by sending
+ * a ConfigUpdateMessage JSON.
+ *
+ * @author Andrea Caforio
+ */
 public class ConfigUpdate implements Request {
 
     private static final String PATH = "cu";
-
-    private class ConfigUpdateMessage {
-        @SerializedName("ID")
-        String id;
-    }
 
     private final Activity mActivity;
     private final Identity mIdentity;
@@ -42,6 +43,12 @@ public class ConfigUpdate implements Request {
         }
     }
 
+    /**
+     * A succesful requesting is marked by receving the configuration
+     * as a Config JSON.
+     *
+     * @param result response String from the Cothority
+     */
     public void callback(String result) {
         try {
             Config config = Utils.fromJson(result, Config.class);
@@ -65,5 +72,16 @@ public class ConfigUpdate implements Request {
             case 504: mActivity.taskFail(R.string.err_504); break;
             default: mActivity.taskFail(R.string.err_unknown);
         }
+    }
+
+    /**
+     * Requesting the current configuration solely consists of sending
+     * the identity hash of the Skipchain.
+     *
+     * @author Andrea Caforio
+     */
+    private class ConfigUpdateMessage {
+        @SerializedName("ID")
+        String id;
     }
 }
