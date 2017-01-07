@@ -17,8 +17,8 @@ public class ConfigUpdate implements Request {
         String id;
     }
 
-    private Activity mActivity;
-    private Identity mIdentity;
+    private final Activity mActivity;
+    private final Identity mIdentity;
 
     public ConfigUpdate(Activity activity, Identity identity) {
         this(activity, identity, false);

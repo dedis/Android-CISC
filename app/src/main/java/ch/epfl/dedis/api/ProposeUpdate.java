@@ -17,8 +17,8 @@ public class ProposeUpdate implements Request {
         String id;
     }
 
-    private Activity mActivity;
-    private Identity mIdentity;
+    private final Activity mActivity;
+    private final Identity mIdentity;
 
     public ProposeUpdate(Activity activity, Identity identity) {
         this(activity, identity, false);

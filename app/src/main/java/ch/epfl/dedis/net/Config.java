@@ -29,7 +29,7 @@ public class Config {
     private static final String TAG = "net.Config";
 
     @SerializedName("Threshold")
-    private int mThreshold;
+    private final int mThreshold;
 
     @SerializedName("Device")
     private Map<String, String> mDevice;

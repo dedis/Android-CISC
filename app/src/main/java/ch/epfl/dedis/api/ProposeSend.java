@@ -19,7 +19,7 @@ public class ProposeSend implements Request {
         Config propose;
     }
 
-    private Activity mActivity;
+    private final Activity mActivity;
 
     public ProposeSend(Activity activity, Identity identity) {
         this(activity, identity, false);

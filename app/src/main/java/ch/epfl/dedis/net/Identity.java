@@ -28,7 +28,6 @@ public class Identity {
 
     private String mName;
     private byte[] mId;
-    private String mStringId;
     private byte[] mSeed;
     private byte[] mRSASecret;
 

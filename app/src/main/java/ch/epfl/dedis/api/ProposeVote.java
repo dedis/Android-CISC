@@ -22,7 +22,7 @@ public class ProposeVote implements Request {
         String signature;
     }
 
-    private Activity mActivity;
+    private final Activity mActivity;
 
     public ProposeVote(Activity activity, Identity identity) {
         this(activity, identity, false);

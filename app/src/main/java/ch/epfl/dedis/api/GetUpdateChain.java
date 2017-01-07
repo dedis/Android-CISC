@@ -10,8 +10,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class GetUpdateChain implements Request {
 
-    private Activity mActivity;
-    private Identity mIdentity;
+    private final Activity mActivity;
+    private final Identity mIdentity;
 
     private class GetUpdateChainMessage {
         @SerializedName("LatestID")
