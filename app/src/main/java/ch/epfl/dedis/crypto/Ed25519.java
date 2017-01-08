@@ -12,6 +12,11 @@ import java.security.PublicKey;
 
 import com.google.common.io.BaseEncoding;
 
+/**
+ * Ed25519 key pair factory.
+ *
+ * @author Andrea Caforio
+ */
 public class Ed25519 {
 
     private final PublicKey pub;
@@ -31,6 +36,11 @@ public class Ed25519 {
         return pub;
     }
 
+    /**
+     * Static factory method.
+     *
+     * @return KeyPair object
+     */
     public static KeyPair newKeyPair() {
         return new KeyPairGenerator().generateKeyPair();
     }

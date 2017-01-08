@@ -7,6 +7,12 @@ import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
 
+/**
+ * Helper class to enforce correct order when serializing the QR
+ * stamp since GSON randomises the order of the fields.
+ *
+ * @author Andrea Caforio
+ */
 public class QRStampSerializer implements JsonSerializer<QRStamp> {
 
     @Override

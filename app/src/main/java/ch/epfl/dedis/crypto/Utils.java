@@ -18,6 +18,11 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Conglomerate of helper functions used for various tasks.
+ *
+ * @author Andrea Caforio
+ */
 public class Utils {
 
     private static final String TAG = "crypto.Utils";
@@ -25,6 +30,7 @@ public class Utils {
     private static final int WHITE = 0xFFFFFFFF;
     private static final int BLACK = 0xFF000000;
 
+    // GSON object singleton.
     private static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(QRStamp.class, new QRStampSerializer())
             .serializeNulls()
@@ -52,6 +58,14 @@ public class Utils {
         return BaseEncoding.base64().decode(string);
     }
 
+    /**
+     * Encode a raw string into a QR-code bitmap.
+     *
+     * @param message String to encode
+     * @param px dimension of ImageView
+     * @return Bitmap containing the QR-encoding
+     * @throws WriterException
+     */
     public static Bitmap encodeQR(String message, int px) throws WriterException {
         Log.d(TAG, "Encode: " + message);
         MultiFormatWriter writer = new MultiFormatWriter();
@@ -59,6 +73,7 @@ public class Utils {
         hintMap.put(EncodeHintType.CHARACTER_SET, "UTF-8");
         BitMatrix matrix = writer.encode(message, BarcodeFormat.QR_CODE, px, px, hintMap);
 
+        // Dimension vary depending on error correction and char set.
         int width = matrix.getWidth();
         int height = matrix.getHeight();
 
