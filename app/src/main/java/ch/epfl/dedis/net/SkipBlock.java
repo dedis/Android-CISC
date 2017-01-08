@@ -15,6 +15,13 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.util.Arrays;
 
+/**
+ * The Skipblock class bundles the top level fields of a block
+ * in the Skipchain. It is further used to verify the hash and
+ * the signature.
+ *
+ * @author Andrea Caforio
+ */
 public class SkipBlock {
 
     private static final String TAG = "net.SkipBlock";
@@ -43,11 +50,19 @@ public class SkipBlock {
         return verifyHash() && verifySignature();
     }
 
+    /**
+     * The SHA256 hash is created by adding the field of Skipblock and
+     * SkipblockFix in the correct order and format. In the end it must
+     * be equal to the identifier of the block.
+     *
+     * @return true if constructed hash equals the identifier
+     */
     public boolean verifyHash() {
         Log.d(TAG, "Verify hash.");
         try {
             MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
 
+            // Integers are added in the eight byte little endian format.
             ByteBuffer buffer = ByteBuffer.allocate(8);
             buffer.order(ByteOrder.LITTLE_ENDIAN);
             buffer.putInt(mFix.mIndex);
@@ -68,6 +83,7 @@ public class SkipBlock {
             buffer.putInt(mFix.mBaseHeight);
             sha256.update(buffer.array());
 
+            // Strings are added in base64.
             for (String s : mFix.mBackLinkIds) {
                 sha256.update(Utils.decodeBase64(s));
             }
@@ -87,6 +103,12 @@ public class SkipBlock {
         return false;
     }
 
+    /**
+     * To verify the block signature, the aggregate block signature needs
+     * to equal the signature field.
+     *
+     * @return true if aggregate signature corresponds to signature field
+     */
     public boolean verifySignature() {
         Log.d(TAG, "Verify signature.");
         byte[] aggregate = Utils.decodeBase64(mFix.mAggregate);
@@ -100,8 +122,9 @@ public class SkipBlock {
 
             engine.initVerify(pb);
 
-            byte[] iii = Arrays.copyOfRange(signature, 0, 64);
-            return engine.verifyOneShot(message, iii);
+            // Only use the first 64 bytes of the signature.
+            byte[] byteSig = Arrays.copyOfRange(signature, 0, 64);
+            return engine.verifyOneShot(message, byteSig);
         } catch (Exception e) {
             e.printStackTrace();
         }

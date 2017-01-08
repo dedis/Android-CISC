@@ -18,6 +18,8 @@ import java.net.URL;
  * communication with the Cothority service through the standard HTTP-
  * protocol. The socket is fully concurrent to avoid any blocking of the
  * main thread.
+ *
+ * @author Andrea Caforio
  */
 public class HTTP extends AsyncTask<Void, Void, String> {
 

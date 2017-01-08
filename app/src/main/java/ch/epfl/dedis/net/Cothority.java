@@ -1,5 +1,11 @@
 package ch.epfl.dedis.net;
 
+/**
+ * The Cothority class bundles the host address and port number
+ * of the node the device will be talking to.
+ *
+ * @author Andrea Caforio
+ */
 public class Cothority {
 
     private final String mHost;

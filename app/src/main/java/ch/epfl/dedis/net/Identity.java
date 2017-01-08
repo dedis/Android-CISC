@@ -80,81 +80,48 @@ public class Identity {
         mProposed.getData().put(mName, data);
     }
 
-    /**
-     * @return Device owner's public key
-     */
     public PublicKey getPublic() {
         EdDSAPublicKeySpec epks = new EdDSAPublicKeySpec(getPrivate().getA(), Ed25519.getCurveSpec());
         return new EdDSAPublicKey(epks);
     }
 
-    /**
-     * @return Device owner's private key
-     */
     public EdDSAPrivateKey getPrivate() {
         EdDSAPrivateKeySpec epks = new EdDSAPrivateKeySpec(mSeed, Ed25519.getCurveSpec());
         return new EdDSAPrivateKey(epks);
     }
 
-    /**
-     * @return Device owner's name
-     */
     public String getName() {
         return mName;
     }
 
-    /**
-     * @return Skipchain ID
-     */
     public byte[] getId() {
         return mId;
     }
 
-    /**
-     * @return Cothority (Network information)
-     */
     public Cothority getCothority() {
         return mCothority;
     }
 
-    /**
-     * @return Current Configuration
-     */
     public Config getConfig() {
         return mConfig;
     }
 
-    /**
-     * @return Proposed Configuration
-     */
     public Config getProposed() {
         return mProposed;
     }
 
-    /**
-     * @param id Skipchain identity
-     */
     public void setId(byte[] id) {
         mId = id;
     }
 
-    /**
-     * @param rsaSecret SSH private key
-     */
     public void setRSASecret(byte[] rsaSecret) {
         mRSASecret = rsaSecret;
     }
 
-    /**
-     * @param config Configuration
-     */
     public void setConfig(Config config) {
         mConfig = config;
     }
 
-    /**
-     * @param proposed Configuration
-     */
     public void setProposed(Config proposed) {
         mProposed = proposed;
     }
@@ -167,6 +134,11 @@ public class Identity {
         mConfigState = configState;
     }
 
+    /**
+     * Create pretty string of the proposed configuration.
+     *
+     * @return String of proposed feature
+     */
     public String getProposalString() {
         if (mProposed != null) {
             Map<String, String> configDevice = new HashMap<>(mConfig.getDevice());

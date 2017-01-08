@@ -23,6 +23,8 @@ import java.util.TreeMap;
  * currently stored in a Skipchain. This structure is maintained
  * locally on the device and its fields are serialized when
  * communication with a Cothority is needed.
+ *
+ * @author Andrea Caforio
  */
 public class Config {
 
@@ -56,14 +58,23 @@ public class Config {
         this(that.getThreshold(), that.getDevice(), that.getData());
     }
 
+    /**
+     * Calculate the SHA256 hash of the configuration. Here the order in which
+     * the fields are added is crucial.
+     *
+     * @return byte array hash
+     * @throws NoSuchAlgorithmException
+     */
     public byte[] hash() throws NoSuchAlgorithmException {
         MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
 
+        // Threshold added as little endian 4 byte integer.
         ByteBuffer buffer = ByteBuffer.allocate(4);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
         buffer.putInt(mThreshold);
         sha256.update(buffer.array());
 
+        // Sort device names lexicographically and add their byte representation.
         List<String> sorted = new ArrayList<>(mDevice.keySet());
         Collections.sort(sorted);
         for (String key : sorted) {
@@ -73,6 +84,7 @@ public class Config {
             if (value != null) {
                 sha256.update(value.getBytes());
             }
+            // Public key added in byte representation.
             PublicKey pub = Ed25519.StringToPub(mDevice.get(key));
             sha256.update(Ed25519.PubBytes(pub));
         }
@@ -80,30 +92,18 @@ public class Config {
         return sha256.digest();
     }
 
-    /**
-     * @return Skipchain voting threshold
-     */
     public int getThreshold() {
         return mThreshold;
     }
 
-    /**
-     * @return Devices with their corresponding public keys
-     */
     public Map<String, String> getDevice() {
         return mDevice;
     }
 
-    /**
-     * @return Devices with their corresponding data
-     */
     public Map<String, String> getData() {
         return mData;
     }
 
-    /**
-     *
-     */
     public void setData(Map<String, String> data) {
         mData = data;
     }
