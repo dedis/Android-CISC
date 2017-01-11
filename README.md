@@ -1,12 +1,20 @@
-# CISC Identity-Skipchain
+# CISC Cothority Identity Skipchain SSH Interface
 
 ### Functionality
 
-This proof of concept should enable the user to manage SSH-keys
-via the Cothority from any Android device.
+EPFL Semester Project Fall 2016. Proof of concept Android application for managing
+SSH keys via a [Cothority](https://github.com/dedis/cothority) service.
+
+![screenshot main activity](main.jpg)
+
+### Features
+
+- Join Android device to existing Skipchain (via QR-code)
+- Add and update SSH keys
+- Vote on proposals from other devices
+- Overview of all devices and data stored in Skipchain
 
 ### Requirements
-* Android Studio
-* Android SDK
-* Handheld Android Device > 5.0 or SDK emulator
-* [Cothority server](https://github.com/dedis/cothority/)
+* Android SDK >= 10
+* Camera permission
+* Access to a running Cothority
