@@ -103,4 +103,8 @@ public class HTTP extends AsyncTask<Void, Void, String> {
             mRequest.callback(result);
         }
     }
+
+    public int getResponseCode() {
+        return mResponseCode;
+    }
 }
