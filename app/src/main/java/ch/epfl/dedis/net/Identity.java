@@ -152,13 +152,15 @@ public class Identity {
             Map.Entry<String, String> device;
             Map.Entry<String, String> data;
             if (!proposedDevice.entrySet().isEmpty()) {
+                // New device proposal
                 device = Iterables.getOnlyElement(proposedDevice.entrySet());
-                return "New proposal:\n\n" + "Name: " + device.getKey().substring(0, 15) +
-                        "\nPubKey: " + device.getValue().substring(0, 15);
+                return "New proposal:\n\n" + "Name: " + device.getKey().substring(0, 20) +
+                        "\nPubKey: " + device.getValue().substring(0, 20) + "...";
             } else if (!proposedData.entrySet().isEmpty()) {
+                // New data proposal
                 data = Iterables.getOnlyElement(proposedData.entrySet());
-                return "New proposal:\n\n" + "Name: " + data.getKey().substring(0, 15) +
-                        "\nSSH: " + data.getValue().substring(0, 15);
+                return "New proposal:\n\n" + "Name: " + data.getKey().substring(0, 20) +
+                        "\nSSH: " + data.getValue().substring(0, 20) + "...";
             } else {
                 return null;
             }
