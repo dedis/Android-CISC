@@ -14,6 +14,9 @@
     <string name="data_old_label">Old</string>
     <string name="data_new_label">New</string>
 
+    <string name="dialog_vote">Vote</string>
+    <string name="dialog_cancel">Cancel</string>
+
     <string name="info_uptodate">Skipchain is up to date</string>
     <string name="info_acceptedchange">Change accepted</string>
     <string name="info_connection">Connected</string>

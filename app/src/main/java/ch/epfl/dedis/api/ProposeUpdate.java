@@ -1,5 +1,7 @@
 package ch.epfl.dedis.api;
 
+import android.util.Log;
+
 import ch.epfl.dedis.cisc.Activity;
 import ch.epfl.dedis.cisc.R;
 import ch.epfl.dedis.crypto.Utils;
@@ -18,6 +20,7 @@ import java.util.HashMap;
  */
 public class ProposeUpdate implements Request {
 
+    private static final String TAG = "api.ProposeUpdate";
     private static final String PATH = "pu";
 
     private final Activity mActivity;
@@ -64,6 +67,7 @@ public class ProposeUpdate implements Request {
             }
             mActivity.taskJoin();
         } catch (Exception e) {
+            Log.e(TAG, e.toString());
             mActivity.taskFail(R.string.info_corruptedjson);
         }
     }

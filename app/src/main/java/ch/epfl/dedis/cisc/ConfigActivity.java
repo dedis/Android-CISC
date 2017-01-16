@@ -1,6 +1,8 @@
 package ch.epfl.dedis.cisc;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -44,7 +46,7 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
      */
     public void taskJoin() {
         Log.d(TAG, "Task join: " + mConfigState.name());
-        String proposal = mIdentity.getProposalString();
+        String proposal = mIdentity.getProposalType();
         if (mConfigState == IDLE) {
             if (proposal == null) {
                 mStatusTextView.setText(R.string.info_uptodate);
@@ -89,13 +91,33 @@ public class ConfigActivity extends AppCompatActivity implements Activity {
         TextView addressTextView = (TextView) findViewById(R.id.config_address_value);
 
         mStatusTextView = (TextView) findViewById(R.id.config_status_value);
-        mStatusTextView.setOnClickListener(new View.OnClickListener() {
+        mStatusTextView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onLongClick(View view) {
                 // Only vote when proposal is pending.
                 if (mConfigState == PRE_VOTE) {
-                    new ProposeVote(ConfigActivity.this, mIdentity);
+                    String[] proposalSplit = mIdentity.getProposalString().split("\\n");
+                    View v = View.inflate(ConfigActivity.this, R.layout.dialog_vote, null);
+                    TextView nameView = (TextView) v.findViewById(R.id.dialog_name);
+                    nameView.setText(proposalSplit[0]);
+                    TextView dataView = (TextView) v.findViewById(R.id.dialog_data);
+                    dataView.setText(proposalSplit[1]);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ConfigActivity.this);
+                    builder.setTitle("Proposal");
+                    builder.setView(v);
+                    builder.setPositiveButton(R.string.dialog_vote, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            new ProposeVote(ConfigActivity.this, mIdentity);
+                        }
+                    });
+                    builder.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Log.d(TAG, "Dialog closed.");
+                        }
+                    }).create().show();
                 }
+                return false;
             }
         });
 

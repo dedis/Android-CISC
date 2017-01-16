@@ -154,13 +154,41 @@ public class Identity {
             if (!proposedDevice.entrySet().isEmpty()) {
                 // New device proposal
                 device = Iterables.getOnlyElement(proposedDevice.entrySet());
-                return "New proposal:\n\n" + "Name: " + device.getKey().substring(0, 20) +
-                        "\nPubKey: " + device.getValue().substring(0, 20) + "...";
+                return device.getKey() + "\n" + device.getValue();
             } else if (!proposedData.entrySet().isEmpty()) {
                 // New data proposal
                 data = Iterables.getOnlyElement(proposedData.entrySet());
-                return "New proposal:\n\n" + "Name: " + data.getKey().substring(0, 20) +
-                        "\nSSH: " + data.getValue().substring(0, 20) + "...";
+                return data.getKey() + "\n" + data.getValue();
+            } else {
+                return null;
+            }
+
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Decide if proposal is a joining device or a data update.
+     *
+     * @return type of proposal
+     */
+    public String getProposalType() {
+        if (mProposed != null) {
+            Map<String, String> configDevice = new HashMap<>(mConfig.getDevice());
+            Map<String, String> configData = new HashMap<>(mConfig.getData());
+            Map<String, String> proposedDevice = new HashMap<>(mProposed.getDevice());
+            Map<String, String> proposedData = new HashMap<>(mProposed.getData());
+
+            proposedDevice.entrySet().removeAll(configDevice.entrySet());
+            proposedData.entrySet().removeAll(configData.entrySet());
+
+            if (!proposedDevice.entrySet().isEmpty()) {
+                // New device proposal
+                return "New device wants to join.";
+            } else if (!proposedData.entrySet().isEmpty()) {
+                // New data proposal
+                return "Device wants to update data.";
             } else {
                 return null;
             }
